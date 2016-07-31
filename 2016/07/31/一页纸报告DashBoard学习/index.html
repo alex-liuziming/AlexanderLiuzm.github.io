@@ -1,0 +1,658 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ExcelVBA,图表," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="这几天学习了刘万祥老师的”DashBoard第一季”，学会了如何制作一个简单的一页纸报告，在这里做个总结。
+先上效果图：
+数据的处理我在学习图表课的过程中深切的认识到对作图数据的先处理比对一张图表进行排版要更加重要。同样的要做一份DashBoard报告，数据表的处理很重要，数据以二维的形式进行展现。合理的数据表格也方便后期使用Index函数进行自动配对指标名称、类别和单位等信息。以下是数据表的格式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一页纸报告DashBoard学习">
+<meta property="og:url" content="http://yoursite.com/2016/07/31/一页纸报告DashBoard学习/index.html">
+<meta property="og:site_name" content="牧牧闻叨">
+<meta property="og:description" content="这几天学习了刘万祥老师的”DashBoard第一季”，学会了如何制作一个简单的一页纸报告，在这里做个总结。
+先上效果图：
+数据的处理我在学习图表课的过程中深切的认识到对作图数据的先处理比对一张图表进行排版要更加重要。同样的要做一份DashBoard报告，数据表的处理很重要，数据以二维的形式进行展现。合理的数据表格也方便后期使用Index函数进行自动配对指标名称、类别和单位等信息。以下是数据表的格式">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBADashBoard.png">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%B3%A8%E9%87%8A.PNG">
+<meta property="og:updated_time" content="2016-07-31T04:02:00.644Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一页纸报告DashBoard学习">
+<meta name="twitter:description" content="这几天学习了刘万祥老师的”DashBoard第一季”，学会了如何制作一个简单的一页纸报告，在这里做个总结。
+先上效果图：
+数据的处理我在学习图表课的过程中深切的认识到对作图数据的先处理比对一张图表进行排版要更加重要。同样的要做一份DashBoard报告，数据表的处理很重要，数据以二维的形式进行展现。合理的数据表格也方便后期使用Index函数进行自动配对指标名称、类别和单位等信息。以下是数据表的格式">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBADashBoard.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/07/31/一页纸报告DashBoard学习/"/>
+
+  <title> 一页纸报告DashBoard学习 | 牧牧闻叨 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">牧牧闻叨</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">整理心中的知识体系，让自己变得更好</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                一页纸报告DashBoard学习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-31T11:56:23+08:00" content="2016-07-31">
+              2016-07-31
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这几天学习了刘万祥老师的”DashBoard第一季”，学会了如何制作一个简单的一页纸报告，在这里做个总结。</p>
+<p>先上效果图：<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBADashBoard.png" alt="DashBoard整体效果"></p>
+<h1 id="数据的处理"><a href="#数据的处理" class="headerlink" title="数据的处理"></a>数据的处理</h1><p>我在学习图表课的过程中深切的认识到<strong>对作图数据的先处理</strong>比<strong>对一张图表进行排版</strong>要更加重要。同样的要做一份DashBoard报告，数据表的处理很重要，数据以二维的形式进行展现。合理的数据表格也方便后期使用<code>Index</code>函数进行自动配对指标名称、类别和单位等信息。<br>以下是数据表的格式：</p>
+<table>
+<thead>
+<tr>
+<th>第一列</th>
+<th>第二列</th>
+<th>第三列</th>
+<th>第四列</th>
+<th>第五列</th>
+<th>第六列</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>序列号</td>
+<td>指标类别</td>
+<td>指标名称</td>
+<td>按月份排列的指标数据</td>
+<td>单位</td>
+<td>如有必要：加一加总列</td>
+</tr>
+</tbody>
+</table>
+<h1 id="DashBoard整体排版确定"><a href="#DashBoard整体排版确定" class="headerlink" title="DashBoard整体排版确定"></a>DashBoard整体排版确定</h1><p>可以先用纸和笔进行预先的排版，自己感觉差不多之后再进入到Excel中进行排版操作。最好能凑整数，若是指标个数实在无法凑整，可以尝试将某几个图表放大，占据两个小表格的位置，或者机动的添加一个报表等等，总之要美观，不要缺胳膊少腿的。还有很重要的一点是预先选定并命名<code>标题区</code>，<code>图表区域</code>，<code>打印区域</code>等，方便后期修改。</p>
+<h1 id="图表的处理"><a href="#图表的处理" class="headerlink" title="图表的处理"></a>图表的处理</h1><p>制作DashBoard小表格，因为格式近似，所以先做出一个表格，加工处理到想要的格式，然后进行批量复制，更改数据源，以得到DashBoard。</p>
+<p>这里因为要批量更改数据源，数据源更改后图表的填充颜色又会发生变化，所以我自己就写了一段小小的VBA代码来实现数据源更改的自动化。</p>
+<p>在编写的时候学习到**变量外面是不能有引号<code>&quot;&quot;</code>的，包含在引号内的变量会被系统自动识别为文本，不再是变量，要用连接符把一段段文本和变量连接起来。</p>
+<p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">Sub 宏1()</span><br><span class="line">&apos;</span><br><span class="line">&apos; 宏1 宏</span><br><span class="line">&apos;</span><br><span class="line"></span><br><span class="line">&apos;构建一个循环</span><br><span class="line">For i = 1 To 25</span><br><span class="line">&apos;选取对应的图表</span><br><span class="line">    ActiveSheet.ChartObjects(i).Activate</span><br><span class="line">    &apos;选择系列2</span><br><span class="line">    ActiveChart.FullSeriesCollection(2).Select</span><br><span class="line">    &apos;更改数据源</span><br><span class="line">    Selection.Formula = &quot;=SERIES(,数据!R10C5:R10C17,数据!R&quot; &amp; (i + 10) &amp; &quot;C22:R&quot; &amp; (i + 10) &amp; &quot;C34,2)&quot;</span><br><span class="line">    &apos;选择系列1</span><br><span class="line">    ActiveChart.FullSeriesCollection(1).Select</span><br><span class="line">    &apos;更改数据源</span><br><span class="line">    Selection.Formula = &quot;=SERIES(数据!R&quot; &amp; (i + 10) &amp; &quot;C4,数据!R10C5:R10C17,数据!R&quot; &amp; (i + 10) &amp; &quot;C5:R&quot; &amp; (i + 10) &amp; &quot;C17,1)&quot;</span><br><span class="line">    &apos;更改折线图的线条颜色</span><br><span class="line">    ActiveChart.FullSeriesCollection(1).Select</span><br><span class="line">    With Selection.Format.Line</span><br><span class="line">        .Visible = msoTrue</span><br><span class="line">        .ForeColor.ObjectThemeColor = msoThemeColorAccent2</span><br><span class="line">        .ForeColor.TintAndShade = 0</span><br><span class="line">        .ForeColor.Brightness = 0</span><br><span class="line">        .Transparency = 0</span><br><span class="line">    End With</span><br><span class="line">    &apos;更改面积图的填充颜色</span><br><span class="line">    ActiveChart.FullSeriesCollection(2).Select</span><br><span class="line">    With Selection.Format.Fill</span><br><span class="line">        .Visible = msoTrue</span><br><span class="line">        .ForeColor.ObjectThemeColor = msoThemeColorBackground1</span><br><span class="line">        .ForeColor.TintAndShade = 0</span><br><span class="line">        .ForeColor.Brightness = -0.5</span><br><span class="line">        .Transparency = 0</span><br><span class="line">        .Solid</span><br><span class="line">    End With</span><br><span class="line">    &apos;修改面积图填充颜色的透明度</span><br><span class="line">    With Selection.Format.Fill</span><br><span class="line">        .Visible = msoTrue</span><br><span class="line">        .ForeColor.ObjectThemeColor = msoThemeColorBackground1</span><br><span class="line">        .ForeColor.TintAndShade = 0</span><br><span class="line">        .ForeColor.Brightness = -0.5</span><br><span class="line">        .Transparency = 0.5</span><br><span class="line">        .Solid</span><br><span class="line">    End With</span><br><span class="line">    &apos;消除面积图的边框线</span><br><span class="line">    ActiveChart.FullSeriesCollection(2).Select</span><br><span class="line">    Selection.Format.Line.Visible = msoFalse</span><br><span class="line">    &apos;消除整体图表的外边框</span><br><span class="line">    ActiveSheet.Shapes(i).Line.Visible = msoFalse</span><br><span class="line">Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%B3%A8%E9%87%8A.PNG" alt="图片版"></p>
+<h1 id="最后的细节处理"><a href="#最后的细节处理" class="headerlink" title="最后的细节处理"></a>最后的细节处理</h1><p>经历过上述的步骤之后，图表已经基本完成，接下来就看自己的喜好可以再改改颜色，改改边框之类的，就大功告成。导出为PDF或者图片格式就可以分享咯！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ExcelVBA/" rel="tag">#ExcelVBA</a>
+          
+            <a href="/tags/图表/" rel="tag">#图表</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/23/ExcelVBA——去除重复数据/" rel="next" title="ExcelVBA——去除重复数据">
+                <i class="fa fa-chevron-left"></i> ExcelVBA——去除重复数据
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fish.png"
+               alt="AlexanderLiu" />
+          <p class="site-author-name" itemprop="name">AlexanderLiu</p>
+          <p class="site-description motion-element" itemprop="description">不要效法这个世界，只要心意更新而变化，叫你们查验何为神的善良、纯全、可喜悦的旨意。（罗马书 12:2）</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据的处理"><span class="nav-number">1.</span> <span class="nav-text">数据的处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DashBoard整体排版确定"><span class="nav-number">2.</span> <span class="nav-text">DashBoard整体排版确定</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图表的处理"><span class="nav-number">3.</span> <span class="nav-text">图表的处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#最后的细节处理"><span class="nav-number">4.</span> <span class="nav-text">最后的细节处理</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AlexanderLiu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+</body>
+</html>
