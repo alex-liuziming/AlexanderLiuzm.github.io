@@ -248,6 +248,138 @@
             
               
                 
+                <a class="post-title-link" href="/2016/08/11/根据条件批量删除行/" itemprop="url">
+                  根据条件批量删除行
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-11T15:09:32+08:00" content="2016-08-11">
+              2016-08-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>批量进行删除行的方法有三种：</p>
+<ol>
+<li>直接对比</li>
+<li>Find方法</li>
+<li>定位法</li>
+<li>公式法</li>
+</ol>
+<h1 id="直接对比法"><a href="#直接对比法" class="headerlink" title="直接对比法"></a>直接对比法</h1><p>就像名字所说的，“直接对比方法”的原理就是——<br><strong>一行行一列列的进行对比，检测是否一整行都是重复的</strong><br>先po上具体的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Sub multidelete()</span><br><span class="line">Dim i As Integer</span><br><span class="line">Dim j As Integer</span><br><span class="line">Dim rw As Long</span><br><span class="line">Dim col As Long</span><br><span class="line"></span><br><span class="line">   rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">   col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">    </span><br><span class="line">    For i = rw To 1 Step -1</span><br><span class="line">        For j = 1 To col</span><br><span class="line">            If Cells(i, j).Interior.Color = mycolor Then</span><br><span class="line">                Rows(i).Delete</span><br><span class="line">                Exit For</span><br><span class="line">            End If</span><br><span class="line">        Next j</span><br><span class="line">    Next i</span><br><span class="line">    </span><br><span class="line">    MsgBox &quot;删除完成&quot;</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="Find方法"><a href="#Find方法" class="headerlink" title="Find方法"></a>Find方法</h1><p>这个方法主要是利用了Excel中的查找功能找到对应格式的单元格（如黄色底纹的等等）<br>利用这个方法的时候先利用Excel录制宏，得到一段代码。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBAFind%E6%96%B9%E6%B3%95.gif" alt="enter image description here"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">Sub 宏1()</span><br><span class="line">&apos;</span><br><span class="line">&apos; 宏1 宏</span><br><span class="line">&apos;</span><br><span class="line"></span><br><span class="line">&apos;</span><br><span class="line">    Range(&quot;E14&quot;).Select</span><br><span class="line">    Application.FindFormat.Clear</span><br><span class="line">    Application.FindFormat.NumberFormat = &quot;yyyy/m/d&quot;</span><br><span class="line">    With Application.FindFormat</span><br><span class="line">        .HorizontalAlignment = xlGeneral</span><br><span class="line">        .VerticalAlignment = xlCenter</span><br><span class="line">        .WrapText = False</span><br><span class="line">        .Orientation = 0</span><br><span class="line">        .AddIndent = False</span><br><span class="line">        .ShrinkToFit = False</span><br><span class="line">        .MergeCells = False</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Font</span><br><span class="line">        .Name = &quot;微软雅黑&quot;</span><br><span class="line">        .FontStyle = &quot;常规&quot;</span><br><span class="line">        .Size = 10</span><br><span class="line">        .Strikethrough = False</span><br><span class="line">        .Superscript = False</span><br><span class="line">        .Subscript = False</span><br><span class="line">        .Underline = xlUnderlineStyleNone</span><br><span class="line">        .ThemeColor = 2</span><br><span class="line">        .TintAndShade = 0</span><br><span class="line">        .ThemeFont = xlThemeFontNone</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlLeft)</span><br><span class="line">        .LineStyle = xlContinuous</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlRight)</span><br><span class="line">        .LineStyle = xlContinuous</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlTop)</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlBottom)</span><br><span class="line">        .LineStyle = xlContinuous</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    Application.FindFormat.Borders(xlDiagonalDown).LineStyle = xlNone</span><br><span class="line">    Application.FindFormat.Borders(xlDiagonalUp).LineStyle = xlNone</span><br><span class="line">    With Application.FindFormat.Interior</span><br><span class="line">        .Pattern = xlSolid</span><br><span class="line">        .PatternColorIndex = xlAutomatic</span><br><span class="line">        .Color = 15773696</span><br><span class="line">        .TintAndShade = 0</span><br><span class="line">        .PatternTintAndShade = 0</span><br><span class="line">    End With</span><br><span class="line">    Application.FindFormat.Locked = True</span><br><span class="line">    Application.FindFormat.FormulaHidden = False</span><br><span class="line">    Range(&quot;A14:F14&quot;).Select</span><br><span class="line">    Selection.Find(What:=&quot;&quot;, After:=ActiveCell, LookIn:=xlFormulas, LookAt _</span><br><span class="line">        :=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, MatchCase:= _</span><br><span class="line">        False, MatchByte:=False, SearchFormat:=True).Activate</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<p>这段代码是先规定搜索的格式，然后启用格式搜索，按着之前规定的一定格式进行搜索。重点的主要是这几句<br><code>Application.FindFormat.Clear</code>-清除搜索格式<br><code>With Application.FindFormat</code>-用下列的格式进行搜索<br><code>Application.FindFormat.Interior</code>-规定搜索的内部格式<br><code>.Color = 15773696</code>规定内部的格式</p>
+<blockquote>
+<p>注：因为这里主要是根据规定的颜色格式进行查找并删除，所以其他的格式规定也就没什么用，可以删除。</p>
+</blockquote>
+<p>最后贴上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Sub multidelete()</span><br><span class="line">Dim i As Integer</span><br><span class="line">Dim j As Integer</span><br><span class="line">Dim rw As Long</span><br><span class="line">Dim col As Long</span><br><span class="line">Dim mycolor</span><br><span class="line"></span><br><span class="line">   rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">   col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">   </span><br><span class="line">    mycolor = Range(&quot;A8&quot;).Interior.Color</span><br><span class="line">    </span><br><span class="line">    For i = rw To 1 Step -1</span><br><span class="line">        Application.FindFormat.Clear</span><br><span class="line">        Application.FindFormat.Interior.Color = mycolor</span><br><span class="line">        If Not Range(Cells(i, 1), Cells(i, col)).Find(What:=&quot;&quot;, SearchFormat:=True) Is Nothing Then Rows(i).Delete</span><br><span class="line">    Next i</span><br><span class="line">    </span><br><span class="line">    MsgBox &quot;删除完成&quot;</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="定位方法"><a href="#定位方法" class="headerlink" title="定位方法"></a>定位方法</h1><p>利用Excel中的定位功能对空单元格进行定位，并进行删除。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%AE%9A%E4%BD%8D.gif" alt="enter image description here"><br>po上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sub DelBlanks()</span><br><span class="line">    ActiveSheet.UsedRange.SpecialCells(xlCellTypeBlanks).EntireRow.Delete</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="函数公式法"><a href="#函数公式法" class="headerlink" title="函数公式法"></a>函数公式法</h1><p>利用Excel中的工作表函数对有内容的单元格进行清点，然后对不符合的<strong>行</strong>进行删除。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%87%BD%E6%95%B0%E5%85%AC%E5%BC%8F.gif" alt="enter image description here"><br>po上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Sub DelBlankRows()</span><br><span class="line">Dim i As Integer</span><br><span class="line">Dim j As Integer</span><br><span class="line">Dim rw As Long</span><br><span class="line">Dim col As Long</span><br><span class="line">Dim mycolor</span><br><span class="line"></span><br><span class="line">   rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">   col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">    </span><br><span class="line">    For i = rw To 1 Step -1</span><br><span class="line">        If WorksheetFunction.CountA(Rows(i)) = 0 Then Rows(i).Delete</span><br><span class="line">    Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>纵然方法有很多种，但是面对每次的任务，只要有一种能奏效基本也就够用了。面对不同的任务，我们可以根据不同的情况来选择不同的解决方案，无论任务多棘手，都可以及时的拿出应对方案从容解决，这就是学习各种各样不同解决方案思路的目的。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/07/利用ExcelVBA字典删除重复项/" itemprop="url">
                   利用ExcelVBA字典删除重复项
                 </a>
@@ -1574,134 +1706,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/10/Excel-VBA-对象/" itemprop="url">
-                  Excel VBA 对象
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-10T13:47:37+08:00" content="2016-07-10">
-              2016-07-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h1><h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><p>所谓对象就是我们要对<code>什么东西</code>进行操作。例如，我们要对<code>单元格</code>进行填充上色，又例如我们复制当前一个<code>工作表</code>等等。<br>之前完成的VBA里我们仅仅在VBA的编辑窗口里改动了第一行和最后一行，给整个代码块套上了一个循环结构，但是中间的代码究竟代表什么我们没有去深究。<br>当我们理解了对象之后，我们就可以读懂中间的代码究竟对哪些<code>东西</code>进行了操作和修改。</p>
-<h2 id="具体分类"><a href="#具体分类" class="headerlink" title="具体分类"></a>具体分类</h2><p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/VBA%E5%AF%B9%E8%B1%A1.png" alt="VBA对象"><br>主要有以下几种类型：</p>
-<ul>
-<li>Application</li>
-<li>Workbooks</li>
-<li>Sheets</li>
-<li>Worksheets</li>
-<li>Charts</li>
-<li>Range</li>
-</ul>
-<h3 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h3><p><code>Application</code>指的是整个运行程序，当我们打开一个或者几个Excel表格文件的时候，这里的application指的就是<code>Excel</code>。</p>
-<h3 id="Workbooks"><a href="#Workbooks" class="headerlink" title="Workbooks"></a>Workbooks</h3><p><code>WorkBooks</code>指的是我们在Excel表格中创建的工作表的合集。</p>
-<h3 id="Sheets"><a href="#Sheets" class="headerlink" title="Sheets"></a>Sheets</h3><p><code>Sheets</code>这个单词可能比起前几个会看起来比较眼熟，因为我们每次新建一个Excel的时候，左下角的页面标签就是<code>Sheets1</code>。<code>Sheets</code>就是工作表，与前面的工作簿有一字之差。就跟日常生活中一样，“表”是一张一张的，当很多张“表”被钉在一块，就成了一本“簿”，我们也可以这样来理解 Sheets 和 WorkBooks 的区别。</p>
-<h3 id="Worksheets"><a href="#Worksheets" class="headerlink" title="Worksheets"></a>Worksheets</h3><p>这里又出现了一个<code>Worksheets</code>，字面意思是工作表。那是不是我们选中的表就叫工作表呢？并不是的，其实Excel中有很多种的表格类型，当我们右键单击标签，选择插入时，会出先很多种表格类型让我们选择。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E8%A1%A8%E6%A0%BC%E7%B1%BB%E5%9E%8B.JPG" alt="表格类型"><br>在图中我们可以看到除了“工作表”以外，还有“图表”和“宏表”等很多类型的表。我们平常用的最多的就是“工作表”，这里的<code>Worksheets</code>也特指“工作表”这一类型的表格。而上面提到的<code>Sheets</code>则泛指所有类型的表。</p>
-<h3 id="Charts"><a href="#Charts" class="headerlink" title="Charts"></a>Charts</h3><p>原理与上面的<code>Worksheets</code>差不多，<code>Charts</code>就是特指“图表”类型的表。</p>
-<h3 id="Range"><a href="#Range" class="headerlink" title="Range"></a>Range</h3><p><code>Range</code>就是单元格的意思，比起上面的几个词来说应该是比较好理解的了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1747,7 +1751,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

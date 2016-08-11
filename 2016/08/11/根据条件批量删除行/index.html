@@ -1,0 +1,662 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="代码,ExcelVBA," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="批量进行删除行的方法有三种：
+
+直接对比
+Find方法
+定位法
+公式法
+
+直接对比法就像名字所说的，“直接对比方法”的原理就是——一行行一列列的进行对比，检测是否一整行都是重复的先po上具体的代码：1234567891011121314151617181920Sub multidelete()Dim i As IntegerDim j As IntegerDim rw As LongDim col">
+<meta property="og:type" content="article">
+<meta property="og:title" content="根据条件批量删除行">
+<meta property="og:url" content="http://yoursite.com/2016/08/11/根据条件批量删除行/index.html">
+<meta property="og:site_name" content="牧牧闻叨">
+<meta property="og:description" content="批量进行删除行的方法有三种：
+
+直接对比
+Find方法
+定位法
+公式法
+
+直接对比法就像名字所说的，“直接对比方法”的原理就是——一行行一列列的进行对比，检测是否一整行都是重复的先po上具体的代码：1234567891011121314151617181920Sub multidelete()Dim i As IntegerDim j As IntegerDim rw As LongDim col">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBAFind%E6%96%B9%E6%B3%95.gif">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%AE%9A%E4%BD%8D.gif">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%87%BD%E6%95%B0%E5%85%AC%E5%BC%8F.gif">
+<meta property="og:updated_time" content="2016-08-11T07:12:53.389Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="根据条件批量删除行">
+<meta name="twitter:description" content="批量进行删除行的方法有三种：
+
+直接对比
+Find方法
+定位法
+公式法
+
+直接对比法就像名字所说的，“直接对比方法”的原理就是——一行行一列列的进行对比，检测是否一整行都是重复的先po上具体的代码：1234567891011121314151617181920Sub multidelete()Dim i As IntegerDim j As IntegerDim rw As LongDim col">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBAFind%E6%96%B9%E6%B3%95.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/11/根据条件批量删除行/"/>
+
+  <title> 根据条件批量删除行 | 牧牧闻叨 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">牧牧闻叨</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">整理心中的知识体系，让自己变得更好</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                根据条件批量删除行
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-11T15:09:32+08:00" content="2016-08-11">
+              2016-08-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>批量进行删除行的方法有三种：</p>
+<ol>
+<li>直接对比</li>
+<li>Find方法</li>
+<li>定位法</li>
+<li>公式法</li>
+</ol>
+<h1 id="直接对比法"><a href="#直接对比法" class="headerlink" title="直接对比法"></a>直接对比法</h1><p>就像名字所说的，“直接对比方法”的原理就是——<br><strong>一行行一列列的进行对比，检测是否一整行都是重复的</strong><br>先po上具体的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Sub multidelete()</span><br><span class="line">Dim i As Integer</span><br><span class="line">Dim j As Integer</span><br><span class="line">Dim rw As Long</span><br><span class="line">Dim col As Long</span><br><span class="line"></span><br><span class="line">   rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">   col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">    </span><br><span class="line">    For i = rw To 1 Step -1</span><br><span class="line">        For j = 1 To col</span><br><span class="line">            If Cells(i, j).Interior.Color = mycolor Then</span><br><span class="line">                Rows(i).Delete</span><br><span class="line">                Exit For</span><br><span class="line">            End If</span><br><span class="line">        Next j</span><br><span class="line">    Next i</span><br><span class="line">    </span><br><span class="line">    MsgBox &quot;删除完成&quot;</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="Find方法"><a href="#Find方法" class="headerlink" title="Find方法"></a>Find方法</h1><p>这个方法主要是利用了Excel中的查找功能找到对应格式的单元格（如黄色底纹的等等）<br>利用这个方法的时候先利用Excel录制宏，得到一段代码。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBAFind%E6%96%B9%E6%B3%95.gif" alt="enter image description here"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">Sub 宏1()</span><br><span class="line">&apos;</span><br><span class="line">&apos; 宏1 宏</span><br><span class="line">&apos;</span><br><span class="line"></span><br><span class="line">&apos;</span><br><span class="line">    Range(&quot;E14&quot;).Select</span><br><span class="line">    Application.FindFormat.Clear</span><br><span class="line">    Application.FindFormat.NumberFormat = &quot;yyyy/m/d&quot;</span><br><span class="line">    With Application.FindFormat</span><br><span class="line">        .HorizontalAlignment = xlGeneral</span><br><span class="line">        .VerticalAlignment = xlCenter</span><br><span class="line">        .WrapText = False</span><br><span class="line">        .Orientation = 0</span><br><span class="line">        .AddIndent = False</span><br><span class="line">        .ShrinkToFit = False</span><br><span class="line">        .MergeCells = False</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Font</span><br><span class="line">        .Name = &quot;微软雅黑&quot;</span><br><span class="line">        .FontStyle = &quot;常规&quot;</span><br><span class="line">        .Size = 10</span><br><span class="line">        .Strikethrough = False</span><br><span class="line">        .Superscript = False</span><br><span class="line">        .Subscript = False</span><br><span class="line">        .Underline = xlUnderlineStyleNone</span><br><span class="line">        .ThemeColor = 2</span><br><span class="line">        .TintAndShade = 0</span><br><span class="line">        .ThemeFont = xlThemeFontNone</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlLeft)</span><br><span class="line">        .LineStyle = xlContinuous</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlRight)</span><br><span class="line">        .LineStyle = xlContinuous</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlTop)</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlBottom)</span><br><span class="line">        .LineStyle = xlContinuous</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    Application.FindFormat.Borders(xlDiagonalDown).LineStyle = xlNone</span><br><span class="line">    Application.FindFormat.Borders(xlDiagonalUp).LineStyle = xlNone</span><br><span class="line">    With Application.FindFormat.Interior</span><br><span class="line">        .Pattern = xlSolid</span><br><span class="line">        .PatternColorIndex = xlAutomatic</span><br><span class="line">        .Color = 15773696</span><br><span class="line">        .TintAndShade = 0</span><br><span class="line">        .PatternTintAndShade = 0</span><br><span class="line">    End With</span><br><span class="line">    Application.FindFormat.Locked = True</span><br><span class="line">    Application.FindFormat.FormulaHidden = False</span><br><span class="line">    Range(&quot;A14:F14&quot;).Select</span><br><span class="line">    Selection.Find(What:=&quot;&quot;, After:=ActiveCell, LookIn:=xlFormulas, LookAt _</span><br><span class="line">        :=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, MatchCase:= _</span><br><span class="line">        False, MatchByte:=False, SearchFormat:=True).Activate</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<p>这段代码是先规定搜索的格式，然后启用格式搜索，按着之前规定的一定格式进行搜索。重点的主要是这几句<br><code>Application.FindFormat.Clear</code>-清除搜索格式<br><code>With Application.FindFormat</code>-用下列的格式进行搜索<br><code>Application.FindFormat.Interior</code>-规定搜索的内部格式<br><code>.Color = 15773696</code>规定内部的格式</p>
+<blockquote>
+<p>注：因为这里主要是根据规定的颜色格式进行查找并删除，所以其他的格式规定也就没什么用，可以删除。</p>
+</blockquote>
+<p>最后贴上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Sub multidelete()</span><br><span class="line">Dim i As Integer</span><br><span class="line">Dim j As Integer</span><br><span class="line">Dim rw As Long</span><br><span class="line">Dim col As Long</span><br><span class="line">Dim mycolor</span><br><span class="line"></span><br><span class="line">   rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">   col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">   </span><br><span class="line">    mycolor = Range(&quot;A8&quot;).Interior.Color</span><br><span class="line">    </span><br><span class="line">    For i = rw To 1 Step -1</span><br><span class="line">        Application.FindFormat.Clear</span><br><span class="line">        Application.FindFormat.Interior.Color = mycolor</span><br><span class="line">        If Not Range(Cells(i, 1), Cells(i, col)).Find(What:=&quot;&quot;, SearchFormat:=True) Is Nothing Then Rows(i).Delete</span><br><span class="line">    Next i</span><br><span class="line">    </span><br><span class="line">    MsgBox &quot;删除完成&quot;</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="定位方法"><a href="#定位方法" class="headerlink" title="定位方法"></a>定位方法</h1><p>利用Excel中的定位功能对空单元格进行定位，并进行删除。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%AE%9A%E4%BD%8D.gif" alt="enter image description here"><br>po上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sub DelBlanks()</span><br><span class="line">    ActiveSheet.UsedRange.SpecialCells(xlCellTypeBlanks).EntireRow.Delete</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="函数公式法"><a href="#函数公式法" class="headerlink" title="函数公式法"></a>函数公式法</h1><p>利用Excel中的工作表函数对有内容的单元格进行清点，然后对不符合的<strong>行</strong>进行删除。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%87%BD%E6%95%B0%E5%85%AC%E5%BC%8F.gif" alt="enter image description here"><br>po上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Sub DelBlankRows()</span><br><span class="line">Dim i As Integer</span><br><span class="line">Dim j As Integer</span><br><span class="line">Dim rw As Long</span><br><span class="line">Dim col As Long</span><br><span class="line">Dim mycolor</span><br><span class="line"></span><br><span class="line">   rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">   col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">    </span><br><span class="line">    For i = rw To 1 Step -1</span><br><span class="line">        If WorksheetFunction.CountA(Rows(i)) = 0 Then Rows(i).Delete</span><br><span class="line">    Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>纵然方法有很多种，但是面对每次的任务，只要有一种能奏效基本也就够用了。面对不同的任务，我们可以根据不同的情况来选择不同的解决方案，无论任务多棘手，都可以及时的拿出应对方案从容解决，这就是学习各种各样不同解决方案思路的目的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/代码/" rel="tag">#代码</a>
+          
+            <a href="/tags/ExcelVBA/" rel="tag">#ExcelVBA</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/07/利用ExcelVBA字典删除重复项/" rel="next" title="利用ExcelVBA字典删除重复项">
+                <i class="fa fa-chevron-left"></i> 利用ExcelVBA字典删除重复项
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fish.png"
+               alt="AlexanderLiu" />
+          <p class="site-author-name" itemprop="name">AlexanderLiu</p>
+          <p class="site-description motion-element" itemprop="description">不要效法这个世界，只要心意更新而变化，叫你们查验何为神的善良、纯全、可喜悦的旨意。（罗马书 12:2）</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#直接对比法"><span class="nav-number">1.</span> <span class="nav-text">直接对比法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Find方法"><span class="nav-number">2.</span> <span class="nav-text">Find方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定位方法"><span class="nav-number">3.</span> <span class="nav-text">定位方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数公式法"><span class="nav-number">4.</span> <span class="nav-text">函数公式法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AlexanderLiu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+</body>
+</html>
