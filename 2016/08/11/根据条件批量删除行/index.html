@@ -91,7 +91,7 @@ Find方法
 定位法
 公式法
 
-直接对比法就像名字所说的，“直接对比方法”的原理就是——一行行一列列的进行对比，检测是否一整行都是重复的先po上具体的代码：1234567891011121314151617181920Sub multidelete()Dim i As IntegerDim j As IntegerDim rw As LongDim col">
+直接对比法就像名字所说的，“直接对比方法”的原理就是——一行行一列列的进行对比，检测是否一整行都是重复的先po上具体的代码：1234567891011121314151617181920Sub multidelete()Dim i As IntegerDim j As IntegerDim rw As LongDim co">
 <meta property="og:type" content="article">
 <meta property="og:title" content="根据条件批量删除行">
 <meta property="og:url" content="http://yoursite.com/2016/08/11/根据条件批量删除行/index.html">
@@ -103,11 +103,12 @@ Find方法
 定位法
 公式法
 
-直接对比法就像名字所说的，“直接对比方法”的原理就是——一行行一列列的进行对比，检测是否一整行都是重复的先po上具体的代码：1234567891011121314151617181920Sub multidelete()Dim i As IntegerDim j As IntegerDim rw As LongDim col">
+直接对比法就像名字所说的，“直接对比方法”的原理就是——一行行一列列的进行对比，检测是否一整行都是重复的先po上具体的代码：1234567891011121314151617181920Sub multidelete()Dim i As IntegerDim j As IntegerDim rw As LongDim co">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4%E8%A1%8C.jpg">
 <meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBAFind%E6%96%B9%E6%B3%95.gif">
 <meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%AE%9A%E4%BD%8D.gif">
 <meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%87%BD%E6%95%B0%E5%85%AC%E5%BC%8F.gif">
-<meta property="og:updated_time" content="2016-08-11T07:12:53.389Z">
+<meta property="og:updated_time" content="2016-08-14T20:08:16.855Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="根据条件批量删除行">
 <meta name="twitter:description" content="批量进行删除行的方法有三种：
@@ -117,8 +118,8 @@ Find方法
 定位法
 公式法
 
-直接对比法就像名字所说的，“直接对比方法”的原理就是——一行行一列列的进行对比，检测是否一整行都是重复的先po上具体的代码：1234567891011121314151617181920Sub multidelete()Dim i As IntegerDim j As IntegerDim rw As LongDim col">
-<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBAFind%E6%96%B9%E6%B3%95.gif">
+直接对比法就像名字所说的，“直接对比方法”的原理就是——一行行一列列的进行对比，检测是否一整行都是重复的先po上具体的代码：1234567891011121314151617181920Sub multidelete()Dim i As IntegerDim j As IntegerDim rw As LongDim co">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4%E8%A1%8C.jpg">
 
 
 
@@ -330,7 +331,8 @@ Find方法
       
 
       
-        <p>批量进行删除行的方法有三种：</p>
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4%E8%A1%8C.jpg" class="full-image"></p>
+<p>批量进行删除行的方法有三种：</p>
 <ol>
 <li>直接对比</li>
 <li>Find方法</li>
@@ -346,10 +348,14 @@ Find方法
 </blockquote>
 <p>最后贴上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Sub multidelete()</span><br><span class="line">Dim i As Integer</span><br><span class="line">Dim j As Integer</span><br><span class="line">Dim rw As Long</span><br><span class="line">Dim col As Long</span><br><span class="line">Dim mycolor</span><br><span class="line"></span><br><span class="line">   rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">   col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">   </span><br><span class="line">    mycolor = Range(&quot;A8&quot;).Interior.Color</span><br><span class="line">    </span><br><span class="line">    For i = rw To 1 Step -1</span><br><span class="line">        Application.FindFormat.Clear</span><br><span class="line">        Application.FindFormat.Interior.Color = mycolor</span><br><span class="line">        If Not Range(Cells(i, 1), Cells(i, col)).Find(What:=&quot;&quot;, SearchFormat:=True) Is Nothing Then Rows(i).Delete</span><br><span class="line">    Next i</span><br><span class="line">    </span><br><span class="line">    MsgBox &quot;删除完成&quot;</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
 <hr>
-<h1 id="定位方法"><a href="#定位方法" class="headerlink" title="定位方法"></a>定位方法</h1><p>利用Excel中的定位功能对空单元格进行定位，并进行删除。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%AE%9A%E4%BD%8D.gif" alt="enter image description here"><br>po上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Sub DelBlanks()</span><br><span class="line">    ActiveSheet.UsedRange.SpecialCells(xlCellTypeBlanks).EntireRow.Delete</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<h1 id="定位方法"><a href="#定位方法" class="headerlink" title="定位方法"></a>定位方法</h1><p>利用Excel中的定位功能对空单元格进行定位，并进行删除。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%AE%9A%E4%BD%8D.gif" alt="enter image description here"></p>
+<p>当我在进行这一步的时候遇到了一些问题，Excel总是显示“不能在重叠的区域上使用此命令”。这是因为同一行当中如果有两个不相邻的空白单元格，就会出现“不能再在重叠的选定区域上使用此命令”的情况。为了避免这种情况发生，可以在这句代码签名增加一句代码：<code>ActiveSheet.UsedRange.SpecialCells(xlCellTypeBlanks).EntireRow.Clear</code><br>po上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Sub DelBlanks()</span><br><span class="line">    ActiveSheet.UsedRange.SpecialCells(xlCellTypeBlanks).EntireRow.Clear</span><br><span class="line">    ActiveSheet.UsedRange.SpecialCells(xlCellTypeBlanks).EntireRow.Delete</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
 <hr>
 <h1 id="函数公式法"><a href="#函数公式法" class="headerlink" title="函数公式法"></a>函数公式法</h1><p>利用Excel中的工作表函数对有内容的单元格进行清点，然后对不符合的<strong>行</strong>进行删除。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%87%BD%E6%95%B0%E5%85%AC%E5%BC%8F.gif" alt="enter image description here"><br>po上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Sub DelBlankRows()</span><br><span class="line">Dim i As Integer</span><br><span class="line">Dim j As Integer</span><br><span class="line">Dim rw As Long</span><br><span class="line">Dim col As Long</span><br><span class="line">Dim mycolor</span><br><span class="line"></span><br><span class="line">   rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">   col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">    </span><br><span class="line">    For i = rw To 1 Step -1</span><br><span class="line">        If WorksheetFunction.CountA(Rows(i)) = 0 Then Rows(i).Delete</span><br><span class="line">    Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>纵然方法有很多种，但是面对每次的任务，只要有一种能奏效基本也就够用了。面对不同的任务，我们可以根据不同的情况来选择不同的解决方案，无论任务多棘手，都可以及时的拿出应对方案从容解决，这就是学习各种各样不同解决方案思路的目的。</p>
+<blockquote>
+<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
+</blockquote>
 
       
     </div>

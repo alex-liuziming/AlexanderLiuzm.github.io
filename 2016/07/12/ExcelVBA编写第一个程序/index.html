@@ -84,42 +84,43 @@
 
 
 
-<meta name="description" content="这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记
-
-之前的课程中仅仅是对录制的代码进行微小改动，这节课中将用之前学到对象，方法和属性编写第一份VBA代码。
+<meta name="description" content="之前的课程中仅仅是对录制的代码进行微小改动，这节课中将用之前学到对象，方法和属性编写第一份VBA代码。
 情景文件夹中有三个Excel文件，它们各自包含若干工作表，每个工作表有若干行数据。现在要把每个工作表中的单元格复制到一份新的工作表中，由上到下依次排列。
 
 操作我们要用VBA实现的操作如下：
 
 选中第一个Excel文件
-选中文件中">
+选中文件中的第一张工作表
+选择工作表中有内容的单元格
+复制粘贴到新的工作表">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ExcelVBA编写第一个程序">
 <meta property="og:url" content="http://yoursite.com/2016/07/12/ExcelVBA编写第一个程序/index.html">
 <meta property="og:site_name" content="牧牧闻叨">
-<meta property="og:description" content="这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记
-
-之前的课程中仅仅是对录制的代码进行微小改动，这节课中将用之前学到对象，方法和属性编写第一份VBA代码。
+<meta property="og:description" content="之前的课程中仅仅是对录制的代码进行微小改动，这节课中将用之前学到对象，方法和属性编写第一份VBA代码。
 情景文件夹中有三个Excel文件，它们各自包含若干工作表，每个工作表有若干行数据。现在要把每个工作表中的单元格复制到一份新的工作表中，由上到下依次排列。
 
 操作我们要用VBA实现的操作如下：
 
 选中第一个Excel文件
-选中文件中">
+选中文件中的第一张工作表
+选择工作表中有内容的单元格
+复制粘贴到新的工作表">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E7%BC%96%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F.jpg">
 <meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/VBA%E6%83%85%E6%99%AF%E7%A4%BA%E6%84%8F%E5%9B%BE1.jpg">
-<meta property="og:updated_time" content="2016-07-12T09:33:27.956Z">
+<meta property="og:updated_time" content="2016-08-14T20:05:15.893Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ExcelVBA编写第一个程序">
-<meta name="twitter:description" content="这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记
-
-之前的课程中仅仅是对录制的代码进行微小改动，这节课中将用之前学到对象，方法和属性编写第一份VBA代码。
+<meta name="twitter:description" content="之前的课程中仅仅是对录制的代码进行微小改动，这节课中将用之前学到对象，方法和属性编写第一份VBA代码。
 情景文件夹中有三个Excel文件，它们各自包含若干工作表，每个工作表有若干行数据。现在要把每个工作表中的单元格复制到一份新的工作表中，由上到下依次排列。
 
 操作我们要用VBA实现的操作如下：
 
 选中第一个Excel文件
-选中文件中">
-<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/VBA%E6%83%85%E6%99%AF%E7%A4%BA%E6%84%8F%E5%9B%BE1.jpg">
+选中文件中的第一张工作表
+选择工作表中有内容的单元格
+复制粘贴到新的工作表">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E7%BC%96%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F.jpg">
 
 
 
@@ -331,9 +332,7 @@
       
 
       
-        <blockquote>
-<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记</p>
-</blockquote>
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E7%BC%96%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F.jpg" class="full-image"></p>
 <p>之前的课程中仅仅是对录制的代码进行微小改动，这节课中将用之前学到<code>对象</code>，<code>方法</code>和<code>属性</code>编写第一份VBA代码。</p>
 <h1 id="情景"><a href="#情景" class="headerlink" title="情景"></a>情景</h1><p>文件夹中有<strong>三个Excel文件</strong>，它们各自包含若干<strong>工作表</strong>，每个工作表有若干行<strong>数据</strong>。现在要把每个工作表中的单元格复制到一份新的工作表中，由上到下依次排列。</p>
 <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/VBA%E6%83%85%E6%99%AF%E7%A4%BA%E6%84%8F%E5%9B%BE1.jpg" alt="场景描述"></p>
@@ -373,6 +372,9 @@
 <li>在第13行中错把<code>newbook</code>打成<code>newbooks</code>，之后再编写代码的时候要注意自己命名的变量，名字就算只打错一个字也会导致程序错误</li>
 <li>在第14行中的<code>Worksheets</code>后面忘记加<code>(1)</code>，这样VBA就无法识别到底要数哪个工作表中的行数，导致程序无法运行</li>
 </ol>
+<blockquote>
+<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
+</blockquote>
 
       
     </div>

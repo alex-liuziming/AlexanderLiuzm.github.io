@@ -85,18 +85,20 @@
 
 
 <meta name="description" content="前期工作先利用录制宏来获取最基础的去除重复项的语句1ActiveSheet.Range(&amp;quot;$A$1:$F$968&amp;quot;).RemoveDuplicates Columns:=Array(1, 2, 3, 4, 5, 6) _, Header:=xlYes
-获取到的这个语句块中的对象还是静态的，并不能自动适应任意一个表格，为任意一个表格进行删除重复项，因此我们要对上述的代码块进行改造">
+获取到的这个语句块中的对象还是静态的，并不能自动适应任意一个表格，为任意一个表格进行删除重复项，因此我们要对上述的代码块进行改">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ExcelVBA——去除重复数据">
 <meta property="og:url" content="http://yoursite.com/2016/07/23/ExcelVBA——去除重复数据/index.html">
 <meta property="og:site_name" content="牧牧闻叨">
 <meta property="og:description" content="前期工作先利用录制宏来获取最基础的去除重复项的语句1ActiveSheet.Range(&amp;quot;$A$1:$F$968&amp;quot;).RemoveDuplicates Columns:=Array(1, 2, 3, 4, 5, 6) _, Header:=xlYes
-获取到的这个语句块中的对象还是静态的，并不能自动适应任意一个表格，为任意一个表格进行删除重复项，因此我们要对上述的代码块进行改造">
-<meta property="og:updated_time" content="2016-07-23T14:32:57.135Z">
+获取到的这个语句块中的对象还是静态的，并不能自动适应任意一个表格，为任意一个表格进行删除重复项，因此我们要对上述的代码块进行改">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE.jpg">
+<meta property="og:updated_time" content="2016-08-14T20:09:05.779Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ExcelVBA——去除重复数据">
 <meta name="twitter:description" content="前期工作先利用录制宏来获取最基础的去除重复项的语句1ActiveSheet.Range(&amp;quot;$A$1:$F$968&amp;quot;).RemoveDuplicates Columns:=Array(1, 2, 3, 4, 5, 6) _, Header:=xlYes
-获取到的这个语句块中的对象还是静态的，并不能自动适应任意一个表格，为任意一个表格进行删除重复项，因此我们要对上述的代码块进行改造">
+获取到的这个语句块中的对象还是静态的，并不能自动适应任意一个表格，为任意一个表格进行删除重复项，因此我们要对上述的代码块进行改">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE.jpg">
 
 
 
@@ -308,7 +310,8 @@
       
 
       
-        <h1 id="前期工作"><a href="#前期工作" class="headerlink" title="前期工作"></a>前期工作</h1><p>先利用<code>录制宏</code>来获取最基础的<code>去除重复项</code>的语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActiveSheet.Range(&quot;$A$1:$F$968&quot;).RemoveDuplicates Columns:=Array(1, 2, 3, 4, 5, 6) _, Header:=xlYes</span><br></pre></td></tr></table></figure></p>
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE.jpg" class="full-image"></p>
+<h1 id="前期工作"><a href="#前期工作" class="headerlink" title="前期工作"></a>前期工作</h1><p>先利用<code>录制宏</code>来获取最基础的<code>去除重复项</code>的语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActiveSheet.Range(&quot;$A$1:$F$968&quot;).RemoveDuplicates Columns:=Array(1, 2, 3, 4, 5, 6) _, Header:=xlYes</span><br></pre></td></tr></table></figure></p>
 <p>获取到的这个语句块中的对象还是静态的，并不能自动适应任意一个表格，为任意一个表格进行删除重复项，因此我们要对上述的代码块进行改造。</p>
 <h1 id="确定要改造的对象"><a href="#确定要改造的对象" class="headerlink" title="确定要改造的对象"></a>确定要改造的对象</h1><p>先观察这这行代码，发现其中的对象有两个——</p>
 <ol>
@@ -325,6 +328,9 @@
 <p>但是如果真的尝试在VBA中运行这段代码，Excel会提示代码有错误存在。这是为什么呢？</p>
 <p>第一个错误是<code>Range</code>前面有<code>ActiveSheet</code>明显属于重复，后面的括号中已经规定了对象的范围是<code>ActiveSheet</code>中的<code>Usedrange</code>，前面就不用再定义<code>ActiveSheet</code>，删除即可。</p>
 <p>第二个错误是<code>arr</code>前面有<code>Columns:=</code>。<code>arr</code>的定义中包含<code>ActiveSheet.UsedRange.Columns</code>，所以前面的<code>Columns:=</code>也是属于多余的。当然这两个错误的原理是我的猜测，具体为什么我也不甚清楚，我就用我自己猜测的两个原理来辅助记忆这个语法规则。</p>
+<blockquote>
+<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
+</blockquote>
 
       
     </div>
