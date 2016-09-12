@@ -248,6 +248,357 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/12/一对多数据转一维/" itemprop="url">
+                  一对多数据转一维
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-12T21:39:41+08:00" content="2016-09-12">
+              2016-09-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_image%E4%B8%80%E5%AF%B9%E5%A4%9A%E8%BD%AC%E4%B8%80%E7%BB%B4.jpg" class="full-image"></p>
+<p>与之前的二维表转换成一维表相似，这次将一对多的数据转换成一位表格也是遍历数据然后添加在新的工作表中。</p>
+<p>首先，我们要有一个概念，一对多数据表到底长什么样？<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-1.jpg" alt="enter image description here"><br>接着我们讲一下思路，这一次与二维表的区别主要在于在<code>号码</code>和<code>城市</code>后面的<code>套餐</code>不是仅仅只有一个，而是一个号码对应着多个<code>套餐</code>，有的号码对应的<code>套餐</code>没有那么多，它后面的单元格就有空缺。所以我们选择遍历所有的<code>套餐</code>单元格，对单元格的内容进行判断，如果是空单元格，那么该号码没有<code>套餐2</code>或者<code>套餐3</code>，就不用管它，如果该单元格有数据，那就选择在新的工作表中加入一行，并在<code>套餐</code>写入该套餐对应的<code>号码</code>和<code>城市</code>，组成一维数据表。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-2.jpg" alt="enter image description here"><br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-3.jpg" alt="enter image description here"><br>先贴上这次的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Sub 一对多转一维()</span><br><span class="line"></span><br><span class="line">arr = ActiveSheet.UsedRange</span><br><span class="line">rw = UBound(arr, 1)</span><br><span class="line">col = UBound(arr, 2)</span><br><span class="line"></span><br><span class="line">ReDim brr(1 To rw * (col - 2), 1 To 3)</span><br><span class="line">n = 2</span><br><span class="line">For i = 2 To rw</span><br><span class="line">    For j = 3 To col</span><br><span class="line">        If Cells(i, j) &lt;&gt; &quot;&quot; Then</span><br><span class="line">            brr(n, 1) = arr(i, 1)</span><br><span class="line">            brr(n, 2) = arr(i, 2)</span><br><span class="line">            brr(n, 3) = arr(i, j)</span><br><span class="line">            n = n + 1</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">brr(1, 1) = &quot;号码&quot;</span><br><span class="line">brr(1, 2) = &quot;城市&quot;</span><br><span class="line">brr(1, 3) = &quot;套餐&quot;</span><br><span class="line"></span><br><span class="line">Sheets.Add.Name = &quot;转换结果&quot;</span><br><span class="line">Sheets(&quot;转换结果&quot;).Range(Cells(1, 1), Cells(n - 1, 3)) = brr</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<p>讲一讲其中和上一次二维表转换相比不同的地方，其中主要加入了一次判断和<code>UBound</code>。<br><code>UBound</code>指的是选取数组的<code>上标</code>，数组中最小值是数组的<code>下标</code>，<code>上标</code>则恰好相反。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-4.jpg" alt="enter image description here"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/12/二维表转一维表/" itemprop="url">
+                  二维表转一维表
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-12T21:39:27+08:00" content="2016-09-12">
+              2016-09-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_image%E4%BA%8C%E7%BB%B4%E8%BD%AC%E4%B8%80%E7%BB%B4.jpg" class="full-image"></p>
+<p>今天主要学习了如何通过VBA将二维表转换成为一维表。先不急着讲学到了什么方法和代码，我觉得关于二维表和一维表的定义就可以先来讲一讲。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%BA%8C%E7%BB%B4%E8%A1%A8%E8%BD%AC%E6%8D%A2%E4%B8%BA%E4%B8%80%E7%BB%B4-1.jpg" alt="enter image description here"><br>可以看出二维表与一维表有很大的不同，二维表中每个数据都对应着两个字段名称，而一维表中值对应自己这一行的数据。简单说，看二维表总要纵看一次横看一次，而一维表只用横着看一次就行。</p>
+<p>在《三张表格走天下》中我读到过小蚊子老师这样的总结，做数据分析需要三张表，一张是<code>参数表</code>，一张是<code>录入表</code>，最后一张是<code>透视表</code>。其中包括最多的原始数据的<code>录入表</code>就要采用一维表格的形式。为什么呢？因为一维表格更加的简单，更加适合采用筛选、排序等方法对数据进行提取和加工。</p>
+<p>一维数据表在数据分析的工作中有重要的作用，但是普通人似乎更习惯二维表，因为生活中见得最多的还是二维表。如何进行转换呢？我们的思路是：<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%BA%8C%E7%BB%B4%E8%A1%A8%E8%BD%AC%E6%8D%A2%E4%B8%BA%E4%B8%80%E7%BB%B4-2.jpg" alt="enter image description here"><br>其中<code>字段一</code>和<code>字段二</code>都是标题名称，所以<code>字段一</code>我们固定列，按行递增来取用并赋值给一维表，对于<code>字段二</code>我们选择固定行，按列递增来提取并赋值。中间的数据<code>字段三</code>则选择利用双层循环的遍历方式来进行提取和赋值。</p>
+<p>我们使用以下代码来实现我们的思路：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">Sub 二维表转一维表()</span><br><span class="line"></span><br><span class="line">Dim arr</span><br><span class="line">Dim rw</span><br><span class="line">Dim col</span><br><span class="line">Dim brr</span><br><span class="line">Dim n</span><br><span class="line">Dim i</span><br><span class="line">Dim j</span><br><span class="line"></span><br><span class="line">arr = ActiveSheet.UsedRange</span><br><span class="line">rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line"></span><br><span class="line">&apos;转换过程</span><br><span class="line">ReDim brr(1 To rw * col, 1 To 3)</span><br><span class="line">n = 2</span><br><span class="line">For i = 2 To rw</span><br><span class="line">    For j = 2 To col</span><br><span class="line">        brr(n, 1) = arr(i, 1)</span><br><span class="line">        brr(n, 2) = arr(1, j)</span><br><span class="line">        brr(n, 3) = arr(i, j)</span><br><span class="line">        n = n + 1</span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">&apos;补齐字段名</span><br><span class="line">brr(1, 1) = &quot;地区&quot;</span><br><span class="line">brr(1, 2) = &quot;操作系统&quot;</span><br><span class="line">brr(1, 3) = &quot;使用人数&quot;</span><br><span class="line"></span><br><span class="line">&apos;新建表格储存转换结果</span><br><span class="line">Sheets.Add.Name = &quot;转换结果&quot;</span><br><span class="line">Sheets(&quot;转换结果&quot;).Range(Cells(1, 1), Cells(n - 1, 3)) = brr</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<p>可能有人不明白为什么不直接创建一个新表提取赋值给新表的单元格，却要选择先赋值个一个中间数列<code>brr</code>。我想，这个原因大概是因为对单元格直接进行操作比较慢，并且写出的代码也会相对更加繁琐，所以先创建一个新的数列，最后一次性赋值，这样程序的速度会更快。（在处理的表格数据量和数量越来越大的时候这种优势就会越来越明显）</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/09/12/数据类型的转换/" itemprop="url">
+                  数据类型的转换
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-12T21:39:15+08:00" content="2016-09-12">
+              2016-09-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2.jpg" class="full-image"></p>
+<h1 id="什么是数据的类型"><a href="#什么是数据的类型" class="headerlink" title="什么是数据的类型"></a>什么是数据的类型</h1><p>这里所说的数据的类型并不是<code>单元格格式</code>，单元格格式有很多类型，比如日期类型，文本类型和自定义等等。但是数据的类型是指输入的值自己的性质，不是单元格的格式，最常用到的有数据类型和文本类型。</p>
+<h1 id="转换数据类型的思路"><a href="#转换数据类型的思路" class="headerlink" title="转换数据类型的思路"></a>转换数据类型的思路</h1><p>直接对单元格内数据的格式进行转换可能会有问题，所以考虑首先把数据的格式转换成<code>G/通用格式</code>，之后再进行下一步的转换，把数据转成自己需要的格式。</p>
+<p>想要把文本类型的数据改成数值类型可以使用VBA的函数——<code>val()</code>函数。而如果想把数值类型的数据改成文本格式，方法就相对来说简单很多，平时我们输入文本格式的数据时都会在数字前面加上一个单引号<code>&#39;</code>，这里也可以用同样的方法。</p>
+<h1 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h1><h2 id="数值转文本"><a href="#数值转文本" class="headerlink" title="数值转文本"></a>数值转文本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Sub 数据转文本()</span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    Range(&quot;A&quot; &amp; i).NumberFormatLocal = &quot;G/通用格式&quot;</span><br><span class="line">    Range(&quot;A&quot; &amp; i).Value = &quot;&apos;&quot; &amp; Range(&quot;A&quot; &amp; i).Value</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+<h2 id="文本转数值"><a href="#文本转数值" class="headerlink" title="文本转数值"></a>文本转数值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Sub 文本转数值()</span><br><span class="line">Dim i As Integer</span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    Range(&quot;A&quot; &amp; i).NumberFormatLocal = &quot;G/通用格式&quot;</span><br><span class="line">    Range(&quot;A&quot; &amp; i).Value = Val(Range(&quot;A&quot; &amp; i).Value)</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/11/根据条件批量删除行/" itemprop="url">
                   根据条件批量删除行
                 </a>
@@ -1376,362 +1727,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/10/黑暗/" itemprop="url">
-                  黑暗
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-10T22:59:48+08:00" content="2016-07-10">
-              2016-07-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/牧牧/" itemprop="url" rel="index">
-                    <span itemprop="name">牧牧</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/shadow-%E9%BB%91%E6%9A%97.jpg" class="full-image"></p>
-<p style="text-align: center;text-height: 34px;font-size: 20px">离你越远<br>越知道<br>什么叫黑暗<br>什么叫勇敢</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/10/离别/" itemprop="url">
-                  离别
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-10T22:59:30+08:00" content="2016-07-10">
-              2016-07-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/牧牧/" itemprop="url" rel="index">
-                    <span itemprop="name">牧牧</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/rain-%E7%A6%BB%E5%88%AB.jpg" class="full-image"></p>
-<p style="text-align: center;text-height: 34px;font-size: 20px">别时<br>身影婆娑<br>泪已成双<br>醒时<br>你不在<br>心慌<br>念时<br>为你写诗<br>却落笔成伤</p>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/10/ExcelVBA中对象的属性和方法/" itemprop="url">
-                  ExcelVBA中对象的属性和方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-10T13:48:03+08:00" content="2016-07-10">
-              2016-07-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95.jpg" class="full-image"></p>
-<h1 id="什么是属性和方法"><a href="#什么是属性和方法" class="headerlink" title="什么是属性和方法"></a>什么是属性和方法</h1><p>上面一篇文章中讲到了对象，简单的概括就是我们在Excel中对<code>什么东西</code>进行操作，这个<code>什么东西</code>就是所谓的对象。<br>现在讲到的属性和方法我们也可以打个比方。假如我们现在就谈论<code>水果</code>，那我们知道人会有<code>品种</code>；<code>价格</code>；<code>口感</code>等等标签来帮助我们区分不同的水果，这就是<code>属性</code>。而如果我们想要对它进行一些动作，比如<code>洗</code>水果;<code>切开</code>水果；<code>吃</code>水果等等的时候，这些词就是我们讲到的方法。<br>概括的来说：</p>
-<ul>
-<li>属性就是一个对象的一些标签</li>
-<li>方法就是我们要对对象进行的动作（或操作）</li>
-</ul>
-<h1 id="如何知道一个对象有哪些属性和方法"><a href="#如何知道一个对象有哪些属性和方法" class="headerlink" title="如何知道一个对象有哪些属性和方法"></a>如何知道一个对象有哪些属性和方法</h1><p>从上面的文章我们可以知道Excel中有很多的<code>对象</code>，这些对象的<code>属性</code>和<code>方法</code>又不近相同，怎么样才能知道一个<code>对象</code>有哪些<code>属性</code>和<code>方法</code>呢？难道我们要上网去找相应的表格，然后一个个背下来或者对着去找吗？其实巨硬公司早就想到了这一点，当我们进入到VBA编辑界面的时候，我们可以试着在一个对象的<code>.</code>后面单击右键，选择“属性/方法列表”，之后就可以看到一条下拉菜单，里面就是当前这个对象的<code>属性</code>和<code>方法</code>了。其中图标像<strong>一块被丢出去的绿色砖头</strong>的就是<code>方法</code>，而图标像<strong>一只手指着一个列表</strong>的就是<code>属性</code>，一动一静，还算好理解。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E6%96%B9%E6%B3%95%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A81.png" alt="Alt text"></p>
-<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E6%96%B9%E6%B3%95%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A82.png" alt="Alt text"></p>
-<blockquote>
-<p>需要注意的是，当我们的对象是<code>Selection</code>的时候是无法出现<code>方法/属性列表</code>的，因为<code>Selection</code>是泛指被选择的对象，VBA还没有智能到能够自己判断之前到底选择了什么，所以无法给出对应的列表。</p>
-<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1772,7 +1772,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
