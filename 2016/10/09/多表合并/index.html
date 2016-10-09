@@ -84,50 +84,31 @@
 
 
 
-<meta name="description" content="循环想让录制的VBA程序自己一步一步往后运行，而不是呆板的我们点击一次运行一次的话，我们需要在录制的程序外”套”上一个循环结构，让它自己多次运行。
-如下面这段代码是经过下列操作后录制的：
+<meta name="description" content="目标先来看一看这次学习任务的案例文档吧
 
-在第十行下插入一行
-计算平均值
-在数值前输入”平均值”三个字
-把两个单元格字体加粗
-给单元格填充蓝色
-
-
-1234567891011121314151617181920212223Sub 宏1()&amp;apos;">
+从图中可以看到，我们这次的任务就是要把很多表的很多数据合并到一个合并表当中去。当然，这些数据表有很明显的特点——表头都是一致的（或者说数据表的列标题都是一样的）。
+思路由于表头是一致的，最容易想到的思路就是我们把一个工作表的全部数据复制，然后转到新的工作表当中进行粘贴，就这样重复工作。嗨呀，重复性工作刚好是最适合代码进行替代的，可以省去我们不少时间。
+总">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Excel VBA 循环">
-<meta property="og:url" content="http://yoursite.com/2016/07/10/Excel-VBA-循环/index.html">
+<meta property="og:title" content="多表合并">
+<meta property="og:url" content="http://yoursite.com/2016/10/09/多表合并/index.html">
 <meta property="og:site_name" content="牧牧闻叨">
-<meta property="og:description" content="循环想让录制的VBA程序自己一步一步往后运行，而不是呆板的我们点击一次运行一次的话，我们需要在录制的程序外”套”上一个循环结构，让它自己多次运行。
-如下面这段代码是经过下列操作后录制的：
+<meta property="og:description" content="目标先来看一看这次学习任务的案例文档吧
 
-在第十行下插入一行
-计算平均值
-在数值前输入”平均值”三个字
-把两个单元格字体加粗
-给单元格填充蓝色
-
-
-1234567891011121314151617181920212223Sub 宏1()&amp;apos;">
-<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%BE%AA%E7%8E%AF.jpg">
-<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/%E5%AE%8F%E5%BD%95%E5%88%B6.gif">
-<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%AF%B9%E5%BC%95%E7%94%A8.JPG">
-<meta property="og:updated_time" content="2016-09-30T06:36:00.451Z">
+从图中可以看到，我们这次的任务就是要把很多表的很多数据合并到一个合并表当中去。当然，这些数据表有很明显的特点——表头都是一致的（或者说数据表的列标题都是一样的）。
+思路由于表头是一致的，最容易想到的思路就是我们把一个工作表的全部数据复制，然后转到新的工作表当中进行粘贴，就这样重复工作。嗨呀，重复性工作刚好是最适合代码进行替代的，可以省去我们不少时间。
+总">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E5%A4%9A%E8%A1%A8%E5%90%88%E5%B9%B6.jpg">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/%E5%A4%9A%E8%A1%A8%E5%90%88%E5%B9%B6%E7%9B%AE%E6%A0%87.png">
+<meta property="og:updated_time" content="2016-10-09T15:08:29.080Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Excel VBA 循环">
-<meta name="twitter:description" content="循环想让录制的VBA程序自己一步一步往后运行，而不是呆板的我们点击一次运行一次的话，我们需要在录制的程序外”套”上一个循环结构，让它自己多次运行。
-如下面这段代码是经过下列操作后录制的：
+<meta name="twitter:title" content="多表合并">
+<meta name="twitter:description" content="目标先来看一看这次学习任务的案例文档吧
 
-在第十行下插入一行
-计算平均值
-在数值前输入”平均值”三个字
-把两个单元格字体加粗
-给单元格填充蓝色
-
-
-1234567891011121314151617181920212223Sub 宏1()&amp;apos;">
-<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%BE%AA%E7%8E%AF.jpg">
+从图中可以看到，我们这次的任务就是要把很多表的很多数据合并到一个合并表当中去。当然，这些数据表有很明显的特点——表头都是一致的（或者说数据表的列标题都是一样的）。
+思路由于表头是一致的，最容易想到的思路就是我们把一个工作表的全部数据复制，然后转到新的工作表当中进行粘贴，就这样重复工作。嗨呀，重复性工作刚好是最适合代码进行替代的，可以省去我们不少时间。
+总">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E5%A4%9A%E8%A1%A8%E5%90%88%E5%B9%B6.jpg">
 
 
 
@@ -148,9 +129,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/07/10/Excel-VBA-循环/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/10/09/多表合并/"/>
 
-  <title> Excel VBA 循环 | 牧牧闻叨 </title>
+  <title> 多表合并 | 牧牧闻叨 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -280,7 +261,7 @@
             
             
               
-                Excel VBA 循环
+                多表合并
               
             
           </h1>
@@ -292,8 +273,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-10T13:47:15+08:00" content="2016-07-10">
-              2016-07-10
+            <time itemprop="dateCreated" datetime="2016-10-09T22:54:35+08:00" content="2016-10-09">
+              2016-10-09
             </time>
           </span>
 
@@ -339,41 +320,26 @@
       
 
       
-        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%BE%AA%E7%8E%AF.jpg" alt=""></p>
-<h1 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h1><p>想让录制的VBA程序自己一步一步往后运行，而不是呆板的我们点击一次运行一次的话，我们需要在录制的程序外”套”上一个循环结构，让它自己多次运行。</p>
-<p>如下面这段代码是经过下列操作后录制的：</p>
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E5%A4%9A%E8%A1%A8%E5%90%88%E5%B9%B6.jpg" class="full-image"></p>
+<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>先来看一看这次学习任务的案例文档吧</p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E5%A4%9A%E8%A1%A8%E5%90%88%E5%B9%B6%E7%9B%AE%E6%A0%87.png" alt="enter image description here"></p>
+<p>从图中可以看到，我们这次的任务就是要把很多表的很多数据合并到一个<strong>合并表</strong>当中去。当然，这些数据表有很明显的特点——表头都是一致的（或者说数据表的<strong>列标题</strong>都是一样的）。</p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>由于表头是一致的，最容易想到的思路就是我们把一个工作表的全部数据复制，然后转到新的工作表当中进行粘贴，就这样重复工作。嗨呀，重复性工作刚好是最适合代码进行替代的，可以省去我们不少时间。</p>
+<p>总而言之，大体思路分为：</p>
 <ol>
-<li>在第十行下插入一行</li>
-<li>计算平均值</li>
-<li>在数值前输入”平均值”三个字</li>
-<li>把两个单元格字体加粗</li>
-<li>给单元格填充蓝色</li>
+<li>创建一个新的合并表</li>
+<li>对已有表的列标题进行粘贴复制</li>
+<li>对已有表的数据进行粘贴复制</li>
 </ol>
-<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E5%AE%8F%E5%BD%95%E5%88%B6.gif" alt="宏录制"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Sub 宏1()</span><br><span class="line">&apos;</span><br><span class="line">&apos; 宏1 宏</span><br><span class="line">&apos;</span><br><span class="line">&apos; 快捷键: Ctrl+t</span><br><span class="line">&apos;</span><br><span class="line">     ActiveCell.Offset(10, 0).Rows(&quot;1:1&quot;).EntireRow.Select</span><br><span class="line">     Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove</span><br><span class="line">     ActiveCell.Offset(0, 1).Range(&quot;A1&quot;).Select</span><br><span class="line">     ActiveCell.FormulaR1C1 = &quot;=AVERAGE(R[-10]C:R[-1]C)&quot;</span><br><span class="line">     ActiveCell.Offset(0, -1).Range(&quot;A1&quot;).Select</span><br><span class="line">     ActiveCell.FormulaR1C1 = &quot;平均值&quot;</span><br><span class="line">        ActiveCell.Range(&quot;A1:B1&quot;).Select</span><br><span class="line">     With Selection.Interior</span><br><span class="line">         .Pattern = xlSolid</span><br><span class="line">         .PatternColorIndex = xlAutomatic</span><br><span class="line">         .ThemeColor = xlThemeColorAccent1</span><br><span class="line">         .TintAndShade = 0.599993896298105</span><br><span class="line">         .PatternTintAndShade = 0</span><br><span class="line">     End With</span><br><span class="line">     Selection.Font.Bold = True</span><br><span class="line">     ActiveCell.Offset(1, 1).Range(&quot;A1&quot;).Select</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注：在录制之前要先点击 “开发工具” =&gt; “使用相对引用”，并且在录制完成后选中下一次开始操作的单元格 <img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%AF%B9%E5%BC%95%E7%94%A8.JPG" alt="相对引用"></p>
-</blockquote>
-<h2 id="1-For…Next-结构"><a href="#1-For…Next-结构" class="headerlink" title="1. For…Next 结构"></a>1. For…Next 结构</h2><ul>
-<li>特点：<strong>事先约定好次数</strong></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">For i=1 to 3</span><br><span class="line">  ...</span><br><span class="line">  循环体</span><br><span class="line">  ...</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure>
-<p>这段代码中i是循环变量，3是最大的循环次数，也就是这个循环总共运行3次。每运行完一次的时候，i就会递增，然后进入到下一次循环中。当i不断的变大，达到”事先约定的”最大值的时候（这里是3），就会结束这个循环，开始运行下面的宏代码。</p>
-<h2 id="2-Do…Until-结构"><a href="#2-Do…Until-结构" class="headerlink" title="2. Do…Until 结构"></a>2. Do…Until 结构</h2><ul>
-<li><p>特点：<strong>当达到某个条件时终止</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Do</span><br><span class="line">...</span><br><span class="line">循环体</span><br><span class="line">...</span><br><span class="line">Loop Until...</span><br></pre></td></tr></table></figure>
-<p>其中”Loop”就是循环的意思。”Until”后面跟一个<strong>条件</strong>，当达到这个条件的时候就会退出循环，否则的话这个循环将继续运行下去。值得注意的是，如果”Until”后面的条件一直无法达到，那这个循环将一直运行下去，在程序中这种情况被称之为”死循环”。</p>
-</li>
-</ul>
-<h2 id="3-Do-while-结构"><a href="#3-Do-while-结构" class="headerlink" title="3. Do while 结构"></a>3. Do while 结构</h2><ul>
-<li><p>特点：<strong>符合条件时继续</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Do While...</span><br><span class="line">...</span><br><span class="line">循环体</span><br><span class="line">...</span><br><span class="line">Loop</span><br></pre></td></tr></table></figure>
-<p>这里的语句中”While”后面跟一个条件，当达满足这个条件的时候，循环就开始进行，当不满足这个条件的时候就跳出循环，开始运行下面的宏代码。</p>
-</li>
-</ul>
-<blockquote>
-<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
-</blockquote>
+<h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h2 id="创建新表"><a href="#创建新表" class="headerlink" title="创建新表"></a>创建新表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Set ns = Worksheets.Add</span><br><span class="line">ns.Name = &quot;合并&quot;</span><br></pre></td></tr></table></figure>
+<p>这应该不用太多说明，通过VBA建立一个新的工作表，并给ta命名。</p>
+<h2 id="对表头进行复制粘贴"><a href="#对表头进行复制粘贴" class="headerlink" title="对表头进行复制粘贴"></a>对表头进行复制粘贴</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sheet1.Range(&quot;1:1&quot;).Copy ns.Range(&quot;A1&quot;)</span><br></pre></td></tr></table></figure>
+<p>由于表头都是相同的，所以其实不用在意到底用哪个表的表头，这里为了方便就使用<code>sheet1</code>的表头（即第一行的数据）复制到<code>合并</code>表的第一行。</p>
+<h2 id="对数据进行合并"><a href="#对数据进行合并" class="headerlink" title="对数据进行合并"></a>对数据进行合并</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">For Each st In ThisWorkbook.Sheets</span><br><span class="line">    st.UsedRange.Offset(1).Copy ns.Range(&quot;A&quot; &amp; ns.UsedRange.Rows.Count + 1)</span><br><span class="line">Next</span><br></pre></td></tr></table></figure>
+<p>这里是这次合并的重点，我们要把众多的数据迁移过去，最方便的莫过于使用<code>usedrange</code>啦。但是在后面还要跟上<code>offset</code>函数，把选择的数据区域<strong>向下偏移一行</strong>，以达到不重复复制表头的目的，单单将表头下的数据复制进<code>合并</code>表中。</p>
+<h2 id="需要注意的点"><a href="#需要注意的点" class="headerlink" title="需要注意的点"></a>需要注意的点</h2><p>由于我们使用了遍历的结构，所以我们之前创建的<code>合并</code>表也会被遍历到，并把自身的数据再粘贴到<code>合并</code>表当中。避免次错误的最好方法是在遍历结构当中添加一个判断机制，只要不是<code>合并</code>表，就对当前表进行粘贴复制操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">For Each st In ThisWorkbook.Sheets</span><br><span class="line">    If st.Name &lt;&gt; ns.Name Then</span><br><span class="line">        st.UsedRange.Offset(1).Copy ns.Range(&quot;A&quot; &amp; ns.UsedRange.Rows.Count + 1)</span><br><span class="line">    End If</span><br><span class="line">Next</span><br></pre></td></tr></table></figure></p>
+<h2 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Sub 合并()</span><br><span class="line">Dim ns As Worksheet</span><br><span class="line">Dim st As Worksheet</span><br><span class="line"></span><br><span class="line">Set ns = Worksheets.Add</span><br><span class="line">ns.Name = &quot;合并&quot;</span><br><span class="line">Sheet1.Range(&quot;1:1&quot;).Copy ns.Range(&quot;A1&quot;)</span><br><span class="line"></span><br><span class="line">For Each st In ThisWorkbook.Sheets</span><br><span class="line">    If st.Name &lt;&gt; ns.Name Then</span><br><span class="line">        st.UsedRange.Offset(1).Copy ns.Range(&quot;A&quot; &amp; ns.UsedRange.Rows.Count + 1)</span><br><span class="line">    End If</span><br><span class="line">Next</span><br><span class="line"></span><br><span class="line">Set ns = Nothing</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>虽然代码相对较少，任务也相对比较简单和理想化，但是还是要注意遍历的对象要进行判断和不要重复复制粘贴表头的问题。</p>
 
       
     </div>
@@ -406,16 +372,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/04/《你的知识需要管理》读书笔记/" rel="next" title="《你的知识需要管理》读书笔记">
-                <i class="fa fa-chevron-left"></i> 《你的知识需要管理》读书笔记
+              <a href="/2016/09/12/一对多数据转一维/" rel="next" title="一对多数据转一维">
+                <i class="fa fa-chevron-left"></i> 一对多数据转一维
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/07/10/Excel-VBA-对象/" rel="prev" title="Excel VBA 对象">
-                Excel VBA 对象 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/10/09/不同表头的多表合并/" rel="prev" title="不同表头的多表合并">
+                不同表头的多表合并 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -530,7 +496,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#循环"><span class="nav-number">1.</span> <span class="nav-text">循环</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-For…Next-结构"><span class="nav-number">1.1.</span> <span class="nav-text">1. For…Next 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Do…Until-结构"><span class="nav-number">1.2.</span> <span class="nav-text">2. Do…Until 结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Do-while-结构"><span class="nav-number">1.3.</span> <span class="nav-text">3. Do while 结构</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目标"><span class="nav-number">1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实战"><span class="nav-number">3.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建新表"><span class="nav-number">3.1.</span> <span class="nav-text">创建新表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对表头进行复制粘贴"><span class="nav-number">3.2.</span> <span class="nav-text">对表头进行复制粘贴</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对数据进行合并"><span class="nav-number">3.3.</span> <span class="nav-text">对数据进行合并</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需要注意的点"><span class="nav-number">3.4.</span> <span class="nav-text">需要注意的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全部代码"><span class="nav-number">3.5.</span> <span class="nav-text">全部代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
           </div>
         </section>

@@ -248,6 +248,479 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/12/ExcelVBA基本语法规则/" itemprop="url">
+                  ExcelVBA基本语法规则
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-12T23:32:38+08:00" content="2016-07-12">
+              2016-07-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99.jpg" class="full-image"></p>
+<p>[TOC]</p>
+<h1 id="几个术语"><a href="#几个术语" class="headerlink" title="几个术语"></a>几个术语</h1><h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><blockquote>
+<p>变量来源于数学，是计算机语言中能储存计算结果或能表示值抽象概念。变量可以通过变量名访问。在指令式语言中，变量通常是可变的；但在纯函数式语言（如Haskell）中，变量可能是不可变（immutable）的。——百度百科</p>
+</blockquote>
+<p>上面的定义比较生涩拗口，我觉得 方骥老师 的比喻更加生动贴切。</p>
+<blockquote>
+<p>这里的变量就像方程式里的 x, y，一开始你列了方程，但是暂时还没法算出一个数，之后只要把x变成具体的数字就可以算出一个值了。</p>
+</blockquote>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><blockquote>
+<p>网上关于<code>过程</code>的定义：过程组被作为一个整体，指示Excel中如何执行特定任务执行的语句。执行的任务可以非常简单或非常复杂的，这是一个很好的做法，把程序分成较小的部分。</p>
+</blockquote>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><blockquote>
+<p>网上对<code>模块</code>的定义：模块是其中代码被写入的区域。</p>
+</blockquote>
+<p>VBA编辑窗口中的左侧有一个工程栏，里面显示的都是<code>工程项目</code>，在列表中是一个个<code>模块</code>。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E6%A8%A1%E5%9D%97.JPG" alt="enter image description here"></p>
+<h1 id="变量-1"><a href="#变量-1" class="headerlink" title="变量"></a>变量</h1><h2 id="为什么要使用变量"><a href="#为什么要使用变量" class="headerlink" title="为什么要使用变量"></a>为什么要使用变量</h2><p>运用变量来编写带有变动参数的语句代码，在为这些变量赋值之后就可以具体执行这些语句。</p>
+<h2 id="常用变量类型"><a href="#常用变量类型" class="headerlink" title="常用变量类型"></a>常用变量类型</h2><ul>
+<li><code>Variant</code>（万用型）</li>
+<li><code>Date</code>（日期）</li>
+<li><code>Boolean</code>（布尔类型/逻辑值）</li>
+<li><code>Object</code>（对象）</li>
+<li><code>String</code>（字符串）</li>
+<li><code>Integer</code>（整数）</li>
+<li><code>Long</code>（长整数）</li>
+<li><code>Single</code>（单精度浮点数）<blockquote>
+<p>Excel中的<code>Integer</code>的范围是从负的30,000+到正的30,000+，并不包含所有的整数。因此如果要涉及到绝对值更大的数值，就要使用<code>Long</code>类型</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="申明变量"><a href="#申明变量" class="headerlink" title="申明变量"></a>申明变量</h2><p>在经过之前的动手，我发现其实在VBA中不用申明也可以成功的运行，不像Java等语言，如果不申明变量就根本无法运行。但我们需要知道，虽然不申明变量的类型也可以正常的使用，但是在使用变量之前申明变量会使程序变得更严谨。<br>ExcelVBA中申明变量要用<code>Dim</code>语句<br>例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Dim r As Integer</span><br><span class="line">Dim newbook As Workbook</span><br></pre></td></tr></table></figure></p>
+<p>有的变量可以用符号来代替，如<code>Integer</code>可以用<code>%</code>来代替。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">可以用符号来代替的变量</th>
+<th style="text-align:center">符号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">字符串<code>String</code></td>
+<td style="text-align:center"><code>$</code></td>
+</tr>
+<tr>
+<td style="text-align:center">整数<code>Integer</code></td>
+<td style="text-align:center"><code>%</code></td>
+</tr>
+<tr>
+<td style="text-align:center">长整数<code>Long</code></td>
+<td style="text-align:center"><code>&amp;</code></td>
+</tr>
+<tr>
+<td style="text-align:center">单精度浮点数<code>Single</code></td>
+<td style="text-align:center"><code>!</code></td>
+</tr>
+</tbody>
+</table>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Dim r%</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>申明变量后应当注意的问题：</p>
+<ul>
+<li>所有变量赋值应当和变量的类型相匹配</li>
+<li>对大部分的变量而言，赋值的时候只用<code>=</code>就可以了，但是<code>对象类型</code>的变量在进行赋值的时候必须加上<code>Set</code>才能赋值。</li>
+</ul>
+</blockquote>
+<h2 id="不同级别的变量"><a href="#不同级别的变量" class="headerlink" title="不同级别的变量"></a>不同级别的变量</h2><h3 id="过程-1"><a href="#过程-1" class="headerlink" title="过程"></a>过程</h3><p>最常见的在子程序的编写过程中申明的变量就是<code>过程</code>级别的变量。<code>过程</code>级别的变量只有在当前自己编写的这个<code>Sub</code>中会使用，而不会和其他的<code>Sub</code>共享。</p>
+<h3 id="模块-1"><a href="#模块-1" class="headerlink" title="模块"></a>模块</h3><p>在<code>模块</code>中申明的变量可以在不同的<code>过程</code>之间传递。简单的来说就是，在一个编辑窗口的最顶部（所有的<code>Sub</code>之上）申明的变量就是<code>模块</code>级别的变量。</p>
+<h3 id="公共"><a href="#公共" class="headerlink" title="公共"></a>公共</h3><p><code>模块</code>列表中有不同的文件夹，其中在<code>Excel对象</code>文件夹下的<code>模块</code>和在<code>模块</code>文件夹下的<code>模块</code>是有区别的，后者是全局类型的模块，在后者编辑窗口中可以申明<code>公共变量</code>。<code>公共变量</code>是全局变量，可以在不同的<code>模块</code>之间传递。</p>
+<h1 id="过程-2"><a href="#过程-2" class="headerlink" title="过程"></a>过程</h1><p>ExcelVBA的过程有三种：</p>
+<ol>
+<li>函数<code>Function</code></li>
+<li>子程序<code>Sub</code></li>
+<li>属性<code>Property</code></li>
+</ol>
+<p>这三种<code>过程</code>里最后一种不太常见，前面两种有一个明显的不同之处：</p>
+<ul>
+<li><code>Function</code>函数除了执行特定的语句外还会返回一个特定的结果</li>
+<li><code>Sub</code>则只是执行语句，不会返回一个结果</li>
+</ul>
+<h2 id="不同级别的过程"><a href="#不同级别的过程" class="headerlink" title="不同级别的过程"></a>不同级别的过程</h2><h3 id="公共-1"><a href="#公共-1" class="headerlink" title="公共"></a>公共</h3><p>一般我们建立的宏都是<code>公共</code>级别的变量，即</p>
+<blockquote>
+<p>可以在不同的模块之间进行调用，在<code>宏</code>（Alt+F8）的界面中也会显示出来。</p>
+</blockquote>
+<h3 id="私有"><a href="#私有" class="headerlink" title="私有"></a>私有</h3><p>所谓的<code>私有</code>级别就是和<code>公共</code>级别相对应的。<code>私有</code>级别的过程只能在模块内进行调用，不能够在不同的模块之间进行调用，甚至在<code>宏</code>（Alt+F8）的界面中也不会显示出来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Private Sub Combin()</span><br></pre></td></tr></table></figure></p>
+<h1 id="运算符号"><a href="#运算符号" class="headerlink" title="运算符号"></a>运算符号</h1><h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul>
+<li>逻辑运算符</li>
+<li>算数运算符</li>
+<li>比较运算符</li>
+<li>连接运算符<h2 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h2></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">符号</th>
+<th style="text-align:center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>And</code></td>
+<td style="text-align:center">或计算</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>Or</code></td>
+<td style="text-align:center">与计算</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>Not</code></td>
+<td style="text-align:center">非计算</td>
+</tr>
+</tbody>
+</table>
+<h2 id="算数运算符"><a href="#算数运算符" class="headerlink" title="算数运算符"></a>算数运算符</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">符号</th>
+<th style="text-align:center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>+</code></td>
+<td style="text-align:center">加</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>-</code></td>
+<td style="text-align:center">减</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>*</code></td>
+<td style="text-align:center">乘</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>/</code></td>
+<td style="text-align:center">除</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>^</code></td>
+<td style="text-align:center">幂指运算</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>\</code></td>
+<td style="text-align:center">整除运算*</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>Mod</code></td>
+<td style="text-align:center">取余数运算*</td>
+</tr>
+</tbody>
+</table>
+<p>最后面两个运算可能没怎么听过，举个例子：<br><code>5\2</code>的结果是2<br><code>5 Mod 2</code>的结果是1</p>
+<blockquote>
+<p>对不同的运算符的优先级别无法确定的话就可以使用<code>括号</code>（和数学中的用法很像，括号内的优先运算）</p>
+</blockquote>
+<h2 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">符号</th>
+<th style="text-align:center">意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>=</code></td>
+<td style="text-align:center">等于</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;</code></td>
+<td style="text-align:center">小于</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&gt;</code></td>
+<td style="text-align:center">大于</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;&gt;</code></td>
+<td style="text-align:center">不等于</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>=&gt;</code></td>
+<td style="text-align:center">大于等于</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>&lt;=</code></td>
+<td style="text-align:center">小于等于</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>Is</code></td>
+<td style="text-align:center">对不同的<code>对象</code>进行比较</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>Like</code></td>
+<td style="text-align:center">对不同的文本字符串来进行对比</td>
+</tr>
+</tbody>
+</table>
+<h2 id="连接运算符"><a href="#连接运算符" class="headerlink" title="连接运算符"></a>连接运算符</h2><p>连接运算符比较少，只有两个：</p>
+<ul>
+<li><code>+</code></li>
+<li><code>&amp;</code></li>
+</ul>
+<p>其中<code>+</code>不仅能表示算数运算中的加法，也能用来连接不同的字符串。<code>&amp;</code>之前也用过，比起<code>+</code>来我用<code>&amp;</code>更多一些</p>
+<blockquote>
+<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/12/ExcelVBA编写第一个程序/" itemprop="url">
+                  ExcelVBA编写第一个程序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-12T17:25:29+08:00" content="2016-07-12">
+              2016-07-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E7%BC%96%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F.jpg" class="full-image"></p>
+<p>之前的课程中仅仅是对录制的代码进行微小改动，这节课中将用之前学到<code>对象</code>，<code>方法</code>和<code>属性</code>编写第一份VBA代码。</p>
+<h1 id="情景"><a href="#情景" class="headerlink" title="情景"></a>情景</h1><p>文件夹中有<strong>三个Excel文件</strong>，它们各自包含若干<strong>工作表</strong>，每个工作表有若干行<strong>数据</strong>。现在要把每个工作表中的单元格复制到一份新的工作表中，由上到下依次排列。</p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/VBA%E6%83%85%E6%99%AF%E7%A4%BA%E6%84%8F%E5%9B%BE1.jpg" alt="场景描述"></p>
+<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><p>我们要用VBA实现的操作如下：</p>
+<ol>
+<li><strong>选中第一个Excel文件</strong></li>
+<li><strong>选中文件中的第一张工作表</strong></li>
+<li>选择工作表中有内容的单元格</li>
+<li>复制粘贴到新的工作表中</li>
+<li><strong>再选中第二张工作表</strong></li>
+<li>选择工作表中有内容的单元格</li>
+<li>复制粘贴到新的工作表中</li>
+<li>……</li>
+<li>第一个文件全部复制完后，<strong>选择第二个Excel文件</strong></li>
+<li><strong>选中文件中的第一张工作表</strong></li>
+<li>选择工作表中有内容的单元格</li>
+<li>复制粘贴到新的工作表中</li>
+<li><strong>再选中第二张工作表</strong></li>
+<li>……</li>
+</ol>
+<p>如此循环往复，一直到把三张表中的单元格全部复制到新表格中为止。</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>在操作中可以看到有很多步骤是完全一样的（选择单元格可以用<code>UsedRange</code>这个对象，所以就不看做一个变量了），其中有少数几个变量：</p>
+<ol>
+<li>选中的Excel文件（工作簿）</li>
+<li>选中的工作表</li>
+<li>第三个很容易忘记，粘贴到新工作表的时候要粘贴在之前的数据下方，所以新表格中<strong>开始粘贴的单元格</strong>也是变量</li>
+</ol>
+<p>由此，我们可以设置三个循环：</p>
+<ol>
+<li>依次调用工作簿</li>
+<li>依次调用工作表</li>
+<li>选中上次粘贴结束的下一行单元格</li>
+</ol>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>以下是对编辑的这份代码的详细注释（<code>&#39;</code>后面的是注释）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Sub combin()</span><br><span class="line">&apos;为新的工作簿设定新的变量</span><br><span class="line">    Set newbook = Workbooks.Add</span><br><span class="line">    &apos;将新的工作簿保存在当前工作簿同个文件夹内，并命名为“合并结果”</span><br><span class="line">    newbook.SaveAs (ThisWorkbook.Path &amp; &quot;\合并结果.xlsx&quot;)</span><br><span class="line">    &apos;遍历所有的工作簿-一级循环</span><br><span class="line">    For i = 1 To Workbooks.Count</span><br><span class="line">        &apos;对除了新建的工作簿以外的工作簿进行处理</span><br><span class="line">        If Workbooks(i).Name &lt;&gt; newbook.Name Then</span><br><span class="line">            &apos;对选取的工作簿内的工作表进行依次引用-二级循环</span><br><span class="line">            For j = 1 To Workbooks(i).Worksheets.Count</span><br><span class="line">                &apos;把所有有内容的单元格复制到新文件中</span><br><span class="line">                Workbooks(i).Worksheets(j).UsedRange.Copy newbook.Worksheets(1).Range(&quot;A&quot; &amp; 1 + r)</span><br><span class="line">                &apos;清点经过粘贴后空行从哪一行起始，并赋值给r</span><br><span class="line">                r = newbook.Worksheets(1).UsedRange.Rows.Count</span><br><span class="line">            Next j</span><br><span class="line">        End If</span><br><span class="line">    Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<h1 id="错误总结"><a href="#错误总结" class="headerlink" title="错误总结"></a>错误总结</h1><p>我在编写这份代码的时候出现了两处错误，导致运行的时候出现错误：</p>
+<ol>
+<li>在第13行中错把<code>newbook</code>打成<code>newbooks</code>，之后再编写代码的时候要注意自己命名的变量，名字就算只打错一个字也会导致程序错误</li>
+<li>在第14行中的<code>Worksheets</code>后面忘记加<code>(1)</code>，这样VBA就无法识别到底要数哪个工作表中的行数，导致程序无法运行</li>
+</ol>
+<blockquote>
+<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/10/黑暗/" itemprop="url">
                   黑暗
                 </a>
@@ -794,35 +1267,38 @@
       
         
           
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%BE%AA%E7%8E%AF.jpg" class="full-image"></p>
-<h1 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h1><p>想让录制的VBA程序自己一步一步往后运行，而不是呆板的我们点击一次运行一次的话，我们需要在录制的程序外“套”上一个循环结构，让它自己多次运行。</p>
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%BE%AA%E7%8E%AF.jpg" alt=""></p>
+<h1 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h1><p>想让录制的VBA程序自己一步一步往后运行，而不是呆板的我们点击一次运行一次的话，我们需要在录制的程序外”套”上一个循环结构，让它自己多次运行。</p>
 <p>如下面这段代码是经过下列操作后录制的：</p>
 <ol>
 <li>在第十行下插入一行</li>
 <li>计算平均值</li>
-<li>在数值前输入“平均值”三个字</li>
+<li>在数值前输入”平均值”三个字</li>
 <li>把两个单元格字体加粗</li>
 <li>给单元格填充蓝色</li>
 </ol>
-<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E5%AE%8F%E5%BD%95%E5%88%B6.gif" alt="宏录制"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Sub 宏1()</span><br><span class="line">&apos;</span><br><span class="line">&apos; 宏1 宏</span><br><span class="line">&apos;</span><br><span class="line">&apos; 快捷键: Ctrl+t</span><br><span class="line">&apos;</span><br><span class="line">     ActiveCell.Offset(10, 0).Rows(&quot;1:1&quot;).EntireRow.Select</span><br><span class="line">     Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove</span><br><span class="line">     ActiveCell.Offset(0, 1).Range(&quot;A1&quot;).Select</span><br><span class="line">     ActiveCell.FormulaR1C1 = &quot;=AVERAGE(R[-10]C:R[-1]C)&quot;</span><br><span class="line">     ActiveCell.Offset(0, -1).Range(&quot;A1&quot;).Select</span><br><span class="line">     ActiveCell.FormulaR1C1 = &quot;平均值&quot;</span><br><span class="line">        ActiveCell.Range(&quot;A1:B1&quot;).Select</span><br><span class="line">     With Selection.Interior</span><br><span class="line">         .Pattern = xlSolid</span><br><span class="line">         .PatternColorIndex = xlAutomatic</span><br><span class="line">         .ThemeColor = xlThemeColorAccent1</span><br><span class="line">         .TintAndShade = 0.599993896298105</span><br><span class="line">         .PatternTintAndShade = 0</span><br><span class="line">     End With</span><br><span class="line">     Selection.Font.Bold = True</span><br><span class="line">     ActiveCell.Offset(1, 1).Range(&quot;A1&quot;).Select</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E5%AE%8F%E5%BD%95%E5%88%B6.gif" alt="宏录制"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Sub 宏1()</span><br><span class="line">&apos;</span><br><span class="line">&apos; 宏1 宏</span><br><span class="line">&apos;</span><br><span class="line">&apos; 快捷键: Ctrl+t</span><br><span class="line">&apos;</span><br><span class="line">     ActiveCell.Offset(10, 0).Rows(&quot;1:1&quot;).EntireRow.Select</span><br><span class="line">     Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove</span><br><span class="line">     ActiveCell.Offset(0, 1).Range(&quot;A1&quot;).Select</span><br><span class="line">     ActiveCell.FormulaR1C1 = &quot;=AVERAGE(R[-10]C:R[-1]C)&quot;</span><br><span class="line">     ActiveCell.Offset(0, -1).Range(&quot;A1&quot;).Select</span><br><span class="line">     ActiveCell.FormulaR1C1 = &quot;平均值&quot;</span><br><span class="line">        ActiveCell.Range(&quot;A1:B1&quot;).Select</span><br><span class="line">     With Selection.Interior</span><br><span class="line">         .Pattern = xlSolid</span><br><span class="line">         .PatternColorIndex = xlAutomatic</span><br><span class="line">         .ThemeColor = xlThemeColorAccent1</span><br><span class="line">         .TintAndShade = 0.599993896298105</span><br><span class="line">         .PatternTintAndShade = 0</span><br><span class="line">     End With</span><br><span class="line">     Selection.Font.Bold = True</span><br><span class="line">     ActiveCell.Offset(1, 1).Range(&quot;A1&quot;).Select</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>注：在录制之前要先点击 “开发工具” =&gt; “使用相对引用”，并且在录制完成后选中下一次开始操作的单元格<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%AF%B9%E5%BC%95%E7%94%A8.JPG" alt="相对引用"></p>
+<p>注：在录制之前要先点击 “开发工具” =&gt; “使用相对引用”，并且在录制完成后选中下一次开始操作的单元格 <img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%AF%B9%E5%BC%95%E7%94%A8.JPG" alt="相对引用"></p>
 </blockquote>
 <h2 id="1-For…Next-结构"><a href="#1-For…Next-结构" class="headerlink" title="1. For…Next 结构"></a>1. For…Next 结构</h2><ul>
 <li>特点：<strong>事先约定好次数</strong></li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">For i=1 to 3</span><br><span class="line">  ...</span><br><span class="line">  循环体</span><br><span class="line">  ...</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure>
-<p>这段代码中i是循环变量，3是最大的循环次数，也就是这个循环总共运行3次。每运行完一次的时候，i就会递增，然后进入到下一次循环中。当i不断的变大，达到“事先约定的”最大值的时候（这里是3），就会结束这个循环，开始运行下面的宏代码。</p>
+<p>这段代码中i是循环变量，3是最大的循环次数，也就是这个循环总共运行3次。每运行完一次的时候，i就会递增，然后进入到下一次循环中。当i不断的变大，达到”事先约定的”最大值的时候（这里是3），就会结束这个循环，开始运行下面的宏代码。</p>
 <h2 id="2-Do…Until-结构"><a href="#2-Do…Until-结构" class="headerlink" title="2. Do…Until 结构"></a>2. Do…Until 结构</h2><ul>
-<li>特点：<strong>当达到某个条件时终止</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Do</span><br><span class="line">  ...</span><br><span class="line">  循环体</span><br><span class="line">  ...</span><br><span class="line">Loop Until...</span><br></pre></td></tr></table></figure>
+<li><p>特点：<strong>当达到某个条件时终止</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Do</span><br><span class="line">...</span><br><span class="line">循环体</span><br><span class="line">...</span><br><span class="line">Loop Until...</span><br></pre></td></tr></table></figure>
+<p>其中”Loop”就是循环的意思。”Until”后面跟一个<strong>条件</strong>，当达到这个条件的时候就会退出循环，否则的话这个循环将继续运行下去。值得注意的是，如果”Until”后面的条件一直无法达到，那这个循环将一直运行下去，在程序中这种情况被称之为”死循环”。</p>
 </li>
 </ul>
-<p>其中“Loop”就是循环的意思。“Until”后面跟一个<strong>条件</strong>，当达到这个条件的时候就会退出循环，否则的话这个循环将继续运行下去。值得注意的是，如果”Until”后面的条件一直无法达到，那这个循环将一直运行下去，在程序中这种情况被称之为“死循环”。</p>
 <h2 id="3-Do-while-结构"><a href="#3-Do-while-结构" class="headerlink" title="3. Do while 结构"></a>3. Do while 结构</h2><ul>
-<li>特点：<strong>符合条件时继续</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Do While...</span><br><span class="line">  ...</span><br><span class="line">  循环体</span><br><span class="line">  ...</span><br><span class="line">Loop</span><br></pre></td></tr></table></figure>
+<li><p>特点：<strong>符合条件时继续</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Do While...</span><br><span class="line">...</span><br><span class="line">循环体</span><br><span class="line">...</span><br><span class="line">Loop</span><br></pre></td></tr></table></figure>
+<p>这里的语句中”While”后面跟一个条件，当达满足这个条件的时候，循环就开始进行，当不满足这个条件的时候就跳出循环，开始运行下面的宏代码。</p>
 </li>
 </ul>
-<p>这里的语句中”While”后面跟一个条件，当达满足这个条件的时候，循环就开始进行，当不满足这个条件的时候就跳出循环，开始运行下面的宏代码。</p>
 <blockquote>
 <p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
 </blockquote>
@@ -1343,244 +1819,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/28/lettertoWD/" itemprop="url">
-                  给闻叨的信
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-28T17:46:40+08:00" content="2016-06-28">
-              2016-06-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/牧牧/" itemprop="url" rel="index">
-                    <span itemprop="name">牧牧</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E7%BB%99%E9%97%BB%E5%8F%A8%E7%9A%84%E4%BF%A1-%E9%85%8D%E5%9B%BE.jpg" class="full-image"></p>
-<p style="text-align: center;text-height: 34px;font-size: 20px">我学会了戴假面具微笑，即使我并不开心<br>我学会了在雪天的森林找到回家的路<br>我学会了玫瑰与刺猬的语言<br>我学会了爱上天使，纵然我是魔鬼<br>我学会了如何杀死心底里的霸王龙<br>可是……<br>我却学不会对你的遗忘<br>遗忘你，是宇宙中最难的事</p>
-
-<p style="text-align:right;font-weight:bold">By喜欢阿狸的牧牧</p>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/26/shadow/" itemprop="url">
-                  影子|shadow
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-26T08:11:29+08:00" content="2016-06-26">
-              2016-06-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/牧牧/" itemprop="url" rel="index">
-                    <span itemprop="name">牧牧</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>世界上每一个人都有属于自己的影子</p>
-<p>你路过玫瑰花园，我躲在你身边悄悄摇曳</p>
-<p>你询问去梦之城的地方，我藏在熙熙攘攘的人群中</p>
-<p>你沉浸在金色的麦田，我的一个喷嚏，让金色随波荡漾</p>
-<p>你在游乐园欢笑，我拿着你的小木马安静地坐在摩天轮上</p>
-<p>就这样，我们陪伴你们欢笑，质疑，长大，成熟</p>
-<p>可是你们总是很忙碌，以为自己看得很远，却往往对身边的我们视而不见</p>
-<p>把自己淹没在人海里，日复一日，年复一年</p>
-<p>却不知道嘈杂的地方只会让你们更孤单，喧嚣之后是更深的寂寞</p>
-<p>那我怎样才能找到你呢？<br>只需要静静地闭上眼睛……</p>
-<p>谨以此诗献给依然相信童话的人们</p>
-<p style="text-align:right;font-weight:bold">By喜欢阿狸的牧牧</p>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1626,7 +1864,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
