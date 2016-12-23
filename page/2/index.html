@@ -248,6 +248,279 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/23/ExcelVBA——去除重复数据/" itemprop="url">
+                  ExcelVBA——去除重复数据
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-23T22:31:14+08:00" content="2016-07-23">
+              2016-07-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE.jpg" class="full-image"></p>
+<h1 id="前期工作"><a href="#前期工作" class="headerlink" title="前期工作"></a>前期工作</h1><p>先利用<code>录制宏</code>来获取最基础的<code>去除重复项</code>的语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActiveSheet.Range(&quot;$A$1:$F$968&quot;).RemoveDuplicates Columns:=Array(1, 2, 3, 4, 5, 6) _, Header:=xlYes</span><br></pre></td></tr></table></figure></p>
+<p>获取到的这个语句块中的对象还是静态的，并不能自动适应任意一个表格，为任意一个表格进行删除重复项，因此我们要对上述的代码块进行改造。</p>
+<h1 id="确定要改造的对象"><a href="#确定要改造的对象" class="headerlink" title="确定要改造的对象"></a>确定要改造的对象</h1><p>先观察这这行代码，发现其中的对象有两个——</p>
+<ol>
+<li>range-<code>Range(&quot;$A$1:$F$968&quot;)</code></li>
+<li>Array-<code>Columns:=Array(1, 2, 3, 4, 5, 6) _</code></li>
+</ol>
+<p>所以我们就想办法改造这两个对象，以达到让宏代码自己适应不同的数据表并且进行重复项删除。</p>
+<p>下面是经过改造后得到的宏代码，<code>&#39;</code>后面的是注释<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Sub 宏1()</span><br><span class="line">&apos;</span><br><span class="line">&apos; 宏1 宏</span><br><span class="line">&apos;</span><br><span class="line"></span><br><span class="line">Dim arr()</span><br><span class="line">&apos;声明i</span><br><span class="line">Dim i As Integer</span><br><span class="line">&apos;声明数列的总量</span><br><span class="line">ReDim arr(0 To ActiveSheet.UsedRange.Columns.Count - 1)</span><br><span class="line">&apos;从第一行到最后一行开始循环，自动检测并建立一个包含所有数据列的数组</span><br><span class="line">For i = 0 To ActiveSheet.UsedRange.Columns.Count - 1</span><br><span class="line">    arr(i) = i + 1</span><br><span class="line">Next i</span><br><span class="line">&apos;删除重复项的语句</span><br><span class="line">&apos;对象是有数据的单元格</span><br><span class="line">&apos;对这些单元格用RemoveDuplicates方法</span><br><span class="line">&apos;后面的对象是列</span><br><span class="line">    Range(ActiveSheet.UsedRange.Address).RemoveDuplicates arr, Header:=xlYes</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<h2 id="对Range对象的改造"><a href="#对Range对象的改造" class="headerlink" title="对Range对象的改造"></a>对Range对象的改造</h2><p>首先需要明白的是Range这个对象主要用于确定执行查找重复项的具体范围，即<strong>要进行删除重复项的那个表格是从第几行第几列到第几行第几列</strong>。所以我们可以用<code>Usedrange</code>作为一个对象，在一个表格中所有含有数据的单元格我们都认为是要进行校验的对象。又因为进行方法的对象是一个数据表的具体区域，所以应该用<code>Address</code>对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Range(ActiveSheet.UsedRange.Address)</span><br></pre></td></tr></table></figure></p>
+<h2 id="对Array对象的改造"><a href="#对Array对象的改造" class="headerlink" title="对Array对象的改造"></a>对Array对象的改造</h2><p>这段代码中的<code>Array</code>对象主要是确认这个表格有几列，即有多少个字段。我们要创立一个新的数组，利用一个循环来对这个数组进行定义，让它变成一个动态数组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">For i = 0 To ActiveSheet.UsedRange.Columns.Count - 1</span><br><span class="line">    arr(i) = i + 1</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure></p>
+<p>如果想让<code>i</code>从1开始，写成下面这样行不行呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">For i = 1 To ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">    arr(i) = i</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure></p>
+<p>经过我的实验，，是不行的，大概是因为VBA默认是要从0开始的，反正记住这个规则就好了。</p>
+<h2 id="改造完成的代码"><a href="#改造完成的代码" class="headerlink" title="改造完成的代码"></a>改造完成的代码</h2><p>经过上述的两个步骤完成的代码是这样子的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dim arr()</span><br><span class="line"></span><br><span class="line">Dim i As Integer</span><br><span class="line"></span><br><span class="line">ReDim arr(0 To ActiveSheet.UsedRange.Columns.Count - 1)</span><br><span class="line"></span><br><span class="line">For i = 0 To ActiveSheet.UsedRange.Columns.Count - 1</span><br><span class="line">    arr(i) = i + 1</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">ActiveSheet.Range(ActiveSheet.UsedRange.Address).RemoveDuplicates Columns:=arr, Header:=xlYes</span><br></pre></td></tr></table></figure></p>
+<p>但是如果真的尝试在VBA中运行这段代码，Excel会提示代码有错误存在。这是为什么呢？</p>
+<p>第一个错误是<code>Range</code>前面有<code>ActiveSheet</code>明显属于重复，后面的括号中已经规定了对象的范围是<code>ActiveSheet</code>中的<code>Usedrange</code>，前面就不用再定义<code>ActiveSheet</code>，删除即可。</p>
+<p>第二个错误是<code>arr</code>前面有<code>Columns:=</code>。<code>arr</code>的定义中包含<code>ActiveSheet.UsedRange.Columns</code>，所以前面的<code>Columns:=</code>也是属于多余的。当然这两个错误的原理是我的猜测，具体为什么我也不甚清楚，我就用我自己猜测的两个原理来辅助记忆这个语法规则。</p>
+<blockquote>
+<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/07/23/VBA数组/" itemprop="url">
+                  VBA数组
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-23T22:30:59+08:00" content="2016-07-23">
+              2016-07-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%95%B0%E7%BB%84.jpg" class="full-image"></p>
+<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p>把单个的数字组合在一起，分为<code>静态数组</code>和<code>动态数组</code>两种。</p>
+<h2 id="静态数组"><a href="#静态数组" class="headerlink" title="静态数组"></a>静态数组</h2><p>一般在<strong>事先知道数组中有多少个数字</strong>的情况下会选择使用静态数组。</p>
+<h2 id="动态数组"><a href="#动态数组" class="headerlink" title="动态数组"></a>动态数组</h2><p>一般在<strong>事先不知道数组中会有多少个数字</strong>的情况下回选择使用动态数组。</p>
+<h1 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h1><h2 id="静态数组-1"><a href="#静态数组-1" class="headerlink" title="静态数组"></a>静态数组</h2><p>对静态数组的声明方式有两种：</p>
+<ol>
+<li><code>Dim Arr(10) As Integer</code><br>括号中的10代表最大<code>下标</code>是10，即数组中最大的数字编号为10。VBA中的数组默认从0开始编号，所以上面这个数组中的数组编号从0~10，总共有11个数字。</li>
+<li><code>Dim Arr(1 to 10) As Integer</code><br>这种申明方式同时定义了最小编号和最大编号，这个数组中只有10个数字。</li>
+</ol>
+<h2 id="动态数组-1"><a href="#动态数组-1" class="headerlink" title="动态数组"></a>动态数组</h2><p>对动态数组的声明也有两种方式：</p>
+<ol>
+<li><code>Dim Arr()</code>这种方式申明的数组是范写，适用范围更广</li>
+<li><code>Dim Arr(1 to S)</code>其中的<code>S</code>是一个变量</li>
+</ol>
+<h1 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h1><h2 id="静态数组-2"><a href="#静态数组-2" class="headerlink" title="静态数组"></a>静态数组</h2><h3 id="直接赋值"><a href="#直接赋值" class="headerlink" title="直接赋值"></a>直接赋值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Dim arr1() as Interge</span><br><span class="line">arr1(1)=5</span><br><span class="line">arr1(2)=3</span><br><span class="line">arr1(3)=12</span><br></pre></td></tr></table></figure>
+<h3 id="通过循环结构给静态数组赋值"><a href="#通过循环结构给静态数组赋值" class="headerlink" title="通过循环结构给静态数组赋值"></a>通过循环结构给静态数组赋值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Dim arr1(1 To 3) As Integer</span><br><span class="line">Dim i As integer</span><br><span class="line">For i = 1 To 3</span><br><span class="line">	arr1(i) = Range(&quot;A&quot; &amp; i)</span><br><span class="line"></span><br><span class="line">Next i</span><br></pre></td></tr></table></figure>
+<h3 id="通过循环结构给动态数组赋值"><a href="#通过循环结构给动态数组赋值" class="headerlink" title="通过循环结构给动态数组赋值"></a>通过循环结构给动态数组赋值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Dim arr2() As Integer</span><br><span class="line">Dim i As integer</span><br><span class="line">For i = 1 To 3</span><br><span class="line">	ReDim Preserve arr2(1 to i)</span><br><span class="line">	arr1(i) = Range(&quot;A&quot; &amp; i)</span><br><span class="line"></span><br><span class="line">Next i</span><br></pre></td></tr></table></figure>
+<h2 id="动态数组-2"><a href="#动态数组-2" class="headerlink" title="动态数组"></a>动态数组</h2><h3 id="通过函数赋值"><a href="#通过函数赋值" class="headerlink" title="通过函数赋值"></a>通过函数赋值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Dim arr2()</span><br><span class="line"></span><br><span class="line">arr2 = WorksheetFunction.Transpose(Range(&quot;A1:A3&quot;).Value)</span><br></pre></td></tr></table></figure>
+<h3 id="利用Array函数赋值"><a href="#利用Array函数赋值" class="headerlink" title="利用Array函数赋值"></a>利用<code>Array</code>函数赋值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Dim arr2()</span><br><span class="line">arr2 = Array(5,3,12)</span><br></pre></td></tr></table></figure>
+<h1 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h1><h2 id="静态数组-3"><a href="#静态数组-3" class="headerlink" title="静态数组"></a>静态数组</h2><p>对静态数组而言，二维数组的声明要同时对不同纬度上的数据个数进行声明。</p>
+<ol>
+<li><code>Dim Arr(3,4) As Integer</code></li>
+<li><code>Dim Arr(1 To 3,1 To 4) As Integer</code></li>
+</ol>
+<h2 id="动态数组-3"><a href="#动态数组-3" class="headerlink" title="动态数组"></a>动态数组</h2><p>对动态数组来说申明方式还是一样的</p>
+<blockquote>
+<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/12/ExcelVBA基本语法规则/" itemprop="url">
                   ExcelVBA基本语法规则
                 </a>
@@ -1540,285 +1813,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/30/六月的你/" itemprop="url">
-                  六月的你
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-30T22:55:32+08:00" content="2016-06-30">
-              2016-06-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/牧牧/" itemprop="url" rel="index">
-                    <span itemprop="name">牧牧</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E5%A4%95%E9%98%B3.jpg" class="full-image"></p>
-<p style="text-align: center;text-height: 34px;font-size: 20px">如果雨是云的尸体，埋葬人间<br>如果荷花爱上白雪，在冬天开放，摇曳<br>如果萝丝与杰克一生相守，海洋之星没有坠落<br>如果黑森林里隐藏着几个世纪前神秘消失的王国<br>如果晚霞是贪玩的天使打翻的恶作剧<br>如果每一次旅途都有你的相伴，温暖</p>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/28/从报表看企业01/" itemprop="url">
-                  从报表看企业01——财报基本知识-资产
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-28T19:45:55+08:00" content="2016-06-28">
-              2016-06-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E4%BB%8E%E6%8A%A5%E8%A1%A8%E7%9C%8B%E4%BC%81%E4%B8%9A-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-1.jpg" alt="封面"></p>
-<h1 id="资产的基本概念"><a href="#资产的基本概念" class="headerlink" title="资产的基本概念"></a>资产的基本概念</h1><p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E8%B5%84%E4%BA%A7.png" alt="资产脑图"></p>
-<h2 id="资产定义"><a href="#资产定义" class="headerlink" title="资产定义"></a>资产定义</h2><blockquote>
-<p>资产是能够<strong>用货币表示</strong>的经济资源，能够用货币表示的经济资源就属于资产。</p>
-</blockquote>
-<ul>
-<li>资产定义的限制</li>
-</ul>
-<ol>
-<li>有的<strong>无形资产会被忽略</strong>在报表之外</li>
-<li><strong>人力资源的价值</strong>衡量是个难题，因为：<br>一、企业招到人才≠买到人才<br>二、服役时间难以确定</li>
-</ol>
-<h2 id="资产的分类"><a href="#资产的分类" class="headerlink" title="资产的分类"></a>资产的分类</h2><h3 id="流动-vs-非流动"><a href="#流动-vs-非流动" class="headerlink" title="流动 vs. 非流动"></a>流动 vs. 非流动</h3><ul>
-<li>区分的概念：能否在<strong>一年之内变现</strong></li>
-<li>Special rule：有的行业生产周期相对较长，不能简单按照变现周期划分流动资产与非流动资产（e.g. 飞机制造业；船舶制造业；房地产；etc. 这些企业的存货虽然变现周期长，但也是流动资产）</li>
-</ul>
-<h4 id="流动资产"><a href="#流动资产" class="headerlink" title="流动资产"></a>流动资产</h4><p>包括如下：</p>
-<ol>
-<li>货币资金</li>
-<li>债券</li>
-<li>存货</li>
-</ol>
-<h4 id="非流动资产"><a href="#非流动资产" class="headerlink" title="非流动资产"></a>非流动资产</h4><p>包括如下：</p>
-<ol>
-<li>长期投资类</li>
-<li>固定资产类</li>
-<li>无形资产类</li>
-</ol>
-<h3 id="经营-vs-投资"><a href="#经营-vs-投资" class="headerlink" title="经营 vs. 投资"></a>经营 vs. 投资</h3><ul>
-<li>区分概念：对利润的贡献方式（钱是对内使用还是对外使用）</li>
-</ul>
-<h4 id="经营资产"><a href="#经营资产" class="headerlink" title="经营资产"></a>经营资产</h4><ul>
-<li>与企业的日常经营活动有关</li>
-<li>包括：</li>
-</ul>
-<ol>
-<li>货币资金</li>
-<li>债权</li>
-<li>存货</li>
-<li>固定资产</li>
-<li>无形资产</li>
-</ol>
-<h4 id="投资资产"><a href="#投资资产" class="headerlink" title="投资资产"></a>投资资产</h4><ul>
-<li>对外投资形成的资产</li>
-<li>包括：</li>
-</ul>
-<ol>
-<li>交易性金融资产</li>
-<li>可供出售金融资产</li>
-<li>持有至到期投资</li>
-<li>长期股权投资</li>
-</ol>
-<h4 id="企业的分类"><a href="#企业的分类" class="headerlink" title="企业的分类"></a>企业的分类</h4><p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E4%BB%8E%E6%8A%A5%E8%A1%A8%E7%9C%8B%E4%BC%81%E4%B8%9A-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-2.jpg" alt="企业分类"></p>
-<h3 id="资产分类的总结"><a href="#资产分类的总结" class="headerlink" title="资产分类的总结"></a>资产分类的总结</h3><p>把资产分为 <strong>投资&amp;经营</strong> 比 <strong>流动&amp;非流动</strong> 对人们理解报表的帮助更大。我认为这是因为企业本身的使命就是盈利，前者围绕企业对企业盈利的贡献来进行分类，显然更符合分析的逻辑。相较之下，后者仅仅靠资产表面的性质来划分，并无太大的帮助。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1864,7 +1858,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

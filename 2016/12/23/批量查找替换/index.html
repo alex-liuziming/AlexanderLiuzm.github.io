@@ -1,0 +1,646 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="代码,ExcelVBA," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="目标把单元格字符串中不完整的部分改成对应的完整部分原始的文档的C列中有很多是不完整的字符串我们要通过对应的表格把不完整的字符串补充完整，有的后面加“版”，有的后面加“型”。最后得到类似这样的表格
+思路双层循环法很多次的VBA课中都用到了双层循环法，这次当然也会第一个想到双层循环法，一个循环套在“数据”表格里，一个套在“条件”表格里，找到对应的字符串，并将其进行替换。
+替换法我们也可以直接利用替换">
+<meta property="og:type" content="article">
+<meta property="og:title" content="批量查找替换">
+<meta property="og:url" content="http://yoursite.com/2016/12/23/批量查找替换/index.html">
+<meta property="og:site_name" content="牧牧闻叨">
+<meta property="og:description" content="目标把单元格字符串中不完整的部分改成对应的完整部分原始的文档的C列中有很多是不完整的字符串我们要通过对应的表格把不完整的字符串补充完整，有的后面加“版”，有的后面加“型”。最后得到类似这样的表格
+思路双层循环法很多次的VBA课中都用到了双层循环法，这次当然也会第一个想到双层循环法，一个循环套在“数据”表格里，一个套在“条件”表格里，找到对应的字符串，并将其进行替换。
+替换法我们也可以直接利用替换">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2.jpg">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-1.jpg">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%A7%8B.png">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%AF%B9%E5%BA%94%E7%9B%AE%E5%BD%95.png">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E7%9B%AE%E6%A0%87.png">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-2.jpg">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-3.jpg">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-4.jpg">
+<meta property="og:updated_time" content="2016-12-23T15:24:03.979Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="批量查找替换">
+<meta name="twitter:description" content="目标把单元格字符串中不完整的部分改成对应的完整部分原始的文档的C列中有很多是不完整的字符串我们要通过对应的表格把不完整的字符串补充完整，有的后面加“版”，有的后面加“型”。最后得到类似这样的表格
+思路双层循环法很多次的VBA课中都用到了双层循环法，这次当然也会第一个想到双层循环法，一个循环套在“数据”表格里，一个套在“条件”表格里，找到对应的字符串，并将其进行替换。
+替换法我们也可以直接利用替换">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/23/批量查找替换/"/>
+
+  <title> 批量查找替换 | 牧牧闻叨 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">牧牧闻叨</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">整理心中的知识体系，让自己变得更好</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                批量查找替换
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-23T22:58:18+08:00" content="2016-12-23">
+              2016-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2.jpg" class="full-image"></p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>把单元格字符串中不完整的部分改成对应的完整部分<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-1.jpg" alt="转换示意"><br>原始的文档的C列中有很多是不完整的字符串<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%A7%8B.png" alt="原始"><br>我们要通过对应的表格把不完整的字符串补充完整，有的后面加“版”，有的后面加“型”。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%AF%B9%E5%BA%94%E7%9B%AE%E5%BD%95.png" alt="对应目录"><br>最后得到类似这样的表格<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E7%9B%AE%E6%A0%87.png" alt="目标"></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><h3 id="双层循环法"><a href="#双层循环法" class="headerlink" title="双层循环法"></a>双层循环法</h3><p>很多次的VBA课中都用到了双层循环法，这次当然也会第一个想到双层循环法，一个循环套在“数据”表格里，一个套在“条件”表格里，找到对应的字符串，并将其进行替换。</p>
+<h3 id="替换法"><a href="#替换法" class="headerlink" title="替换法"></a>替换法</h3><p>我们也可以直接利用替换的方法进行操作，直接按”Ctrl+H”，把”标准”替换成”标准型”，但是这样就会出现还有”标准型型”的单元格。之后我们可以在进行一次替换，把”型型”和”版版”替换成”型”和”版”。</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><h3 id="双层循环法-1"><a href="#双层循环法-1" class="headerlink" title="双层循环法"></a>双层循环法</h3><h4 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h4><p>因为我们的循环语句当中经常要用到最大行号这个数值，所以我们先把两张工作表的最大行号都进行提取出来赋值给两个简短的变量<code>rw1</code>和<code>rw2</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br></pre></td></tr></table></figure></p>
+<p>之后我们把两个数据表中的数据提取出来，赋值给数组，这样就不用一次一次定位工作表当中的单元格。我们把这些数据分别赋值给两个变量<code>arr1</code>和<code>arr2</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr1 = ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value</span><br><span class="line">arr2 = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br></pre></td></tr></table></figure></p>
+<h4 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h4><p>两张工作表中的数据都是从第<strong>2</strong>行开始的，所以我们建立两个循环都<strong>从2开始，分别到两个表格的最大行号为止</strong>。</p>
+<h4 id="判断语句"><a href="#判断语句" class="headerlink" title="判断语句"></a>判断语句</h4><p>我们要找到两个表格当中的对应量，这里的话可以判断<strong>数据表格</strong>当中的<code>C</code>列字符串中是否包含<strong>条件表格</strong>中的<code>A</code>列中的不完整字符串，然后把它替换成<strong>条件表格</strong>中对应的<code>B</code>列字符串。这里会用到一个函数<code>InStr()</code><br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-2.jpg" alt="Instr函数"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">For i = 2 To rw1</span><br><span class="line">    For j = 2 To rw2</span><br><span class="line">        If InStr(arr1(i, 1), arr2(j, 1)) Then</span><br><span class="line">            arr1(i, 1) = Replace(arr1(i, 1), arr2(j, 1), arr2(j, 2))</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure></p>
+<p>但是这个判断语句有个问题，即使字符串是完整的，也会被判断为包含<strong>条件表格</strong>当中<code>A</code>列的不完整字符串，这样就会出现诸如<em>尊享版版、标准型型</em>这种奇怪的东西。所以我们要再改进一下判断语句，让VBA判断如果<strong>数据表格</strong>中的<code>C</code>列字符串包含<strong>条件表格</strong>中的<code>B</code>列的字符串，即完整的字符串，就不进行替换操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If InStr(arr1(i, 1), arr2(j, 1)) And Not (InStr(arr1(i, 1), arr2(j, 2))) Then</span><br></pre></td></tr></table></figure></p>
+<h4 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h4><p>终于到了最后一步了，只要把对应的字符串进行替换就好了，这里要用到一个函数<code>Replace()</code><br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-3.jpg" alt="Replace函数"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value = arr1</span><br></pre></td></tr></table></figure></p>
+<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Sub 双层循环法()</span><br><span class="line"></span><br><span class="line">Dim rw1, rw2</span><br><span class="line">Dim arr1, arr2</span><br><span class="line">Dim i, j</span><br><span class="line"></span><br><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br><span class="line"></span><br><span class="line">arr1 = ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value</span><br><span class="line">arr2 = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br><span class="line"></span><br><span class="line">For i = 2 To rw1</span><br><span class="line">    For j = 2 To rw2</span><br><span class="line">        If InStr(arr1(i, 1), arr2(j, 1)) And Not (InStr(arr1(i, 1), arr2(j, 2))) Then</span><br><span class="line">            arr1(i, 1) = Replace(arr1(i, 1), arr2(j, 1), arr2(j, 2))</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value = arr1</span><br><span class="line"></span><br><span class="line">MsgBox (&quot;替换完成&quot;)</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+<h3 id="查找替换法"><a href="#查找替换法" class="headerlink" title="查找替换法"></a>查找替换法</h3><h4 id="变量赋值-1"><a href="#变量赋值-1" class="headerlink" title="变量赋值"></a>变量赋值</h4><p>同上，我们可以精简代码，这次我们需要三个变量<code>rw1</code>，<code>rw2</code>和<code>arr</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br><span class="line">arr = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br></pre></td></tr></table></figure></p>
+<h4 id="替换-1"><a href="#替换-1" class="headerlink" title="替换"></a>替换</h4><p>循环语句只有一层，非常简单，就和第一次的替换操作一起说吧。这里我们需要让<em>数据表</em>按照<em>条件表</em>的对应关系来进行替换，没法直接用简单的<em>替换操作</em>+<em>录制宏</em>来实现。这里我们还是要用到<code>Replace</code>，但是是<code>Replace</code>方法，语法有些许不同。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-4.jpg" alt="Replace方法"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">For i = 2 To rw2</span><br><span class="line">    Range(&quot;C1:C&quot; &amp; rw1).Replace what:=arr(i, 1), Replacement:=arr(i, 2)</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure></p>
+<h4 id="二次替换"><a href="#二次替换" class="headerlink" title="二次替换"></a>二次替换</h4><p>经过一次替换我们会的到很多带有两个”版”和两个”型”的单元格，这里我们再用一次<code>Replace</code>方法进行替换。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;版版&quot;, Replacement:=&quot;版&quot;</span><br><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;型型&quot;, Replacement:=&quot;型&quot;</span><br></pre></td></tr></table></figure></p>
+<h4 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Sub 查找替换法()</span><br><span class="line"></span><br><span class="line">Dim rw1, rw2, arr</span><br><span class="line"></span><br><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br><span class="line">arr = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br><span class="line"></span><br><span class="line">For i = 2 To rw2</span><br><span class="line">    Range(&quot;C1:C&quot; &amp; rw1).Replace what:=arr(i, 1), Replacement:=arr(i, 2)</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;版版&quot;, Replacement:=&quot;版&quot;</span><br><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;型型&quot;, Replacement:=&quot;型&quot;</span><br><span class="line"></span><br><span class="line">MsgBox (&quot;替换完成&quot;)</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/代码/" rel="tag">#代码</a>
+          
+            <a href="/tags/ExcelVBA/" rel="tag">#ExcelVBA</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/23/批量处理合并单元格/" rel="next" title="批量处理合并单元格">
+                <i class="fa fa-chevron-left"></i> 批量处理合并单元格
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fish.png"
+               alt="AlexanderLiu" />
+          <p class="site-author-name" itemprop="name">AlexanderLiu</p>
+          <p class="site-description motion-element" itemprop="description">不要效法这个世界，只要心意更新而变化，叫你们查验何为神的善良、纯全、可喜悦的旨意。（罗马书 12:2）</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标"><span class="nav-number">1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#双层循环法"><span class="nav-number">2.1.</span> <span class="nav-text">双层循环法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换法"><span class="nav-number">2.2.</span> <span class="nav-text">替换法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实战"><span class="nav-number">3.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#双层循环法-1"><span class="nav-number">3.1.</span> <span class="nav-text">双层循环法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#变量赋值"><span class="nav-number">3.1.1.</span> <span class="nav-text">变量赋值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#循环语句"><span class="nav-number">3.1.2.</span> <span class="nav-text">循环语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#判断语句"><span class="nav-number">3.1.3.</span> <span class="nav-text">判断语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#替换"><span class="nav-number">3.1.4.</span> <span class="nav-text">替换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完整代码"><span class="nav-number">3.1.5.</span> <span class="nav-text">完整代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找替换法"><span class="nav-number">3.2.</span> <span class="nav-text">查找替换法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#变量赋值-1"><span class="nav-number">3.2.1.</span> <span class="nav-text">变量赋值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#替换-1"><span class="nav-number">3.2.2.</span> <span class="nav-text">替换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二次替换"><span class="nav-number">3.2.3.</span> <span class="nav-text">二次替换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完整代码-1"><span class="nav-number">3.2.4.</span> <span class="nav-text">完整代码</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AlexanderLiu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+</body>
+</html>

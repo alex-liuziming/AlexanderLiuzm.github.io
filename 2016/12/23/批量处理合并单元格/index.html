@@ -1,0 +1,654 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="代码,ExcelVBA," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="为什么要处理合并单元格因为在数据处理当中一维的表格处理起来最为方便，可以汇总为二维的表格或者其他自己想要的表格。但矛盾就在这里，合并单元格大大降低了表格的可处理性，无论是筛选，排序还是统计（sumif），都会产生错误，对后续的处理操作带来极大的麻烦。因此在数据处理操作之前要对合并单元格进行处理。
+目标让合并的单元格都取消合并，并且都填充对应的值。
+
+思路循环法先把合并单元格进行恢复，取消合并。再">
+<meta property="og:type" content="article">
+<meta property="og:title" content="批量处理合并单元格">
+<meta property="og:url" content="http://yoursite.com/2016/12/23/批量处理合并单元格/index.html">
+<meta property="og:site_name" content="牧牧闻叨">
+<meta property="og:description" content="为什么要处理合并单元格因为在数据处理当中一维的表格处理起来最为方便，可以汇总为二维的表格或者其他自己想要的表格。但矛盾就在这里，合并单元格大大降低了表格的可处理性，无论是筛选，排序还是统计（sumif），都会产生错误，对后续的处理操作带来极大的麻烦。因此在数据处理操作之前要对合并单元格进行处理。
+目标让合并的单元格都取消合并，并且都填充对应的值。
+
+思路循环法先把合并单元格进行恢复，取消合并。再">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC.jpg">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC-%E7%9B%AE%E6%A0%87.jpg">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%AE%9A%E4%BD%8D%E6%B3%95.gif">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC-%E5%BD%95%E5%88%B6%E5%AE%8F.png">
+<meta property="og:updated_time" content="2016-12-23T15:23:54.336Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="批量处理合并单元格">
+<meta name="twitter:description" content="为什么要处理合并单元格因为在数据处理当中一维的表格处理起来最为方便，可以汇总为二维的表格或者其他自己想要的表格。但矛盾就在这里，合并单元格大大降低了表格的可处理性，无论是筛选，排序还是统计（sumif），都会产生错误，对后续的处理操作带来极大的麻烦。因此在数据处理操作之前要对合并单元格进行处理。
+目标让合并的单元格都取消合并，并且都填充对应的值。
+
+思路循环法先把合并单元格进行恢复，取消合并。再">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/12/23/批量处理合并单元格/"/>
+
+  <title> 批量处理合并单元格 | 牧牧闻叨 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">牧牧闻叨</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">整理心中的知识体系，让自己变得更好</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                批量处理合并单元格
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-23T22:57:59+08:00" content="2016-12-23">
+              2016-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC.jpg" class="full-image"></p>
+<h1 id="为什么要处理合并单元格"><a href="#为什么要处理合并单元格" class="headerlink" title="为什么要处理合并单元格"></a>为什么要处理合并单元格</h1><p>因为在数据处理当中一维的表格处理起来最为方便，可以汇总为二维的表格或者其他自己想要的表格。但矛盾就在这里，<em>合并单元格</em>大大降低了表格的可处理性，无论是筛选，排序还是统计（<code>sumif</code>），都会产生错误，对后续的处理操作带来极大的麻烦。因此在数据处理操作之前要对合并单元格进行处理。</p>
+<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>让合并的单元格都取消合并，并且都填充对应的值。</p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC-%E7%9B%AE%E6%A0%87.jpg" alt="enter image description here"></p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="循环法"><a href="#循环法" class="headerlink" title="循环法"></a>循环法</h2><p>先把合并单元格进行恢复，取消合并。再对一列单元格进行逐一的检验。如果单元格内含有数据，那就不做处理；如果单元格内没有数据，那就把这个单元格的上一列的数据赋值给它。（举例来说，<em>令B5.Value = B6.Value</em>）但是为了不让这个循环一直进行下去，要给循环设定一个界限，就是常用的<code>Usedrange.rows.count</code>。</p>
+<h2 id="定位法"><a href="#定位法" class="headerlink" title="定位法"></a>定位法</h2><p>定位法相比循环法更为简单，先取消合并（此时会选中原先合并单元格的区域），然后定位空单元格，将这些单元格的值都等于他们的上一行的值就可以了。</p>
+<h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h2 id="循环法-1"><a href="#循环法-1" class="headerlink" title="循环法"></a>循环法</h2><h3 id="取消合并"><a href="#取消合并" class="headerlink" title="取消合并"></a>取消合并</h3><p>利用<code>UnMerge</code>方法取消合并单元格。</p>
+<h3 id="建立循环"><a href="#建立循环" class="headerlink" title="建立循环"></a>建立循环</h3><p>设定循环的界限<code>ActiveSheet.UsedRange.Rows.Count</code>。利用<code>offset()</code>函数，让空值的单元格得到上一行的单元格的值<code>= Range(&quot;A&quot; &amp; i).Offset(-1, 0).Value</code>。</p>
+<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sub 循环法()</span><br><span class="line">    Range(&quot;A:A&quot;).UnMerge</span><br><span class="line">    For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">        If Range(&quot;A&quot; &amp; i).Value = &quot;&quot; Then Range(&quot;A&quot; &amp; i).Value = Range(&quot;A&quot; &amp; i).Offset(-1, 0).Value</span><br><span class="line">    Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+<h2 id="定位法-1"><a href="#定位法-1" class="headerlink" title="定位法"></a>定位法</h2><h3 id="录制宏"><a href="#录制宏" class="headerlink" title="录制宏"></a>录制宏</h3><p>先取消合并（此时会选中原先合并单元格的区域），直接按<strong>F5</strong>，会出现<em>定位</em>窗口。点击左下角的按钮，再选择<em>空值</em>，此时会选中空单元格。之后在上方的<em>数值栏</em>当中输入<code>=a2</code>，按下<strong>Ctrl + Enter</strong>，就会发现单元格的内容都自动填充好了。</p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%AE%9A%E4%BD%8D%E6%B3%95.gif" alt="enter image description here"></p>
+<h3 id="选取录制好的宏代码"><a href="#选取录制好的宏代码" class="headerlink" title="选取录制好的宏代码"></a>选取录制好的宏代码</h3><p>尽管录制下来的宏代码看似很长很复杂，但是其实前面的都是一些没什么用的参数设置，与我们刚刚进行的操作有实际相关联的就是最后三句。将这三句进行复制，建立新的宏，并进行改造。</p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC-%E5%BD%95%E5%88%B6%E5%AE%8F.png" alt="enter image description here"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Selection.UnMerge</span><br><span class="line">Selection.SpecialCells(xlCellTypeBlanks).Select</span><br><span class="line">Selection.FormulaR1C1 = &quot;=R[-1]C&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="UnMerge"><a href="#UnMerge" class="headerlink" title="UnMerge"></a>UnMerge</h4><p>这是<em>取消合并</em>的操作，在宏代码中显示为<code>UnMerge</code></p>
+<h4 id="SpecialCells-xlCellTypeBlanks"><a href="#SpecialCells-xlCellTypeBlanks" class="headerlink" title="SpecialCells(xlCellTypeBlanks)"></a>SpecialCells(xlCellTypeBlanks)</h4><p>这是定位特殊单元格的语法，在这里我们定位的是<em>空值</em>，所以括号里的内容是<code>Blanks</code>。</p>
+<h4 id="FormulaR1C1-“-R-1-C”"><a href="#FormulaR1C1-“-R-1-C”" class="headerlink" title="FormulaR1C1 = “=R[-1]C”"></a>FormulaR1C1 = “=R[-1]C”</h4><p>这是我们最后在数值栏当中输入的公式，令值等于上一行（<code>R[-1]</code>）单元格（C）的值，大致用法与<code>offset()</code>函数一致。</p>
+<h3 id="改造宏代码"><a href="#改造宏代码" class="headerlink" title="改造宏代码"></a>改造宏代码</h3><p>这一部分就相对简单了，首先我们要把<code>Selection</code>改成<code>Range(&quot;A:A&quot;)</code>，也就是让Excel自己选择A列，不用再让我们人工选定A列。之后可以把A列的值再赋值给A列，这是为了让单元格里显示的是数值而不是<strong>公式</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Range(&quot;A:A&quot;).UnMerge</span><br><span class="line">Range(&quot;A:A&quot;).SpecialCells(xlCellTypeBlanks).FormulaR1C1 = &quot;=R[-1]C&quot;</span><br><span class="line">Range(&quot;A:A&quot;).Value = Range(&quot;A:A&quot;).Value</span><br></pre></td></tr></table></figure>
+<h3 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Sub 定位法()</span><br><span class="line"></span><br><span class="line">    Range(&quot;A:A&quot;).UnMerge</span><br><span class="line">    Range(&quot;A:A&quot;).SpecialCells(xlCellTypeBlanks).FormulaR1C1 = &quot;=R[-1]C&quot;</span><br><span class="line">    Range(&quot;A:A&quot;).Value = Range(&quot;A:A&quot;).Value</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/代码/" rel="tag">#代码</a>
+          
+            <a href="/tags/ExcelVBA/" rel="tag">#ExcelVBA</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/09/不同表头的多表合并/" rel="next" title="不同表头的多表合并">
+                <i class="fa fa-chevron-left"></i> 不同表头的多表合并
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/23/批量查找替换/" rel="prev" title="批量查找替换">
+                批量查找替换 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fish.png"
+               alt="AlexanderLiu" />
+          <p class="site-author-name" itemprop="name">AlexanderLiu</p>
+          <p class="site-description motion-element" itemprop="description">不要效法这个世界，只要心意更新而变化，叫你们查验何为神的善良、纯全、可喜悦的旨意。（罗马书 12:2）</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要处理合并单元格"><span class="nav-number">1.</span> <span class="nav-text">为什么要处理合并单元格</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目标"><span class="nav-number">2.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-number">3.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#循环法"><span class="nav-number">3.1.</span> <span class="nav-text">循环法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定位法"><span class="nav-number">3.2.</span> <span class="nav-text">定位法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实战"><span class="nav-number">4.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#循环法-1"><span class="nav-number">4.1.</span> <span class="nav-text">循环法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#取消合并"><span class="nav-number">4.1.1.</span> <span class="nav-text">取消合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立循环"><span class="nav-number">4.1.2.</span> <span class="nav-text">建立循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码块"><span class="nav-number">4.1.3.</span> <span class="nav-text">代码块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定位法-1"><span class="nav-number">4.2.</span> <span class="nav-text">定位法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#录制宏"><span class="nav-number">4.2.1.</span> <span class="nav-text">录制宏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选取录制好的宏代码"><span class="nav-number">4.2.2.</span> <span class="nav-text">选取录制好的宏代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UnMerge"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">UnMerge</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SpecialCells-xlCellTypeBlanks"><span class="nav-number">4.2.2.2.</span> <span class="nav-text">SpecialCells(xlCellTypeBlanks)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FormulaR1C1-“-R-1-C”"><span class="nav-number">4.2.2.3.</span> <span class="nav-text">FormulaR1C1 = “=R[-1]C”</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改造宏代码"><span class="nav-number">4.2.3.</span> <span class="nav-text">改造宏代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全部代码"><span class="nav-number">4.2.4.</span> <span class="nav-text">全部代码</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AlexanderLiu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+</body>
+</html>
