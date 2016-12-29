@@ -248,6 +248,155 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/31/一页纸报告DashBoard学习/" itemprop="url">
+                  一页纸报告DashBoard学习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-31T11:56:23+08:00" content="2016-07-31">
+              2016-07-31
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E9%A1%B5%E7%BA%B8%E6%8A%A5%E5%91%8ADashBoard%E5%AD%A6%E4%B9%A0.jpg" class="full-image"></p>
+<p>这几天学习了刘万祥老师的”DashBoard第一季”，学会了如何制作一个简单的一页纸报告，在这里做个总结。</p>
+<p>先上效果图：<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBADashBoard.png" alt="DashBoard整体效果"></p>
+<h1 id="数据的处理"><a href="#数据的处理" class="headerlink" title="数据的处理"></a>数据的处理</h1><p>我在学习图表课的过程中深切的认识到<strong>对作图数据的先处理</strong>比<strong>对一张图表进行排版</strong>要更加重要。同样的要做一份DashBoard报告，数据表的处理很重要，数据以二维的形式进行展现。合理的数据表格也方便后期使用<code>Index</code>函数进行自动配对指标名称、类别和单位等信息。<br>以下是数据表的格式：</p>
+<table>
+<thead>
+<tr>
+<th>第一列</th>
+<th>第二列</th>
+<th>第三列</th>
+<th>第四列</th>
+<th>第五列</th>
+<th>第六列</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>序列号</td>
+<td>指标类别</td>
+<td>指标名称</td>
+<td>按月份排列的指标数据</td>
+<td>单位</td>
+<td>如有必要：加一加总列</td>
+</tr>
+</tbody>
+</table>
+<h1 id="DashBoard整体排版确定"><a href="#DashBoard整体排版确定" class="headerlink" title="DashBoard整体排版确定"></a>DashBoard整体排版确定</h1><p>可以先用纸和笔进行预先的排版，自己感觉差不多之后再进入到Excel中进行排版操作。最好能凑整数，若是指标个数实在无法凑整，可以尝试将某几个图表放大，占据两个小表格的位置，或者机动的添加一个报表等等，总之要美观，不要缺胳膊少腿的。还有很重要的一点是预先选定并命名<code>标题区</code>，<code>图表区域</code>，<code>打印区域</code>等，方便后期修改。</p>
+<h1 id="图表的处理"><a href="#图表的处理" class="headerlink" title="图表的处理"></a>图表的处理</h1><p>制作DashBoard小表格，因为格式近似，所以先做出一个表格，加工处理到想要的格式，然后进行批量复制，更改数据源，以得到DashBoard。</p>
+<p>这里因为要批量更改数据源，数据源更改后图表的填充颜色又会发生变化，所以我自己就写了一段小小的VBA代码来实现数据源更改的自动化。</p>
+<p>在编写的时候学习到**变量外面是不能有引号<code>&quot;&quot;</code>的，包含在引号内的变量会被系统自动识别为文本，不再是变量，要用连接符把一段段文本和变量连接起来。</p>
+<p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">Sub 宏1()</span><br><span class="line">&apos;</span><br><span class="line">&apos; 宏1 宏</span><br><span class="line">&apos;</span><br><span class="line"></span><br><span class="line">&apos;构建一个循环</span><br><span class="line">For i = 1 To 25</span><br><span class="line">&apos;选取对应的图表</span><br><span class="line">    ActiveSheet.ChartObjects(i).Activate</span><br><span class="line">    &apos;选择系列2</span><br><span class="line">    ActiveChart.FullSeriesCollection(2).Select</span><br><span class="line">    &apos;更改数据源</span><br><span class="line">    Selection.Formula = &quot;=SERIES(,数据!R10C5:R10C17,数据!R&quot; &amp; (i + 10) &amp; &quot;C22:R&quot; &amp; (i + 10) &amp; &quot;C34,2)&quot;</span><br><span class="line">    &apos;选择系列1</span><br><span class="line">    ActiveChart.FullSeriesCollection(1).Select</span><br><span class="line">    &apos;更改数据源</span><br><span class="line">    Selection.Formula = &quot;=SERIES(数据!R&quot; &amp; (i + 10) &amp; &quot;C4,数据!R10C5:R10C17,数据!R&quot; &amp; (i + 10) &amp; &quot;C5:R&quot; &amp; (i + 10) &amp; &quot;C17,1)&quot;</span><br><span class="line">    &apos;更改折线图的线条颜色</span><br><span class="line">    ActiveChart.FullSeriesCollection(1).Select</span><br><span class="line">    With Selection.Format.Line</span><br><span class="line">        .Visible = msoTrue</span><br><span class="line">        .ForeColor.ObjectThemeColor = msoThemeColorAccent2</span><br><span class="line">        .ForeColor.TintAndShade = 0</span><br><span class="line">        .ForeColor.Brightness = 0</span><br><span class="line">        .Transparency = 0</span><br><span class="line">    End With</span><br><span class="line">    &apos;更改面积图的填充颜色</span><br><span class="line">    ActiveChart.FullSeriesCollection(2).Select</span><br><span class="line">    With Selection.Format.Fill</span><br><span class="line">        .Visible = msoTrue</span><br><span class="line">        .ForeColor.ObjectThemeColor = msoThemeColorBackground1</span><br><span class="line">        .ForeColor.TintAndShade = 0</span><br><span class="line">        .ForeColor.Brightness = -0.5</span><br><span class="line">        .Transparency = 0</span><br><span class="line">        .Solid</span><br><span class="line">    End With</span><br><span class="line">    &apos;修改面积图填充颜色的透明度</span><br><span class="line">    With Selection.Format.Fill</span><br><span class="line">        .Visible = msoTrue</span><br><span class="line">        .ForeColor.ObjectThemeColor = msoThemeColorBackground1</span><br><span class="line">        .ForeColor.TintAndShade = 0</span><br><span class="line">        .ForeColor.Brightness = -0.5</span><br><span class="line">        .Transparency = 0.5</span><br><span class="line">        .Solid</span><br><span class="line">    End With</span><br><span class="line">    &apos;消除面积图的边框线</span><br><span class="line">    ActiveChart.FullSeriesCollection(2).Select</span><br><span class="line">    Selection.Format.Line.Visible = msoFalse</span><br><span class="line">    &apos;消除整体图表的外边框</span><br><span class="line">    ActiveSheet.Shapes(i).Line.Visible = msoFalse</span><br><span class="line">Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%B3%A8%E9%87%8A.PNG" alt="图片版"></p>
+<h2 id="期间犯的错误"><a href="#期间犯的错误" class="headerlink" title="期间犯的错误"></a>期间犯的错误</h2><p>由于首先想到的是利用录制宏的功能得到一段初始代码，然后再对其进行改造，最终达到自己的目的。所以我就对初始宏进行了一次错误的加工。</p>
+<p><strong>初始宏</strong>：<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%88%9D%E5%A7%8B%E5%AE%8F.JPG" alt="original code"></p>
+<p><strong>第一次改造过后的代码</strong>：<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%94%B9%E9%80%A0%E4%BB%A3%E7%A0%81.JPG" alt="Code 1.0"></p>
+<p>显然的，在上面的代码中我把变量和文本混在了一起，导致VBA无法识别我的变量。</p>
+<h1 id="最后的细节处理"><a href="#最后的细节处理" class="headerlink" title="最后的细节处理"></a>最后的细节处理</h1><p>经历过上述的步骤之后，图表已经基本完成，接下来就看自己的喜好可以再改改颜色，改改边框之类的，就大功告成。导出为PDF或者图片格式就可以分享咯！</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/23/ExcelVBA——去除重复数据/" itemprop="url">
                   ExcelVBA——去除重复数据
                 </a>
@@ -1603,216 +1752,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/04/《你的知识需要管理》读书笔记/" itemprop="url">
-                  《你的知识需要管理》读书笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-04T22:49:16+08:00" content="2016-07-04">
-              2016-07-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="个人知识管理"><a href="#个人知识管理" class="headerlink" title="个人知识管理"></a>个人知识管理</h1><ul>
-<li>学习知识</li>
-<li>保存知识</li>
-<li>共享知识</li>
-<li>使用知识</li>
-<li>知识创新<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E4%BD%A0%E7%9A%84%E7%9F%A5%E8%AF%86%E9%9C%80%E8%A6%81%E7%AE%A1%E7%90%86-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0.jpg" alt="enter image description here"><h2 id="1-学习知识"><a href="#1-学习知识" class="headerlink" title="1. 学习知识"></a>1. 学习知识</h2><h3 id="学什么？"><a href="#学什么？" class="headerlink" title="学什么？"></a>学什么？</h3></li>
-<li>知识工作者要有<strong>根基</strong>，一些通识知识是与人沟通，掌握信息，学习其他知识的基础。</li>
-<li>在确定自己学习方向时需要做减法：即<strong>聚焦</strong>。想做到聚焦，还要先<strong>了解自己</strong>，然后细分自己的兴趣领域，努力在<strong>某一个细分的领域做到专家</strong>。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E4%BD%A0%E7%9A%84%E7%9F%A5%E8%AF%86%E9%9C%80%E8%A6%81%E7%AE%A1%E7%90%86-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-1.jpg" alt="enter image description here"></li>
-<li>为什么要做到专家？现在知识更新周期很短，若是仅仅知道某个领域的入门知识，过不了多长时间，你掌握的这些知识就会变成大家的通识，很容易失去竞争力。</li>
-<li>知识的架构：<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E4%BD%A0%E7%9A%84%E7%9F%A5%E8%AF%86%E9%9C%80%E8%A6%81%E7%AE%A1%E7%90%86-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-3.jpg" alt="knowledge structure"><br>这其中基础知识作为学习的根基，是最需要得到重视的，所以在入门阶段应当重视学习的方法和资料的来源，不要让自己基础不牢。<h3 id="怎样学习"><a href="#怎样学习" class="headerlink" title="怎样学习"></a>怎样学习</h3></li>
-<li>先要知道，学习最大的成本——<strong>Time</strong></li>
-<li>由此我们引出学习的决策模型<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E4%BD%A0%E7%9A%84%E7%9F%A5%E8%AF%86%E9%9C%80%E8%A6%81%E7%AE%A1%E7%90%86-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-2.jpg" alt="enter image description here"></li>
-<li>一步步入门</li>
-</ul>
-<ol>
-<li><strong>打好基础</strong>：阅读经典教材，论文和该领域的一些文章</li>
-<li><strong>了解行业</strong>：查看搜索引擎的前50页有助于对行业有快速整体的了解</li>
-<li><strong>跟进发展</strong>：阅读相应期刊，行业的论文，可能的话多和专家交流</li>
-<li><strong>实践创新</strong>：在工作中利用自己掌握的知识，尽力把知识显性化</li>
-</ol>
-<h2 id="2-保存知识"><a href="#2-保存知识" class="headerlink" title="2. 保存知识"></a>2. 保存知识</h2><ul>
-<li>先摒弃陋习：<strong>家藏n G书</strong>。没有节制的保存会让知识毫无用处，因为没有经过大脑的知识是无法发挥出来的。</li>
-<li>说完无节制的保存，再说组词语的区别：数据、信息和知识</li>
-</ul>
-<ol>
-<li><strong>数据</strong>：单纯的数据毫无意义，就是几个数字</li>
-<li><strong>信息</strong>：信息富裕数据环境，让数据变得有意义</li>
-<li><strong>知识</strong>：可以用来决策和行动的信息</li>
-</ol>
-<ul>
-<li>要保存哪些符合目前和将来发展方向的知识（如读此书的时候作者推荐的很多工具都已经过时，我便将理论知识保留下来，工具的推荐不做保留），并建立索引，确保日后“书到用时可拿到”</li>
-<li>要建立索引，就要<strong>有良好的保存习惯</strong>（文件夹的深度不宜超过三层，文件要有系统的命名）</li>
-<li>文件夹的命名：“标题-机构（或作者）-分类-类型”<blockquote>
-<p>e.g. <strong>ppt模板-德勤-个人工具-ppt</strong></p>
-</blockquote>
-</li>
-</ul>
-<h2 id="共享知识"><a href="#共享知识" class="headerlink" title="共享知识"></a>共享知识</h2><h3 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h3><ul>
-<li>让别人知道你有才华</li>
-<li>然别人学到东西，别人更容易认可你</li>
-</ul>
-<h3 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h3><ul>
-<li>共享出来是大脑对知识的再整理，这样才能真正掌握知识</li>
-<li>结实高质量的朋友<blockquote>
-<p>看一个人的身价，看他的对手；<br>看一个人的底牌，看他的朋友。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="范围"><a href="#范围" class="headerlink" title="范围"></a>范围</h3><ul>
-<li>同事、朋友 =&gt; 专业、行业人士 =&gt; 社会范围</li>
-<li>要记着你想把知识共享给谁，这些人最习惯于哪些方式</li>
-<li>在单位内做知识共享是知识共享的基础，单位内才能给予你更多重视和尊重，不要仅仅热衷于在互联网上包装自己，这样是本末倒置的。</li>
-</ul>
-<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ol>
-<li>单位IT系统</li>
-<li>出版书籍</li>
-<li>Blog</li>
-<li>维基（Wiki）</li>
-<li>微博</li>
-</ol>
-<h2 id="使用知识"><a href="#使用知识" class="headerlink" title="使用知识"></a>使用知识</h2><h3 id="为什么？-1"><a href="#为什么？-1" class="headerlink" title="为什么？"></a>为什么？</h3><ul>
-<li><p>仅有显性知识是不够的，还要了解社会和具体工作，隐形知识也起到关键作用</p>
-<blockquote>
-<p><strong>显性知识</strong>：能够用语言、文字、肢体等方式表达清楚的知识<br><strong>隐性知识</strong>：虽然知道如何做，却很难告诉别人</p>
-</blockquote>
-</li>
-<li><p>隐性知识的特点：</p>
-</li>
-</ul>
-<ol>
-<li>对自己隐，但是对他人而言是显性知识的话，我们应当反思自己的学习方法是否走了弯路，可以在他人的基础上学习</li>
-<li>隐性知识并非永远是隐形的</li>
-<li>谁最先做到显性化，谁就是新的知识战场的开拓者，会占有先机</li>
-<li>隐性知识显性化是一种能力差别</li>
-<li>外部环境对显性化有影响</li>
-</ol>
-<ul>
-<li>有时无知也是有好处的，它能给我们尝试的勇气</li>
-<li>团队协作才能使知识的价值最大化</li>
-</ul>
-<h3 id="使用知识的方式"><a href="#使用知识的方式" class="headerlink" title="使用知识的方式"></a>使用知识的方式</h3><ol>
-<li>找份工作</li>
-<li>申请专利</li>
-<li>将知识具体化为方案或者服务或者机器</li>
-</ol>
-<h3 id="提升个人价值的方法"><a href="#提升个人价值的方法" class="headerlink" title="提升个人价值的方法"></a>提升个人价值的方法</h3><ul>
-<li>影响因素</li>
-</ul>
-<ol>
-<li>知识的独特性</li>
-<li>社会对知识的需求<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E4%BD%A0%E7%9A%84%E7%9F%A5%E8%AF%86%E9%9C%80%E8%A6%81%E7%AE%A1%E7%90%86-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-4.jpg" alt="enter image description here"></li>
-</ol>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
-<li>学习知识要求精，要重根源</li>
-<li>保存知识则要断舍离，要有章法</li>
-<li>分享是为了让别人认可自己，这是双赢</li>
-<li>使用知识是为了让自己掌握，所有的纸上谈兵都是空</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1858,7 +1797,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
