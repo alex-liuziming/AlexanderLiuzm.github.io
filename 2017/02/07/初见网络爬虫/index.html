@@ -85,18 +85,20 @@
 
 
 <meta name="description" content="在Python中获取HTML文档-urllib尽管真实世界当中实现互联网连接的方法听起来很复杂，又是发送数据包，又是重写重用的，但是在Python当中获取一个HTML文档却相当简单。只要调用urllib库的urlopen函数就可以了，而且这个库还是Python自带的库，不需要额外安装。
-具体实现代码如下：123from urllib.request import urlopenhtml = url">
+具体实现代码如下：123from urllib.request import urlopenhtml = ur">
 <meta property="og:type" content="article">
 <meta property="og:title" content="初见网络爬虫">
 <meta property="og:url" content="http://yoursite.com/2017/02/07/初见网络爬虫/index.html">
 <meta property="og:site_name" content="牧牧闻叨">
 <meta property="og:description" content="在Python中获取HTML文档-urllib尽管真实世界当中实现互联网连接的方法听起来很复杂，又是发送数据包，又是重写重用的，但是在Python当中获取一个HTML文档却相当简单。只要调用urllib库的urlopen函数就可以了，而且这个库还是Python自带的库，不需要额外安装。
-具体实现代码如下：123from urllib.request import urlopenhtml = url">
-<meta property="og:updated_time" content="2017-02-07T15:40:32.810Z">
+具体实现代码如下：123from urllib.request import urlopenhtml = ur">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E5%88%9D%E8%A7%81%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB.jpg">
+<meta property="og:updated_time" content="2017-02-07T16:08:15.378Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初见网络爬虫">
 <meta name="twitter:description" content="在Python中获取HTML文档-urllib尽管真实世界当中实现互联网连接的方法听起来很复杂，又是发送数据包，又是重写重用的，但是在Python当中获取一个HTML文档却相当简单。只要调用urllib库的urlopen函数就可以了，而且这个库还是Python自带的库，不需要额外安装。
-具体实现代码如下：123from urllib.request import urlopenhtml = url">
+具体实现代码如下：123from urllib.request import urlopenhtml = ur">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E5%88%9D%E8%A7%81%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB.jpg">
 
 
 
@@ -289,7 +291,8 @@
       
 
       
-        <h1 id="在Python中获取HTML文档-urllib"><a href="#在Python中获取HTML文档-urllib" class="headerlink" title="在Python中获取HTML文档-urllib"></a>在Python中获取HTML文档-urllib</h1><p>尽管真实世界当中实现互联网连接的方法听起来很复杂，又是发送数据包，又是重写重用的，但是在Python当中获取一个HTML文档却相当简单。<strong>只要调用urllib库的urlopen函数就可以了，而且这个库还是Python自带的库，不需要额外安装。</strong></p>
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E5%88%9D%E8%A7%81%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB.jpg" class="full-image"></p>
+<h1 id="在Python中获取HTML文档-urllib"><a href="#在Python中获取HTML文档-urllib" class="headerlink" title="在Python中获取HTML文档-urllib"></a>在Python中获取HTML文档-urllib</h1><p>尽管真实世界当中实现互联网连接的方法听起来很复杂，又是发送数据包，又是重写重用的，但是在Python当中获取一个HTML文档却相当简单。<strong>只要调用urllib库的urlopen函数就可以了，而且这个库还是Python自带的库，不需要额外安装。</strong></p>
 <p>具体实现代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line">html = urlopen(<span class="string">"http://pythonscraping.com/pages/page1.html"</span>)</span><br><span class="line">print(html.read())</span><br></pre></td></tr></table></figure></p>
 <p>更多有关于urllib库的相关信息可以读读<a href="https://docs/python.org/3/library/urllib.html" target="_blank" rel="external">urllib 库的Python文档</a></p>
 <h1 id="从HTML文档中提取特定的部分-BeautifulSoup"><a href="#从HTML文档中提取特定的部分-BeautifulSoup" class="headerlink" title="从HTML文档中提取特定的部分-BeautifulSoup"></a>从HTML文档中提取特定的部分-BeautifulSoup</h1><p><strong>从一个复杂的HTML文档中提取我们需要的数据（例如：h1标签）就要用到BeautifulSoup库当中的BeautifulSoup对象。</strong>通常我们都先将一个HTML赋值给BeautifulSoup对象，然后再从这个对象中取出特定的标签。从BeautifulSoup对象调取标签时，不管是一层标签（<code>body</code>）还是二层标签（<code>h1</code>），都可以直接调取，当然从一层标签后再调取二层标签也是没有问题的。（例如：<code>bsObj.body.h1</code>）</p>
