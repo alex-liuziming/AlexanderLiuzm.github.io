@@ -248,6 +248,126 @@
             
               
                 
+                <a class="post-title-link" href="/2017/02/07/初见网络爬虫/" itemprop="url">
+                  初见网络爬虫
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-07T23:39:31+08:00" content="2017-02-07">
+              2017-02-07
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="在Python中获取HTML文档-urllib"><a href="#在Python中获取HTML文档-urllib" class="headerlink" title="在Python中获取HTML文档-urllib"></a>在Python中获取HTML文档-urllib</h1><p>尽管真实世界当中实现互联网连接的方法听起来很复杂，又是发送数据包，又是重写重用的，但是在Python当中获取一个HTML文档却相当简单。<strong>只要调用urllib库的urlopen函数就可以了，而且这个库还是Python自带的库，不需要额外安装。</strong></p>
+<p>具体实现代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line">html = urlopen(<span class="string">"http://pythonscraping.com/pages/page1.html"</span>)</span><br><span class="line">print(html.read())</span><br></pre></td></tr></table></figure></p>
+<p>更多有关于urllib库的相关信息可以读读<a href="https://docs/python.org/3/library/urllib.html" target="_blank" rel="external">urllib 库的Python文档</a></p>
+<h1 id="从HTML文档中提取特定的部分-BeautifulSoup"><a href="#从HTML文档中提取特定的部分-BeautifulSoup" class="headerlink" title="从HTML文档中提取特定的部分-BeautifulSoup"></a>从HTML文档中提取特定的部分-BeautifulSoup</h1><p><strong>从一个复杂的HTML文档中提取我们需要的数据（例如：h1标签）就要用到BeautifulSoup库当中的BeautifulSoup对象。</strong>通常我们都先将一个HTML赋值给BeautifulSoup对象，然后再从这个对象中取出特定的标签。从BeautifulSoup对象调取标签时，不管是一层标签（<code>body</code>）还是二层标签（<code>h1</code>），都可以直接调取，当然从一层标签后再调取二层标签也是没有问题的。（例如：<code>bsObj.body.h1</code>）</p>
+<p>示例代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line">html = urlopen(<span class="string">"http://pythonscraping.com/pages/page1.html"</span>)</span><br><span class="line">bsObj = BeautifulSoup(html)</span><br><span class="line">print(bsObj.h1)</span><br></pre></td></tr></table></figure></p>
+<p>更多信息可以读一读<a href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/" target="_blank" rel="external">BeautifulSoup的文档</a></p>
+<h1 id="编写爬虫时可能出现的错误"><a href="#编写爬虫时可能出现的错误" class="headerlink" title="编写爬虫时可能出现的错误"></a>编写爬虫时可能出现的错误</h1><h2 id="调用urlopen时可能发生的错误"><a href="#调用urlopen时可能发生的错误" class="headerlink" title="调用urlopen时可能发生的错误"></a>调用urlopen时可能发生的错误</h2><p>我们编写爬虫时，在打开一个网页的时候很可能会出现两种错误：</p>
+<ol>
+<li>网页在服务器上不存在</li>
+<li>服务器不存在</li>
+</ol>
+<p>两种错误在Python中对应的会出现的Error：</p>
+<ol>
+<li><strong>urlopen函数会抛出<code>HTTPError</code></strong></li>
+<li><strong>urlopen函数会返回<code>None</code></strong></li>
+</ol>
+<h2 id="调用BeautifulSoup对象时可能发生的错误"><a href="#调用BeautifulSoup对象时可能发生的错误" class="headerlink" title="调用BeautifulSoup对象时可能发生的错误"></a>调用BeautifulSoup对象时可能发生的错误</h2><p>当我们确认网页是存在的，我们可以获取到HTML文档的时候，我们可以开始利用BeautifulSoup对象把HTML文档中的信息提取出来。这时也会有两种错误：</p>
+<ol>
+<li>我们调取的标签不存在</li>
+<li><strong>我们不仅调取了不存在的标签，还调取了该标签下的子标签</strong></li>
+</ol>
+<p>两种错误在Python中对应的会出现的Error：</p>
+<ol>
+<li>BeautifulSoup会返回<code>None</code></li>
+<li>BeautifulSoup会返回一个<code>AttributeError</code></li>
+</ol>
+<h2 id="检查与处理错误"><a href="#检查与处理错误" class="headerlink" title="检查与处理错误"></a>检查与处理错误</h2><p>为了方便反复调用检查爬虫错误，我们可以设计一个小小的函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> urllib.error <span class="keyword">import</span> HTTPError, URLError</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getTitle</span><span class="params">(url)</span>:</span></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		html = urlopen(url)</span><br><span class="line">	<span class="keyword">except</span> (HTTPError, URLError) <span class="keyword">as</span> e:</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		bsObj = BeautifulSoup(html.read())</span><br><span class="line">		title = bsObj.body.h1</span><br><span class="line">	<span class="keyword">except</span> AttributeError <span class="keyword">as</span> e:</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">	<span class="keyword">return</span> title</span><br><span class="line">title =  getTitle(<span class="string">"http://www.pythonscraping.com/pages/page1.html"</span>)</span><br><span class="line"><span class="keyword">if</span> title == <span class="keyword">None</span>:</span><br><span class="line">	print(<span class="string">"Title could not be found"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	print(title)</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/06/家中的妻/" itemprop="url">
                   家中的妻
                 </a>
@@ -1349,143 +1469,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/11/根据条件批量删除行/" itemprop="url">
-                  根据条件批量删除行
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-11T15:09:32+08:00" content="2016-08-11">
-              2016-08-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4%E8%A1%8C.jpg" class="full-image"></p>
-<p>批量进行删除行的方法有三种：</p>
-<ol>
-<li>直接对比</li>
-<li>Find方法</li>
-<li>定位法</li>
-<li>公式法</li>
-</ol>
-<h1 id="直接对比法"><a href="#直接对比法" class="headerlink" title="直接对比法"></a>直接对比法</h1><p>就像名字所说的，“直接对比方法”的原理就是——<br><strong>一行行一列列的进行对比，检测是否一整行都是重复的</strong><br>先po上具体的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Sub multidelete()</span><br><span class="line">Dim i As Integer</span><br><span class="line">Dim j As Integer</span><br><span class="line">Dim rw As Long</span><br><span class="line">Dim col As Long</span><br><span class="line"></span><br><span class="line">   rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">   col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">    </span><br><span class="line">    For i = rw To 1 Step -1</span><br><span class="line">        For j = 1 To col</span><br><span class="line">            If Cells(i, j).Interior.Color = mycolor Then</span><br><span class="line">                Rows(i).Delete</span><br><span class="line">                Exit For</span><br><span class="line">            End If</span><br><span class="line">        Next j</span><br><span class="line">    Next i</span><br><span class="line">    </span><br><span class="line">    MsgBox &quot;删除完成&quot;</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h1 id="Find方法"><a href="#Find方法" class="headerlink" title="Find方法"></a>Find方法</h1><p>这个方法主要是利用了Excel中的查找功能找到对应格式的单元格（如黄色底纹的等等）<br>利用这个方法的时候先利用Excel录制宏，得到一段代码。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBAFind%E6%96%B9%E6%B3%95.gif" alt="enter image description here"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">Sub 宏1()</span><br><span class="line">&apos;</span><br><span class="line">&apos; 宏1 宏</span><br><span class="line">&apos;</span><br><span class="line"></span><br><span class="line">&apos;</span><br><span class="line">    Range(&quot;E14&quot;).Select</span><br><span class="line">    Application.FindFormat.Clear</span><br><span class="line">    Application.FindFormat.NumberFormat = &quot;yyyy/m/d&quot;</span><br><span class="line">    With Application.FindFormat</span><br><span class="line">        .HorizontalAlignment = xlGeneral</span><br><span class="line">        .VerticalAlignment = xlCenter</span><br><span class="line">        .WrapText = False</span><br><span class="line">        .Orientation = 0</span><br><span class="line">        .AddIndent = False</span><br><span class="line">        .ShrinkToFit = False</span><br><span class="line">        .MergeCells = False</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Font</span><br><span class="line">        .Name = &quot;微软雅黑&quot;</span><br><span class="line">        .FontStyle = &quot;常规&quot;</span><br><span class="line">        .Size = 10</span><br><span class="line">        .Strikethrough = False</span><br><span class="line">        .Superscript = False</span><br><span class="line">        .Subscript = False</span><br><span class="line">        .Underline = xlUnderlineStyleNone</span><br><span class="line">        .ThemeColor = 2</span><br><span class="line">        .TintAndShade = 0</span><br><span class="line">        .ThemeFont = xlThemeFontNone</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlLeft)</span><br><span class="line">        .LineStyle = xlContinuous</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlRight)</span><br><span class="line">        .LineStyle = xlContinuous</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlTop)</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    With Application.FindFormat.Borders(xlBottom)</span><br><span class="line">        .LineStyle = xlContinuous</span><br><span class="line">        .ThemeColor = 1</span><br><span class="line">        .TintAndShade = -0.249977111117893</span><br><span class="line">        .Weight = xlThin</span><br><span class="line">    End With</span><br><span class="line">    Application.FindFormat.Borders(xlDiagonalDown).LineStyle = xlNone</span><br><span class="line">    Application.FindFormat.Borders(xlDiagonalUp).LineStyle = xlNone</span><br><span class="line">    With Application.FindFormat.Interior</span><br><span class="line">        .Pattern = xlSolid</span><br><span class="line">        .PatternColorIndex = xlAutomatic</span><br><span class="line">        .Color = 15773696</span><br><span class="line">        .TintAndShade = 0</span><br><span class="line">        .PatternTintAndShade = 0</span><br><span class="line">    End With</span><br><span class="line">    Application.FindFormat.Locked = True</span><br><span class="line">    Application.FindFormat.FormulaHidden = False</span><br><span class="line">    Range(&quot;A14:F14&quot;).Select</span><br><span class="line">    Selection.Find(What:=&quot;&quot;, After:=ActiveCell, LookIn:=xlFormulas, LookAt _</span><br><span class="line">        :=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, MatchCase:= _</span><br><span class="line">        False, MatchByte:=False, SearchFormat:=True).Activate</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
-<p>这段代码是先规定搜索的格式，然后启用格式搜索，按着之前规定的一定格式进行搜索。重点的主要是这几句<br><code>Application.FindFormat.Clear</code>-清除搜索格式<br><code>With Application.FindFormat</code>-用下列的格式进行搜索<br><code>Application.FindFormat.Interior</code>-规定搜索的内部格式<br><code>.Color = 15773696</code>规定内部的格式</p>
-<blockquote>
-<p>注：因为这里主要是根据规定的颜色格式进行查找并删除，所以其他的格式规定也就没什么用，可以删除。</p>
-</blockquote>
-<p>最后贴上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Sub multidelete()</span><br><span class="line">Dim i As Integer</span><br><span class="line">Dim j As Integer</span><br><span class="line">Dim rw As Long</span><br><span class="line">Dim col As Long</span><br><span class="line">Dim mycolor</span><br><span class="line"></span><br><span class="line">   rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">   col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">   </span><br><span class="line">    mycolor = Range(&quot;A8&quot;).Interior.Color</span><br><span class="line">    </span><br><span class="line">    For i = rw To 1 Step -1</span><br><span class="line">        Application.FindFormat.Clear</span><br><span class="line">        Application.FindFormat.Interior.Color = mycolor</span><br><span class="line">        If Not Range(Cells(i, 1), Cells(i, col)).Find(What:=&quot;&quot;, SearchFormat:=True) Is Nothing Then Rows(i).Delete</span><br><span class="line">    Next i</span><br><span class="line">    </span><br><span class="line">    MsgBox &quot;删除完成&quot;</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h1 id="定位方法"><a href="#定位方法" class="headerlink" title="定位方法"></a>定位方法</h1><p>利用Excel中的定位功能对空单元格进行定位，并进行删除。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%AE%9A%E4%BD%8D.gif" alt="enter image description here"></p>
-<p>当我在进行这一步的时候遇到了一些问题，Excel总是显示“不能在重叠的区域上使用此命令”。这是因为同一行当中如果有两个不相邻的空白单元格，就会出现“不能再在重叠的选定区域上使用此命令”的情况。为了避免这种情况发生，可以在这句代码签名增加一句代码：<code>ActiveSheet.UsedRange.SpecialCells(xlCellTypeBlanks).EntireRow.Clear</code><br>po上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Sub DelBlanks()</span><br><span class="line">    ActiveSheet.UsedRange.SpecialCells(xlCellTypeBlanks).EntireRow.Clear</span><br><span class="line">    ActiveSheet.UsedRange.SpecialCells(xlCellTypeBlanks).EntireRow.Delete</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h1 id="函数公式法"><a href="#函数公式法" class="headerlink" title="函数公式法"></a>函数公式法</h1><p>利用Excel中的工作表函数对有内容的单元格进行清点，然后对不符合的<strong>行</strong>进行删除。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%87%BD%E6%95%B0%E5%85%AC%E5%BC%8F.gif" alt="enter image description here"><br>po上代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Sub DelBlankRows()</span><br><span class="line">Dim i As Integer</span><br><span class="line">Dim j As Integer</span><br><span class="line">Dim rw As Long</span><br><span class="line">Dim col As Long</span><br><span class="line">Dim mycolor</span><br><span class="line"></span><br><span class="line">   rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">   col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">    </span><br><span class="line">    For i = rw To 1 Step -1</span><br><span class="line">        If WorksheetFunction.CountA(Rows(i)) = 0 Then Rows(i).Delete</span><br><span class="line">    Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>纵然方法有很多种，但是面对每次的任务，只要有一种能奏效基本也就够用了。面对不同的任务，我们可以根据不同的情况来选择不同的解决方案，无论任务多棘手，都可以及时的拿出应对方案从容解决，这就是学习各种各样不同解决方案思路的目的。</p>
-<blockquote>
-<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1531,7 +1514,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">27</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1548,7 +1531,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
