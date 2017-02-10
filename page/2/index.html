@@ -248,6 +248,123 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/12/数据类型的转换/" itemprop="url">
+                  数据类型的转换
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-12T21:39:15+08:00" content="2016-09-12">
+              2016-09-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2.jpg" class="full-image"></p>
+<h1 id="什么是数据的类型"><a href="#什么是数据的类型" class="headerlink" title="什么是数据的类型"></a>什么是数据的类型</h1><p>这里所说的数据的类型并不是<code>单元格格式</code>，单元格格式有很多类型，比如日期类型，文本类型和自定义等等。但是数据的类型是指输入的值自己的性质，不是单元格的格式，最常用到的有数据类型和文本类型。</p>
+<h1 id="转换数据类型的思路"><a href="#转换数据类型的思路" class="headerlink" title="转换数据类型的思路"></a>转换数据类型的思路</h1><p>直接对单元格内数据的格式进行转换可能会有问题，所以考虑首先把数据的格式转换成<code>G/通用格式</code>，之后再进行下一步的转换，把数据转成自己需要的格式。</p>
+<p>想要把文本类型的数据改成数值类型可以使用VBA的函数——<code>val()</code>函数。而如果想把数值类型的数据改成文本格式，方法就相对来说简单很多，平时我们输入文本格式的数据时都会在数字前面加上一个单引号<code>&#39;</code>，这里也可以用同样的方法。</p>
+<h1 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h1><h2 id="数值转文本"><a href="#数值转文本" class="headerlink" title="数值转文本"></a>数值转文本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Sub 数据转文本()</span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    Range(&quot;A&quot; &amp; i).NumberFormatLocal = &quot;G/通用格式&quot;</span><br><span class="line">    Range(&quot;A&quot; &amp; i).Value = &quot;&apos;&quot; &amp; Range(&quot;A&quot; &amp; i).Value</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+<h2 id="文本转数值"><a href="#文本转数值" class="headerlink" title="文本转数值"></a>文本转数值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Sub 文本转数值()</span><br><span class="line">Dim i As Integer</span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    Range(&quot;A&quot; &amp; i).NumberFormatLocal = &quot;G/通用格式&quot;</span><br><span class="line">    Range(&quot;A&quot; &amp; i).Value = Val(Range(&quot;A&quot; &amp; i).Value)</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/08/11/根据条件批量删除行/" itemprop="url">
                   根据条件批量删除行
                 </a>
@@ -1603,130 +1720,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/10/ExcelVBA中对象的属性和方法/" itemprop="url">
-                  ExcelVBA中对象的属性和方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-10T13:48:03+08:00" content="2016-07-10">
-              2016-07-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95.jpg" class="full-image"></p>
-<h1 id="什么是属性和方法"><a href="#什么是属性和方法" class="headerlink" title="什么是属性和方法"></a>什么是属性和方法</h1><p>上面一篇文章中讲到了对象，简单的概括就是我们在Excel中对<code>什么东西</code>进行操作，这个<code>什么东西</code>就是所谓的对象。<br>现在讲到的属性和方法我们也可以打个比方。假如我们现在就谈论<code>水果</code>，那我们知道人会有<code>品种</code>；<code>价格</code>；<code>口感</code>等等标签来帮助我们区分不同的水果，这就是<code>属性</code>。而如果我们想要对它进行一些动作，比如<code>洗</code>水果;<code>切开</code>水果；<code>吃</code>水果等等的时候，这些词就是我们讲到的方法。<br>概括的来说：</p>
-<ul>
-<li>属性就是一个对象的一些标签</li>
-<li>方法就是我们要对对象进行的动作（或操作）</li>
-</ul>
-<h1 id="如何知道一个对象有哪些属性和方法"><a href="#如何知道一个对象有哪些属性和方法" class="headerlink" title="如何知道一个对象有哪些属性和方法"></a>如何知道一个对象有哪些属性和方法</h1><p>从上面的文章我们可以知道Excel中有很多的<code>对象</code>，这些对象的<code>属性</code>和<code>方法</code>又不近相同，怎么样才能知道一个<code>对象</code>有哪些<code>属性</code>和<code>方法</code>呢？难道我们要上网去找相应的表格，然后一个个背下来或者对着去找吗？其实巨硬公司早就想到了这一点，当我们进入到VBA编辑界面的时候，我们可以试着在一个对象的<code>.</code>后面单击右键，选择“属性/方法列表”，之后就可以看到一条下拉菜单，里面就是当前这个对象的<code>属性</code>和<code>方法</code>了。其中图标像<strong>一块被丢出去的绿色砖头</strong>的就是<code>方法</code>，而图标像<strong>一只手指着一个列表</strong>的就是<code>属性</code>，一动一静，还算好理解。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E6%96%B9%E6%B3%95%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A81.png" alt="Alt text"></p>
-<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/%E6%96%B9%E6%B3%95%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A82.png" alt="Alt text"></p>
-<blockquote>
-<p>需要注意的是，当我们的对象是<code>Selection</code>的时候是无法出现<code>方法/属性列表</code>的，因为<code>Selection</code>是泛指被选择的对象，VBA还没有智能到能够自己判断之前到底选择了什么，所以无法给出对应的列表。</p>
-<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1772,7 +1765,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

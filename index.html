@@ -248,6 +248,274 @@
             
               
                 
+                <a class="post-title-link" href="/2017/02/10/复杂HTML的解析/" itemprop="url">
+                  复杂HTML的解析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-10T08:27:50+08:00" content="2017-02-10">
+              2017-02-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E5%A4%8D%E6%9D%82HTML%E7%9A%84%E8%A7%A3%E6%9E%90.jpg" class="full-image"></p>
+<h1 id="复杂HTML解析"><a href="#复杂HTML解析" class="headerlink" title="复杂HTML解析"></a>复杂HTML解析</h1><h2 id="写在最开头——避免直接写代码"><a href="#写在最开头——避免直接写代码" class="headerlink" title="写在最开头——避免直接写代码"></a>写在最开头——避免直接写代码</h2><p>遇到一个复杂的HTML文档，第一个要想的不是如何赶紧写出代码把数据抓下来，而是要想有没有其他的替代方法。因为复杂的HTML如果不假思索的写下爬虫代码，很容易遇到问题。</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>主要有两个问题：</p>
+<ol>
+<li>代码复杂难写，不优美</li>
+<li>网站更改后篇爬虫极容易失效</li>
+</ol>
+<h3 id="替代方法"><a href="#替代方法" class="headerlink" title="替代方法"></a>替代方法</h3><p>替代方法也是有的，最好是先看看有没有其他更好的办法，最好实在很不幸，没有其他替代方法了，再思索如何写代码。</p>
+<h4 id="寻找“打印此页”按钮"><a href="#寻找“打印此页”按钮" class="headerlink" title="寻找“打印此页”按钮"></a>寻找“打印此页”按钮</h4><p>“打印此页”或者网站的移动版排版可能会比原网站更友好，可以尝试找一下，有时候会带来很大的便利。</p>
+<h4 id="寻找隐藏在Js文件里的信息"><a href="#寻找隐藏在Js文件里的信息" class="headerlink" title="寻找隐藏在Js文件里的信息"></a>寻找隐藏在Js文件里的信息</h4><p>有的数据可能隐藏在网站加载的Js文档中。</p>
+<h4 id="网页的URL链接"><a href="#网页的URL链接" class="headerlink" title="网页的URL链接"></a>网页的URL链接</h4><p>网页的标题很可能在网页的URL链接中也会出现，这时就不用大费周章了，直接拿URL用不就好了？</p>
+<h4 id="找找其他数据源"><a href="#找找其他数据源" class="headerlink" title="找找其他数据源"></a>找找其他数据源</h4><p>找找看，有没有其他网站也显示了相同的数据？别的网站HTML文档是不是更容易解析与抓取？</p>
+<h2 id="BeautifulSoup"><a href="#BeautifulSoup" class="headerlink" title="BeautifulSoup"></a>BeautifulSoup</h2><h3 id="find-amp-findAll"><a href="#find-amp-findAll" class="headerlink" title="find() &amp; findAll()"></a>find() &amp; findAll()</h3><p><code>find()</code>和<code>findAll()</code>（<strong>注意A是大写的</strong>，不大写会出错）是两个最常用的函数，来看看这两个函数的定义吧。</p>
+<ul>
+<li><code>findAll(tag, attributes, recursive, text, limit, keywords)</code></li>
+<li><code>find(tag, attributes, recursive, text,  keywords)</code><h4 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h4>可以传一个标签名称或者多个标签名称组成的列表作为参数。<br><code>&quot;h1&quot;</code><br><code>{&quot;h1&quot;,&quot;h2&quot;,&quot;h3&quot;}</code><h4 id="attributes"><a href="#attributes" class="headerlink" title="attributes"></a>attributes</h4>借用书上的话说，<blockquote>
+<p>属性参数attributes是一个；用Python字典封装一个标签的若干属性和对应的属性值。</p>
+</blockquote>
+</li>
+</ul>
+<p>示例：<br>下面的代码会返回HTML文档里红色与绿色的span标签<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bsObj.findAll(<span class="string">"span"</span>, &#123;<span class="string">"class"</span>:&#123;<span class="string">"green"</span>, <span class="string">"red"</span>&#125;&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>调用属性来抓取标签要把属性写成字典的样子。用属性的名称作为Key，用属性的值作为Value，要用到多个不同的属性，他们之间用逗号隔开就可以了。</p>
+<h4 id="recursive"><a href="#recursive" class="headerlink" title="recursive"></a>recursive</h4><p>recursive参数主要是设定BeautifulSoup是否查找我们找寻的标签的所有子标签。设置为True，那就查找所有子标签，如果是False，那就只查找文档的一级标签。recursive参数的默认值为True。</p>
+<h4 id="text"><a href="#text" class="headerlink" title="text"></a>text</h4><p>text参数是用标签的文本内容去匹配，而不是标签的属性。</p>
+<h4 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h4><p>limit参数只有findAll()函数才有，这个参数可以指定查找前x个我们想要找的标签。find()函数相当于指定limit=1的findAll()函数，只返回查找的第一个标签。</p>
+<h4 id="keywords"><a href="#keywords" class="headerlink" title="keywords"></a>keywords</h4><p>keywords参数可以让我们选择具有特定属性的标签。示例：<code>allText = bsObj.findAll(id=&quot;text&quot;)</code>。虽然说看起来好像很方便，但是其实keywords能做到的，通过Tag+Attrubute也能实现。并且使用keywords是有限制的，例如<code>class</code>是Python的保留字段，也就是说我们使用keywords参数时是无法查找<code>class</code>属性对应的标签的。解决的办法是这样写<code>bsObj.findAll(class_=&quot;green&quot;)</code>。</p>
+<p>那这是否说明我们可以放弃keywords参数，全面转向Tag+Attribute就可以了呢？其实也不尽然，keywords属性也有他的独到的用武之地。</p>
+<blockquote>
+<p>通过标签参数tag把标签列表传到<code>.findAll()</code>里获取一列标签，其实就是一个“或”关系的过滤器。如果你的标签列表很长，就需要花很长时间才能完成。而关键词keywords可以让你增加一个“与”关系的过滤器来简化工作。</p>
+</blockquote>
+<h3 id="通过属性抓取到标签后"><a href="#通过属性抓取到标签后" class="headerlink" title="通过属性抓取到标签后"></a>通过属性抓取到标签后</h3><p>上面讲到的<code>find()</code>和<code>findAll()</code>函数可以帮助我们通过标签、属性甚至标签内的文本去匹配某些标签，匹配到特定的标签之后我们还想要提取出其中包含的信息，那就要用到下面的两个函数了。</p>
+<h4 id="获取标签内的文本get-text"><a href="#获取标签内的文本get-text" class="headerlink" title="获取标签内的文本get_text( )"></a>获取标签内的文本<code>get_text( )</code></h4><blockquote>
+<p><code>get_text()</code>会把你正在处理的HTML文档中所有的标签都清除，然后返回一个只包含文字的字符串。</p>
+</blockquote>
+<p>就是说，用了这个函数，我们可以提取出html标签之间包含的内容。一般情况下，我们会最后再用这个函数，因为我们总是希望可以尽量的保留HTML文档的标签结构。</p>
+<h4 id="获取标签的属性-quot-src-quot"><a href="#获取标签的属性-quot-src-quot" class="headerlink" title="获取标签的属性[&quot;src&quot;]"></a>获取标签的属性<code>[&quot;src&quot;]</code></h4><blockquote>
+<p>在网络数据采集的时候，你往往不需要查找标签的内容，而是需要查找标签属性。比如标签<code>&lt;a&gt;</code>只想的URL连接包含在<code>herf</code>属性当中，或者<code>&lt;img&gt;</code>标签的图片文件包含在<code>src</code>属性中，这时获取标签属性就变得非常有用了。</p>
+</blockquote>
+<p>如果我们不对匹配到的内容做任何处理，那么返回给我们的就是一个Python字典对象，而我们想要提取出特定属性的属性值，我们只要给它一个Key让他去提取就可以了。</p>
+<p>示例：<code>myImgTag.attr[&quot;src&quot;]</code></p>
+<h3 id="BeautifulSoup库里的对象"><a href="#BeautifulSoup库里的对象" class="headerlink" title="BeautifulSoup库里的对象"></a>BeautifulSoup库里的对象</h3><p>BeautifulSoup库中有四类对象，最常用的是前两种。</p>
+<h4 id="BeautifulSoup对象"><a href="#BeautifulSoup对象" class="headerlink" title="BeautifulSoup对象"></a>BeautifulSoup对象</h4><p>最常用的对象</p>
+<h4 id="Tag对象"><a href="#Tag对象" class="headerlink" title="Tag对象"></a>Tag对象</h4><p>BeautifulSoup对象通过find和findAll，或者直接调用子标签获取的一列对象或一个对象。</p>
+<h4 id="NavigableString对象"><a href="#NavigableString对象" class="headerlink" title="NavigableString对象"></a>NavigableString对象</h4><p>用来表示标签里的文字，不是标签。</p>
+<h4 id="Comment对象"><a href="#Comment对象" class="headerlink" title="Comment对象"></a>Comment对象</h4><p>用来查找HTML中的注释标签</p>
+<h3 id="导航树"><a href="#导航树" class="headerlink" title="导航树"></a>导航树</h3><p>用<code>find()</code>和<code>findAll()</code>可以通过标签和属性来获取标签，而导航树则给我们提供了另外一种方法——通过位置来获取标签。</p>
+<h4 id="子标签与后代标签"><a href="#子标签与后代标签" class="headerlink" title="子标签与后代标签"></a>子标签与后代标签</h4><p>子标签(Children)和后代标签(descendants)是不一样的，子标签是父标签下的一级标签，而后代标签是指父标签下的所有标签。</p>
+<p>BeautifulSoup默认查找是在一个父标签的后代标签中查找我们要找的标签。比如说，<code>bsObj.div.h1</code>，BeautifulSoup会先在HTML文档中找到第一个div标签，在div标签的后代标签中查找第一个h1标签，而不会再跳出这个div向后继续查找。</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line">html = urlopen(<span class="string">"http://www.pythonscraping.com/pages/page3.html"</span>)</span><br><span class="line">bsObj = BeautifulSoup(html)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> child <span class="keyword">in</span> bsObj.find(<span class="string">"table"</span>,&#123;<span class="string">"id"</span>:<span class="string">"giftList"</span>&#125;).children:</span><br><span class="line">	print(child)</span><br></pre></td></tr></table></figure></p>
+<h4 id="兄弟标签"><a href="#兄弟标签" class="headerlink" title="兄弟标签"></a>兄弟标签</h4><p>兄弟标签(sibling)顾名思义就是获取某个标签同一级的标签。sibling函数有四个：</p>
+<ol>
+<li>获取一组标签</li>
+</ol>
+<ul>
+<li>next_siblings()</li>
+<li>previous_siblings()</li>
+</ul>
+<ol>
+<li>获取一个标签</li>
+</ol>
+<ul>
+<li>next_sibling</li>
+<li>previous_sibling</li>
+</ul>
+<p>用兄弟标签的时候要注意，我们作为定位的标签不会被获取。这也很容易理解，因为一个人不能被称为是自己的兄弟嘛。哪有人说自己的兄弟是自己的？对标签来说也是一样。  </p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">html = urlopen(<span class="string">"http://www.pythonscraping.com/pages/page3.html"</span>)</span><br><span class="line">bsObj = BeautifulSoup(html)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> sibling <span class="keyword">in</span> bsObj.find(<span class="string">"table"</span>,&#123;<span class="string">"id"</span>:<span class="string">"giftList"</span>&#125;).tr.next_siblings:</span><br><span class="line">	print(sibling)</span><br></pre></td></tr></table></figure></p>
+<h4 id="父标签"><a href="#父标签" class="headerlink" title="父标签"></a>父标签</h4><p>父标签(parent)在爬虫中使用的较少，因为正常的思维就是从上到下，因为父标签一般来说更少，更容易查找。但是某些特殊情况下我们也要使用父标签，比如父标签没有什么属性可以定位，而子标签却有。另外导航树的三种标签也是可以叠加使用的，使查找标签更准确。</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">html = urlopen(<span class="string">"http://pythonscraping.com/pages/page3.html"</span>)</span><br><span class="line">bsObj = BeautifulSoup(html)</span><br><span class="line">print(bsObj.find(<span class="string">"img"</span>,&#123;<span class="string">"src"</span>:<span class="string">"../img/gifts/img1.jpg"</span></span><br><span class="line">	                   &#125;).parent.previous_sibling.get_text())</span><br></pre></td></tr></table></figure></p>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>正则表达式可以识别正则字符串，正则表达式相当于定下了一个规则，<strong>如果一串字符符合这个规则，就返回这串字符，而如果不符合，就不返回，直接忽略他</strong>。</p>
+<h3 id="正则表达式常用符号"><a href="#正则表达式常用符号" class="headerlink" title="正则表达式常用符号"></a>正则表达式常用符号</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">符号</th>
+<th style="text-align:center">含义</th>
+<th style="text-align:center">例子</th>
+<th style="text-align:center">匹配结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">匹配前面的字符、子表达式或括号里的字符0次或多次</td>
+<td style="text-align:center">a*b*</td>
+<td style="text-align:center">aaaa,aaabbb,bbbb</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:center">匹配前面的字符、子表达式或括号里的字符至少1次</td>
+<td style="text-align:center">a+b+</td>
+<td style="text-align:center">aaab,aabb,abbb</td>
+</tr>
+<tr>
+<td style="text-align:center">[]</td>
+<td style="text-align:center">匹配任意一个字符</td>
+<td style="text-align:center">[A-Z]*</td>
+<td style="text-align:center">APPLE,CAPTAL</td>
+</tr>
+<tr>
+<td style="text-align:center">()</td>
+<td style="text-align:center">表达式编组</td>
+<td style="text-align:center">(a*b)*</td>
+<td style="text-align:center">ababaaab,abaaab</td>
+</tr>
+<tr>
+<td style="text-align:center">{m,n}</td>
+<td style="text-align:center">匹配前面的字符、子表达式或括号里的字符m到n次</td>
+<td style="text-align:center">a{2,3}b{2,3}</td>
+<td style="text-align:center">aabbb,aaabb</td>
+</tr>
+<tr>
+<td style="text-align:center">[^]</td>
+<td style="text-align:center">匹配任意一个不再中括号里的字符</td>
+<td style="text-align:center">[^A-Z]*</td>
+<td style="text-align:center">apple,ball</td>
+</tr>
+<tr>
+<td style="text-align:center">丨</td>
+<td style="text-align:center">匹配任意一个由竖线分割的字符、子表达式</td>
+<td style="text-align:center">b(a丨i丨e)d</td>
+<td style="text-align:center">bad,bid,bed</td>
+</tr>
+<tr>
+<td style="text-align:center">.</td>
+<td style="text-align:center">匹配任意单个字符</td>
+<td style="text-align:center">b.d</td>
+<td style="text-align:center">bad,b$d,b d</td>
+</tr>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:center">指定字符串开始位置的字符或子表达式</td>
+<td style="text-align:center">^a</td>
+<td style="text-align:center">apple,adin</td>
+</tr>
+<tr>
+<td style="text-align:center">\</td>
+<td style="text-align:center">转义字符</td>
+<td style="text-align:center">\.\丨\\</td>
+<td style="text-align:center">.丨\</td>
+</tr>
+<tr>
+<td style="text-align:center">\$</td>
+<td style="text-align:center">用在正则表达式末尾，表示末端匹配，如果不用的话，正则表达式默认结尾会匹配.*</td>
+<td style="text-align:center">[A-Z]*[a-z]*\$</td>
+<td style="text-align:center">ABCabc,azbd</td>
+</tr>
+</tbody>
+</table>
+<h3 id="在BeautifulSoup中应用正则表达式"><a href="#在BeautifulSoup中应用正则表达式" class="headerlink" title="在BeautifulSoup中应用正则表达式"></a>在BeautifulSoup中应用正则表达式</h3><p>在BeautifulSoup中想要用正则表达式去匹配标签，要先import re这个库，然后使用<code>re.compile()</code>这个函数。</p>
+<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlopen</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">html = urlopen(<span class="string">"http://pythonscraping.com/pages/page3.html"</span>)</span><br><span class="line">bsObj = BeautifulSoup(html)</span><br><span class="line">images = bsObj.findAll(<span class="string">"img"</span>,&#123;<span class="string">"src"</span>:re.compile(<span class="string">"\.\.\/img\/gifts\/img.*\.jpg"</span>)&#125;)</span><br><span class="line"><span class="keyword">for</span> image <span class="keyword">in</span> images:</span><br><span class="line">	print(image[<span class="string">"src"</span>])</span><br></pre></td></tr></table></figure></p>
+<h2 id="其他HTML解析库"><a href="#其他HTML解析库" class="headerlink" title="其他HTML解析库"></a>其他HTML解析库</h2><p>除了BeautifulSoup，Python还有很多别的HTML解析库，当然了，BeautifulSoup是最受欢迎的几个解析库之一。</p>
+<h3 id="lxml"><a href="#lxml" class="headerlink" title="lxml"></a>lxml</h3><blockquote>
+<p>这个库可以用来解析HTML和XML文档，虽然学习它要花一些时间，但是它在处理绝大多数HTML文档时速度都非常快。</p>
+</blockquote>
+<h3 id="HTML-parser"><a href="#HTML-parser" class="headerlink" title="HTML parser"></a>HTML parser</h3><blockquote>
+<p>这是Python自带的解析库。（<a href="https://docs.python.org/3/library/html.parser.html" target="_blank" rel="external">这是它的说明文档</a>）因为不用安装，所以可以很方便的使用。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/02/07/初见网络爬虫/" itemprop="url">
                   初见网络爬虫
                 </a>
@@ -267,6 +535,25 @@
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -1353,123 +1640,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/12/数据类型的转换/" itemprop="url">
-                  数据类型的转换
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-12T21:39:15+08:00" content="2016-09-12">
-              2016-09-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2.jpg" class="full-image"></p>
-<h1 id="什么是数据的类型"><a href="#什么是数据的类型" class="headerlink" title="什么是数据的类型"></a>什么是数据的类型</h1><p>这里所说的数据的类型并不是<code>单元格格式</code>，单元格格式有很多类型，比如日期类型，文本类型和自定义等等。但是数据的类型是指输入的值自己的性质，不是单元格的格式，最常用到的有数据类型和文本类型。</p>
-<h1 id="转换数据类型的思路"><a href="#转换数据类型的思路" class="headerlink" title="转换数据类型的思路"></a>转换数据类型的思路</h1><p>直接对单元格内数据的格式进行转换可能会有问题，所以考虑首先把数据的格式转换成<code>G/通用格式</code>，之后再进行下一步的转换，把数据转成自己需要的格式。</p>
-<p>想要把文本类型的数据改成数值类型可以使用VBA的函数——<code>val()</code>函数。而如果想把数值类型的数据改成文本格式，方法就相对来说简单很多，平时我们输入文本格式的数据时都会在数字前面加上一个单引号<code>&#39;</code>，这里也可以用同样的方法。</p>
-<h1 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h1><h2 id="数值转文本"><a href="#数值转文本" class="headerlink" title="数值转文本"></a>数值转文本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Sub 数据转文本()</span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    Range(&quot;A&quot; &amp; i).NumberFormatLocal = &quot;G/通用格式&quot;</span><br><span class="line">    Range(&quot;A&quot; &amp; i).Value = &quot;&apos;&quot; &amp; Range(&quot;A&quot; &amp; i).Value</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-<h2 id="文本转数值"><a href="#文本转数值" class="headerlink" title="文本转数值"></a>文本转数值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Sub 文本转数值()</span><br><span class="line">Dim i As Integer</span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    Range(&quot;A&quot; &amp; i).NumberFormatLocal = &quot;G/通用格式&quot;</span><br><span class="line">    Range(&quot;A&quot; &amp; i).Value = Val(Range(&quot;A&quot; &amp; i).Value)</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1515,7 +1685,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
