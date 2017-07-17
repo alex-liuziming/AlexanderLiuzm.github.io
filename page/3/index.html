@@ -248,6 +248,161 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/12/ExcelVBA编写第一个程序/" itemprop="url">
+                  ExcelVBA编写第一个程序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-12T17:25:29+08:00" content="2016-07-12">
+              2016-07-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E7%BC%96%E5%86%99%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A8%8B%E5%BA%8F.jpg" class="full-image"></p>
+<p>之前的课程中仅仅是对录制的代码进行微小改动，这节课中将用之前学到<code>对象</code>，<code>方法</code>和<code>属性</code>编写第一份VBA代码。</p>
+<h1 id="情景"><a href="#情景" class="headerlink" title="情景"></a>情景</h1><p>文件夹中有<strong>三个Excel文件</strong>，它们各自包含若干<strong>工作表</strong>，每个工作表有若干行<strong>数据</strong>。现在要把每个工作表中的单元格复制到一份新的工作表中，由上到下依次排列。</p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/VBA%E6%83%85%E6%99%AF%E7%A4%BA%E6%84%8F%E5%9B%BE1.jpg" alt="场景描述"></p>
+<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><p>我们要用VBA实现的操作如下：</p>
+<ol>
+<li><strong>选中第一个Excel文件</strong></li>
+<li><strong>选中文件中的第一张工作表</strong></li>
+<li>选择工作表中有内容的单元格</li>
+<li>复制粘贴到新的工作表中</li>
+<li><strong>再选中第二张工作表</strong></li>
+<li>选择工作表中有内容的单元格</li>
+<li>复制粘贴到新的工作表中</li>
+<li>……</li>
+<li>第一个文件全部复制完后，<strong>选择第二个Excel文件</strong></li>
+<li><strong>选中文件中的第一张工作表</strong></li>
+<li>选择工作表中有内容的单元格</li>
+<li>复制粘贴到新的工作表中</li>
+<li><strong>再选中第二张工作表</strong></li>
+<li>……</li>
+</ol>
+<p>如此循环往复，一直到把三张表中的单元格全部复制到新表格中为止。</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>在操作中可以看到有很多步骤是完全一样的（选择单元格可以用<code>UsedRange</code>这个对象，所以就不看做一个变量了），其中有少数几个变量：</p>
+<ol>
+<li>选中的Excel文件（工作簿）</li>
+<li>选中的工作表</li>
+<li>第三个很容易忘记，粘贴到新工作表的时候要粘贴在之前的数据下方，所以新表格中<strong>开始粘贴的单元格</strong>也是变量</li>
+</ol>
+<p>由此，我们可以设置三个循环：</p>
+<ol>
+<li>依次调用工作簿</li>
+<li>依次调用工作表</li>
+<li>选中上次粘贴结束的下一行单元格</li>
+</ol>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>以下是对编辑的这份代码的详细注释（<code>&#39;</code>后面的是注释）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Sub combin()</span><br><span class="line">&apos;为新的工作簿设定新的变量</span><br><span class="line">    Set newbook = Workbooks.Add</span><br><span class="line">    &apos;将新的工作簿保存在当前工作簿同个文件夹内，并命名为“合并结果”</span><br><span class="line">    newbook.SaveAs (ThisWorkbook.Path &amp; &quot;\合并结果.xlsx&quot;)</span><br><span class="line">    &apos;遍历所有的工作簿-一级循环</span><br><span class="line">    For i = 1 To Workbooks.Count</span><br><span class="line">        &apos;对除了新建的工作簿以外的工作簿进行处理</span><br><span class="line">        If Workbooks(i).Name &lt;&gt; newbook.Name Then</span><br><span class="line">            &apos;对选取的工作簿内的工作表进行依次引用-二级循环</span><br><span class="line">            For j = 1 To Workbooks(i).Worksheets.Count</span><br><span class="line">                &apos;把所有有内容的单元格复制到新文件中</span><br><span class="line">                Workbooks(i).Worksheets(j).UsedRange.Copy newbook.Worksheets(1).Range(&quot;A&quot; &amp; 1 + r)</span><br><span class="line">                &apos;清点经过粘贴后空行从哪一行起始，并赋值给r</span><br><span class="line">                r = newbook.Worksheets(1).UsedRange.Rows.Count</span><br><span class="line">            Next j</span><br><span class="line">        End If</span><br><span class="line">    Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<h1 id="错误总结"><a href="#错误总结" class="headerlink" title="错误总结"></a>错误总结</h1><p>我在编写这份代码的时候出现了两处错误，导致运行的时候出现错误：</p>
+<ol>
+<li>在第13行中错把<code>newbook</code>打成<code>newbooks</code>，之后再编写代码的时候要注意自己命名的变量，名字就算只打错一个字也会导致程序错误</li>
+<li>在第14行中的<code>Worksheets</code>后面忘记加<code>(1)</code>，这样VBA就无法识别到底要数哪个工作表中的行数，导致程序无法运行</li>
+</ol>
+<blockquote>
+<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/07/10/黑暗/" itemprop="url">
                   黑暗
                 </a>
@@ -1461,129 +1616,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/06/26/shadow/" itemprop="url">
-                  影子|shadow
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-26T08:11:29+08:00" content="2016-06-26">
-              2016-06-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/牧牧/" itemprop="url" rel="index">
-                    <span itemprop="name">牧牧</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>世界上每一个人都有属于自己的影子</p>
-<p>你路过玫瑰花园，我躲在你身边悄悄摇曳</p>
-<p>你询问去梦之城的地方，我藏在熙熙攘攘的人群中</p>
-<p>你沉浸在金色的麦田，我的一个喷嚏，让金色随波荡漾</p>
-<p>你在游乐园欢笑，我拿着你的小木马安静地坐在摩天轮上</p>
-<p>就这样，我们陪伴你们欢笑，质疑，长大，成熟</p>
-<p>可是你们总是很忙碌，以为自己看得很远，却往往对身边的我们视而不见</p>
-<p>把自己淹没在人海里，日复一日，年复一年</p>
-<p>却不知道嘈杂的地方只会让你们更孤单，喧嚣之后是更深的寂寞</p>
-<p>那我怎样才能找到你呢？<br>只需要静静地闭上眼睛……</p>
-<p>谨以此诗献给依然相信童话的人们</p>
-<p style="text-align:right;font-weight:bold">By喜欢阿狸的牧牧</p>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1629,7 +1661,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-count">32</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
