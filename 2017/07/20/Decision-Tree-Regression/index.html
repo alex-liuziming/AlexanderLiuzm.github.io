@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="代码,ExcelVBA," />
+  <meta name="keywords" content="Data Analysis,Data Mining,python,R," />
 
 
 
@@ -84,25 +84,29 @@
 
 
 
-<meta name="description" content="与之前的二维表转换成一维表相似，这次将一对多的数据转换成一位表格也是遍历数据然后添加在新的工作表中。
-首先，我们要有一个概念，一对多数据表到底长什么样？接着我们讲一下思路，这一次与二维表的区别主要在于在号码和城市后面的套餐不是仅仅只有一个，而是一个号码对应着多个套餐，有的号码对应的套餐没有那么多，它后面的单元格就有空缺。所以我们选择遍历所有的套餐单元格，对单元格的内容进行判断，如果是空单元格，那">
+<meta name="description" content="Machine Learning A-Z Part2 - 5Decision Tree RegressionDecision Tree Intuition
+有两种决策树模型，一种是Classification另一种是Regression，两种决策树原理不同，这次主要学的是后者。
+说的简单通俗一些，Decision Tree就是将数据切根据特征值切分成不同的区域，如果一个需要预测的数据掉在了某个区">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一对多数据转一维">
-<meta property="og:url" content="http://yoursite.com/2016/09/12/一对多数据转一维/index.html">
+<meta property="og:title" content="Decision Tree Regression">
+<meta property="og:url" content="http://yoursite.com/2017/07/20/Decision-Tree-Regression/index.html">
 <meta property="og:site_name" content="牧牧闻叨">
-<meta property="og:description" content="与之前的二维表转换成一维表相似，这次将一对多的数据转换成一位表格也是遍历数据然后添加在新的工作表中。
-首先，我们要有一个概念，一对多数据表到底长什么样？接着我们讲一下思路，这一次与二维表的区别主要在于在号码和城市后面的套餐不是仅仅只有一个，而是一个号码对应着多个套餐，有的号码对应的套餐没有那么多，它后面的单元格就有空缺。所以我们选择遍历所有的套餐单元格，对单元格的内容进行判断，如果是空单元格，那">
-<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_image%E4%B8%80%E5%AF%B9%E5%A4%9A%E8%BD%AC%E4%B8%80%E7%BB%B4.jpg">
-<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-1.jpg">
-<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-2.jpg">
-<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-3.jpg">
-<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-4.jpg">
-<meta property="og:updated_time" content="2016-09-12T13:46:10.859Z">
+<meta property="og:description" content="Machine Learning A-Z Part2 - 5Decision Tree RegressionDecision Tree Intuition
+有两种决策树模型，一种是Classification另一种是Regression，两种决策树原理不同，这次主要学的是后者。
+说的简单通俗一些，Decision Tree就是将数据切根据特征值切分成不同的区域，如果一个需要预测的数据掉在了某个区">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageDecision_Tree_Regression.jpg">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree1.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree2.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree_Regression_Plot2.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree_Regression_Plot1.png">
+<meta property="og:updated_time" content="2017-07-20T07:17:31.269Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一对多数据转一维">
-<meta name="twitter:description" content="与之前的二维表转换成一维表相似，这次将一对多的数据转换成一位表格也是遍历数据然后添加在新的工作表中。
-首先，我们要有一个概念，一对多数据表到底长什么样？接着我们讲一下思路，这一次与二维表的区别主要在于在号码和城市后面的套餐不是仅仅只有一个，而是一个号码对应着多个套餐，有的号码对应的套餐没有那么多，它后面的单元格就有空缺。所以我们选择遍历所有的套餐单元格，对单元格的内容进行判断，如果是空单元格，那">
-<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_image%E4%B8%80%E5%AF%B9%E5%A4%9A%E8%BD%AC%E4%B8%80%E7%BB%B4.jpg">
+<meta name="twitter:title" content="Decision Tree Regression">
+<meta name="twitter:description" content="Machine Learning A-Z Part2 - 5Decision Tree RegressionDecision Tree Intuition
+有两种决策树模型，一种是Classification另一种是Regression，两种决策树原理不同，这次主要学的是后者。
+说的简单通俗一些，Decision Tree就是将数据切根据特征值切分成不同的区域，如果一个需要预测的数据掉在了某个区">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageDecision_Tree_Regression.jpg">
 
 
 
@@ -123,9 +127,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/09/12/一对多数据转一维/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/20/Decision-Tree-Regression/"/>
 
-  <title> 一对多数据转一维 | 牧牧闻叨 </title>
+  <title> Decision Tree Regression | 牧牧闻叨 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -255,7 +259,7 @@
             
             
               
-                一对多数据转一维
+                Decision Tree Regression
               
             
           </h1>
@@ -267,8 +271,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-12T21:39:41+08:00" content="2016-09-12">
-              2016-09-12
+            <time itemprop="dateCreated" datetime="2017-07-20T15:16:38+08:00" content="2017-07-20">
+              2017-07-20
             </time>
           </span>
 
@@ -314,10 +318,24 @@
       
 
       
-        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_image%E4%B8%80%E5%AF%B9%E5%A4%9A%E8%BD%AC%E4%B8%80%E7%BB%B4.jpg" class="full-image"></p>
-<p>与之前的二维表转换成一维表相似，这次将一对多的数据转换成一位表格也是遍历数据然后添加在新的工作表中。</p>
-<p>首先，我们要有一个概念，一对多数据表到底长什么样？<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-1.jpg" alt="enter image description here"><br>接着我们讲一下思路，这一次与二维表的区别主要在于在<code>号码</code>和<code>城市</code>后面的<code>套餐</code>不是仅仅只有一个，而是一个号码对应着多个<code>套餐</code>，有的号码对应的<code>套餐</code>没有那么多，它后面的单元格就有空缺。所以我们选择遍历所有的<code>套餐</code>单元格，对单元格的内容进行判断，如果是空单元格，那么该号码没有<code>套餐2</code>或者<code>套餐3</code>，就不用管它，如果该单元格有数据，那就选择在新的工作表中加入一行，并在<code>套餐</code>写入该套餐对应的<code>号码</code>和<code>城市</code>，组成一维数据表。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-2.jpg" alt="enter image description here"><br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-3.jpg" alt="enter image description here"><br>先贴上这次的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Sub 一对多转一维()</span><br><span class="line"></span><br><span class="line">arr = ActiveSheet.UsedRange</span><br><span class="line">rw = UBound(arr, 1)</span><br><span class="line">col = UBound(arr, 2)</span><br><span class="line"></span><br><span class="line">ReDim brr(1 To rw * (col - 2), 1 To 3)</span><br><span class="line">n = 2</span><br><span class="line">For i = 2 To rw</span><br><span class="line">    For j = 3 To col</span><br><span class="line">        If Cells(i, j) &lt;&gt; &quot;&quot; Then</span><br><span class="line">            brr(n, 1) = arr(i, 1)</span><br><span class="line">            brr(n, 2) = arr(i, 2)</span><br><span class="line">            brr(n, 3) = arr(i, j)</span><br><span class="line">            n = n + 1</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">brr(1, 1) = &quot;号码&quot;</span><br><span class="line">brr(1, 2) = &quot;城市&quot;</span><br><span class="line">brr(1, 3) = &quot;套餐&quot;</span><br><span class="line"></span><br><span class="line">Sheets.Add.Name = &quot;转换结果&quot;</span><br><span class="line">Sheets(&quot;转换结果&quot;).Range(Cells(1, 1), Cells(n - 1, 3)) = brr</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
-<p>讲一讲其中和上一次二维表转换相比不同的地方，其中主要加入了一次判断和<code>UBound</code>。<br><code>UBound</code>指的是选取数组的<code>上标</code>，数组中最小值是数组的<code>下标</code>，<code>上标</code>则恰好相反。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-4.jpg" alt="enter image description here"></p>
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageDecision_Tree_Regression.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part2-5"><a href="#Machine-Learning-A-Z-Part2-5" class="headerlink" title="Machine Learning A-Z Part2 - 5"></a>Machine Learning A-Z Part2 - 5</h1><h2 id="Decision-Tree-Regression"><a href="#Decision-Tree-Regression" class="headerlink" title="Decision Tree Regression"></a>Decision Tree Regression</h2><h3 id="Decision-Tree-Intuition"><a href="#Decision-Tree-Intuition" class="headerlink" title="Decision Tree Intuition"></a>Decision Tree Intuition</h3><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree1.png" alt="two kind"></p>
+<p>有两种决策树模型，一种是<em>Classification</em>另一种是<em>Regression</em>，两种决策树原理不同，这次主要学的是后者。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree.png" alt="simple example"><br>说的简单通俗一些，<em>Decision Tree</em>就是将数据切根据特征值切分成不同的区域，如果一个需要预测的数据掉在了某个区域里，就取一个区域中所有数据的平均值作为模型的预测值。</p>
+<p>虽然讲起来很简单，但是运算的原理还是很高深的，这里先不深入，等我深入学习了statistical learning modle后再来update。</p>
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="建立模型"><a href="#建立模型" class="headerlink" title="建立模型"></a>建立模型</h4><p>现在已经逐渐习惯了python的回归模型建模，都是从<code>sklearn</code>的某个module中导入对应的<code>class</code>然后创建一个<code>regressor</code> instance，最后<code>fit()</code>到训练集上，回归模型就算创建完毕了。</p>
+<p>建立Decision Tree需要用到的是<code>sklearn.tree</code>中的<code>DecisionTreeRegressor</code> class。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeRegressor</span><br><span class="line">regressor = DecisionTreeRegressor(random_state = <span class="number">0</span>)</span><br><span class="line">regressor.fit(X, y)</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree2.png" alt="DecisionTreeRegressor"></p>
+<h4 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h4><p>和之前差不多，绘制Decision Tree模型是先把数据用散点图绘制出来，然后再把预测值画出来加到图上用线段表示作为模型。<em>Decision Tree</em>模型在一维的时候呈现出阶梯的形状。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Visualising the Decision Tree Regression results (for higher resolution and smoother curve)</span></span><br><span class="line">X_grid = np.arange(min(X.values), max(X.values), <span class="number">0.01</span>)</span><br><span class="line">X_grid = X_grid.reshape((len(X_grid), <span class="number">1</span>))</span><br><span class="line">plt.scatter(X, y, color = <span class="string">'red'</span>)</span><br><span class="line">plt.plot(X_grid, regressor.predict(X_grid), color = <span class="string">'blue'</span>)</span><br><span class="line">plt.title(<span class="string">'Truth or Bluff (Decision Tree Regression Model)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Position level'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Salary'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree_Regression_Plot2.png" alt="Right Plot"></p>
+<h4 id="Decision-Tree可视化的问题"><a href="#Decision-Tree可视化的问题" class="headerlink" title="Decision Tree可视化的问题"></a>Decision Tree可视化的问题</h4><p>我们绘制之前的线性模型的时候只要用下列代码就可以了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Visualising the Decision Tree Regression results</span></span><br><span class="line">plt.scatter(X, y, color = <span class="string">'red'</span>)</span><br><span class="line">plt.plot(X, regressor.predict(X), color = <span class="string">'blue'</span>)</span><br><span class="line">plt.title(<span class="string">'Truth or Bluff (Regression Model)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Position level'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Salary'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree_Regression_Plot1.png" alt="Incorrect Plot"></p>
+<p>发现得到的图表中<em>Decision Tree</em>是一条<strong>连续的倾斜的</strong>线。这不符合Decision Tree模型预测值，Decision Tree是在某一个区域内（在这个数据集中，因为特征值只有一个维度，就是在X上取不同的区间）然后取该区域的平均值作为所有点的预测值。但是图上却不是这样，在一个区域内的预测值是不同的。</p>
+<p>这个问题的原因所在就是我们只画了1到10的十个点的预测值，不同的点之间并没有点绘制出来，<code>matplotlib</code>只能用线段将两个点连起来，所以就出现了倾斜的线。这种模型与之前的两种模型都不同，既不是<em>Linear</em>也不是<em>Continuous</em>，是<em>Non-Linear &amp; Non-continous</em>模型。</p>
+<p>对症下药，解决这个问题的方法就是将更多的点绘制出来，所以新建一个数列，把数据间隔变小，有更多的中间值，这样绘制出来才能看到正确的Decision Tree模型。</p>
 
       
     </div>
@@ -339,9 +357,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/代码/" rel="tag">#代码</a>
+            <a href="/tags/Data-Analysis/" rel="tag">#Data Analysis</a>
           
-            <a href="/tags/ExcelVBA/" rel="tag">#ExcelVBA</a>
+            <a href="/tags/Data-Mining/" rel="tag">#Data Mining</a>
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+            <a href="/tags/R/" rel="tag">#R</a>
           
         </div>
       
@@ -350,17 +372,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/12/二维表转一维表/" rel="next" title="二维表转一维表">
-                <i class="fa fa-chevron-left"></i> 二维表转一维表
+              <a href="/2017/07/20/Support-Vector-Regression/" rel="next" title="Support Vector Regression">
+                <i class="fa fa-chevron-left"></i> Support Vector Regression
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/09/多表合并/" rel="prev" title="多表合并">
-                多表合并 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -474,7 +492,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Machine-Learning-A-Z-Part2-5"><span class="nav-number">1.</span> <span class="nav-text">Machine Learning A-Z Part2 - 5</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Decision-Tree-Regression"><span class="nav-number">1.1.</span> <span class="nav-text">Decision Tree Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Decision-Tree-Intuition"><span class="nav-number">1.1.1.</span> <span class="nav-text">Decision Tree Intuition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python"><span class="nav-number">1.1.2.</span> <span class="nav-text">python</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立模型"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">建立模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可视化"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">可视化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Decision-Tree可视化的问题"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">Decision Tree可视化的问题</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>

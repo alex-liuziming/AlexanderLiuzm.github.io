@@ -248,6 +248,394 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/29/提取汉字，英文或数字/" itemprop="url">
+                  提取汉字，英文或数字
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-29T11:26:00+08:00" content="2016-12-29">
+              2016-12-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage3.1%20%E6%8F%90%E5%8F%96%E6%B1%89%E5%AD%97%E6%88%96%E6%95%B0%E5%AD%97.jpg" class="full-image"></p>
+<h1 id="为什么要提取字符"><a href="#为什么要提取字符" class="headerlink" title="为什么要提取字符"></a>为什么要提取字符</h1><p>数据分析中的工作流程分为很多个阶段，其中的有一个阶段就是提取数据，而各种各样的字符串，数字，汉字，英文都是数据的一种。</p>
+<h1 id="提取"><a href="#提取" class="headerlink" title="提取"></a>提取</h1><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>我们的目标是分别把C列中的<strong>数字</strong>、<strong>汉字</strong>和<strong>英文</strong>，并分别将其存放在每行后面的空单元格中。</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>在一个单元格当中有很长的字符串，一个接一个把字符提取出来，并且进行检验，是否为中文，是否为英文，是否为数字，然后把符合要求的数据提取出来，并存放到空单元格当中。</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><h3 id="创立循环"><a href="#创立循环" class="headerlink" title="创立循环"></a>创立循环</h3><p>这个比较简单，已经无数次使用<strong>双层循环</strong>进行遍历操作。外层循环用来遍历每一行的单元格，内层循环用来遍历单个单元格中字符串的每个字符。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    For j = 1 To Len(Range(&quot;C&quot; &amp; i).Value)</span><br><span class="line">    </span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure>
+<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><p>判断这一步要分很多情况讨论，我们要分别讨论字符是否是<strong>数字</strong>、<strong>汉字</strong>或<strong>英文</strong>。</p>
+<h4 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h4><p>首先想要把单个字符取出进行判断，我们要用到<code>Mid()</code>函数，之后d要判断一个字符是否是中文，我们要用到<code>Asc()</code>函数。中文的<code>Asc()</code>函数值小于0，我们可以利用这一点来进行判断。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">If Asc(s) &lt; 0 Then</span><br><span class="line">    getstr = getstr &amp; s</span><br><span class="line">End If</span><br></pre></td></tr></table></figure>
+<h4 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h4><p>要判断一个字符是否是数字，我们可以使用一个更方便的方法——<code>Like</code>。这个方法是用来判断字符的相似性，如果相似就得到<code>TRUE</code>，相反的，和后面的字符不相似就得到<code>FALSE</code>。我们要判断一个字符是否是数字，可以判断它是否和0~9当中的某个数字相似，可以写成<code>[0-9]</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">If s Like &quot;[0-9]&quot; Then</span><br><span class="line">    getstr = getstr &amp; s</span><br><span class="line">End If</span><br></pre></td></tr></table></figure>
+<p>但是这样写会出现一个问题，因为有的单元格当中含有小数，例如<code>1.50</code>这类的。这样的话我们就无法提取出完整的小数，会出现类似这样的结果。</p>
+<p>所以我们要稍微改造一下代码，要增加一个判断情况，如果一个字符不是</p>
+<h4 id="英文"><a href="#英文" class="headerlink" title="英文"></a>英文</h4><p>英文的判断与数字的判断类似，也可以使用<code>Like</code>方法。有一点不同，数字没有大小写，而英文有，所有后面的集合应该写成<code>[a-z, A-Z]</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">If s Like &quot;[a-z,A-Z]&quot; Then</span><br><span class="line">    getstr = getstr &amp; s</span><br><span class="line">End If</span><br></pre></td></tr></table></figure>
+<h3 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h3><p>当我们判断一个字符符合我们的要求的时候，我们就把它提取出来，并且储存起来。这里我们把符合的字符赋值给一个变量，然后再把这个变量赋值给一个空单元格。最后一步很重要，在完成一个内部循环后要把这个变量<strong>重置</strong>，即让他重新变成空字符，保证下一次循环后得到的结果是正确的。还有值得注意的是这步是嵌套在<strong>小循环之外，大循环之内</strong>的。即<strong>每次完成一行的单元格提取之后就在那一行后面的空单元格当中填入提取出的数据，在开始下一行之前重置</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">getstr = &quot;&quot;</span><br><span class="line">    For j = 1 To Len(Range(&quot;C&quot; &amp; i).Value)</span><br><span class="line">        s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">        If Asc(s) &lt; 0 Then</span><br><span class="line">            getstr = getstr &amp; s</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">    Range(&quot;F&quot; &amp; i).Value = getstr</span><br></pre></td></tr></table></figure>
+<h3 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h3><h4 id="提取汉字"><a href="#提取汉字" class="headerlink" title="提取汉字"></a>提取汉字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Sub 提取汉字()</span><br><span class="line">Dim i, j</span><br><span class="line">Dim getstr</span><br><span class="line">Dim s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    getstr = &quot;&quot;</span><br><span class="line">    For j = 1 To Len(Range(&quot;C&quot; &amp; i).Value)</span><br><span class="line">        s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">        If Asc(s) &lt; 0 Then</span><br><span class="line">            getstr = getstr &amp; s</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">    Range(&quot;F&quot; &amp; i).Value = getstr</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+<h4 id="提取数字"><a href="#提取数字" class="headerlink" title="提取数字"></a>提取数字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Sub 提取数字()</span><br><span class="line">Dim i, j</span><br><span class="line">Dim getstr</span><br><span class="line">Dim s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    getstr = &quot;&quot;</span><br><span class="line">    For j = 1 To Len(Range(&quot;C&quot; &amp; i).Value)</span><br><span class="line">        s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">        If s Like &quot;[0-9]&quot; Then</span><br><span class="line">            getstr = getstr &amp; s</span><br><span class="line">        ElseIf s Like &quot;[0-9,.]&quot; And Len(getstr) &gt; 0 Then</span><br><span class="line">            Exit For</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">    Range(&quot;G&quot; &amp; i).Value = getstr</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+<h4 id="提取英文"><a href="#提取英文" class="headerlink" title="提取英文"></a>提取英文</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Sub 提取英文()</span><br><span class="line">Dim i, j</span><br><span class="line">Dim getstr</span><br><span class="line">Dim s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    getstr = &quot;&quot;</span><br><span class="line">    For j = 1 To Len(Range(&quot;C&quot; &amp; i).Value)</span><br><span class="line">        s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">        If s Like &quot;[a-z,A-Z]&quot; Then</span><br><span class="line">            getstr = getstr &amp; s</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">    Range(&quot;H&quot; &amp; i).Value = getstr</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/23/批量查找替换/" itemprop="url">
+                  批量查找替换
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-23T22:58:18+08:00" content="2016-12-23">
+              2016-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2.jpg" class="full-image"></p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>把单元格字符串中不完整的部分改成对应的完整部分<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-1.jpg" alt="转换示意"><br>原始的文档的C列中有很多是不完整的字符串<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%A7%8B.png" alt="原始"><br>我们要通过对应的表格把不完整的字符串补充完整，有的后面加“版”，有的后面加“型”。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%AF%B9%E5%BA%94%E7%9B%AE%E5%BD%95.png" alt="对应目录"><br>最后得到类似这样的表格<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E7%9B%AE%E6%A0%87.png" alt="目标"></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><h3 id="双层循环法"><a href="#双层循环法" class="headerlink" title="双层循环法"></a>双层循环法</h3><p>很多次的VBA课中都用到了双层循环法，这次当然也会第一个想到双层循环法，一个循环套在“数据”表格里，一个套在“条件”表格里，找到对应的字符串，并将其进行替换。</p>
+<h3 id="替换法"><a href="#替换法" class="headerlink" title="替换法"></a>替换法</h3><p>我们也可以直接利用替换的方法进行操作，直接按”Ctrl+H”，把”标准”替换成”标准型”，但是这样就会出现还有”标准型型”的单元格。之后我们可以在进行一次替换，把”型型”和”版版”替换成”型”和”版”。</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><h3 id="双层循环法-1"><a href="#双层循环法-1" class="headerlink" title="双层循环法"></a>双层循环法</h3><h4 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h4><p>因为我们的循环语句当中经常要用到最大行号这个数值，所以我们先把两张工作表的最大行号都进行提取出来赋值给两个简短的变量<code>rw1</code>和<code>rw2</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br></pre></td></tr></table></figure></p>
+<p>之后我们把两个数据表中的数据提取出来，赋值给数组，这样就不用一次一次定位工作表当中的单元格。我们把这些数据分别赋值给两个变量<code>arr1</code>和<code>arr2</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr1 = ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value</span><br><span class="line">arr2 = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br></pre></td></tr></table></figure></p>
+<h4 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h4><p>两张工作表中的数据都是从第<strong>2</strong>行开始的，所以我们建立两个循环都<strong>从2开始，分别到两个表格的最大行号为止</strong>。</p>
+<h4 id="判断语句"><a href="#判断语句" class="headerlink" title="判断语句"></a>判断语句</h4><p>我们要找到两个表格当中的对应量，这里的话可以判断<strong>数据表格</strong>当中的<code>C</code>列字符串中是否包含<strong>条件表格</strong>中的<code>A</code>列中的不完整字符串，然后把它替换成<strong>条件表格</strong>中对应的<code>B</code>列字符串。这里会用到一个函数<code>InStr()</code><br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-2.jpg" alt="Instr函数"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">For i = 2 To rw1</span><br><span class="line">    For j = 2 To rw2</span><br><span class="line">        If InStr(arr1(i, 1), arr2(j, 1)) Then</span><br><span class="line">            arr1(i, 1) = Replace(arr1(i, 1), arr2(j, 1), arr2(j, 2))</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure></p>
+<p>但是这个判断语句有个问题，即使字符串是完整的，也会被判断为包含<strong>条件表格</strong>当中<code>A</code>列的不完整字符串，这样就会出现诸如<em>尊享版版、标准型型</em>这种奇怪的东西。所以我们要再改进一下判断语句，让VBA判断如果<strong>数据表格</strong>中的<code>C</code>列字符串包含<strong>条件表格</strong>中的<code>B</code>列的字符串，即完整的字符串，就不进行替换操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If InStr(arr1(i, 1), arr2(j, 1)) And Not (InStr(arr1(i, 1), arr2(j, 2))) Then</span><br></pre></td></tr></table></figure></p>
+<h4 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h4><p>终于到了最后一步了，只要把对应的字符串进行替换就好了，这里要用到一个函数<code>Replace()</code><br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-3.jpg" alt="Replace函数"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value = arr1</span><br></pre></td></tr></table></figure></p>
+<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Sub 双层循环法()</span><br><span class="line"></span><br><span class="line">Dim rw1, rw2</span><br><span class="line">Dim arr1, arr2</span><br><span class="line">Dim i, j</span><br><span class="line"></span><br><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br><span class="line"></span><br><span class="line">arr1 = ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value</span><br><span class="line">arr2 = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br><span class="line"></span><br><span class="line">For i = 2 To rw1</span><br><span class="line">    For j = 2 To rw2</span><br><span class="line">        If InStr(arr1(i, 1), arr2(j, 1)) And Not (InStr(arr1(i, 1), arr2(j, 2))) Then</span><br><span class="line">            arr1(i, 1) = Replace(arr1(i, 1), arr2(j, 1), arr2(j, 2))</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value = arr1</span><br><span class="line"></span><br><span class="line">MsgBox (&quot;替换完成&quot;)</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+<h3 id="查找替换法"><a href="#查找替换法" class="headerlink" title="查找替换法"></a>查找替换法</h3><h4 id="变量赋值-1"><a href="#变量赋值-1" class="headerlink" title="变量赋值"></a>变量赋值</h4><p>同上，我们可以精简代码，这次我们需要三个变量<code>rw1</code>，<code>rw2</code>和<code>arr</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br><span class="line">arr = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br></pre></td></tr></table></figure></p>
+<h4 id="替换-1"><a href="#替换-1" class="headerlink" title="替换"></a>替换</h4><p>循环语句只有一层，非常简单，就和第一次的替换操作一起说吧。这里我们需要让<em>数据表</em>按照<em>条件表</em>的对应关系来进行替换，没法直接用简单的<em>替换操作</em>+<em>录制宏</em>来实现。这里我们还是要用到<code>Replace</code>，但是是<code>Replace</code>方法，语法有些许不同。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-4.jpg" alt="Replace方法"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">For i = 2 To rw2</span><br><span class="line">    Range(&quot;C1:C&quot; &amp; rw1).Replace what:=arr(i, 1), Replacement:=arr(i, 2)</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure></p>
+<h4 id="二次替换"><a href="#二次替换" class="headerlink" title="二次替换"></a>二次替换</h4><p>经过一次替换我们会的到很多带有两个”版”和两个”型”的单元格，这里我们再用一次<code>Replace</code>方法进行替换。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;版版&quot;, Replacement:=&quot;版&quot;</span><br><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;型型&quot;, Replacement:=&quot;型&quot;</span><br></pre></td></tr></table></figure></p>
+<h4 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Sub 查找替换法()</span><br><span class="line"></span><br><span class="line">Dim rw1, rw2, arr</span><br><span class="line"></span><br><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br><span class="line">arr = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br><span class="line"></span><br><span class="line">For i = 2 To rw2</span><br><span class="line">    Range(&quot;C1:C&quot; &amp; rw1).Replace what:=arr(i, 1), Replacement:=arr(i, 2)</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;版版&quot;, Replacement:=&quot;版&quot;</span><br><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;型型&quot;, Replacement:=&quot;型&quot;</span><br><span class="line"></span><br><span class="line">MsgBox (&quot;替换完成&quot;)</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/23/批量处理合并单元格/" itemprop="url">
+                  批量处理合并单元格
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-23T22:57:59+08:00" content="2016-12-23">
+              2016-12-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC2.jpg" class="full-image"></p>
+<h1 id="为什么要处理合并单元格"><a href="#为什么要处理合并单元格" class="headerlink" title="为什么要处理合并单元格"></a>为什么要处理合并单元格</h1><p>因为在数据处理当中一维的表格处理起来最为方便，可以汇总为二维的表格或者其他自己想要的表格。但矛盾就在这里，<em>合并单元格</em>大大降低了表格的可处理性，无论是筛选，排序还是统计（<code>sumif</code>），都会产生错误，对后续的处理操作带来极大的麻烦。因此在数据处理操作之前要对合并单元格进行处理。</p>
+<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>让合并的单元格都取消合并，并且都填充对应的值。</p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC-%E7%9B%AE%E6%A0%87.jpg" alt="enter image description here"></p>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="循环法"><a href="#循环法" class="headerlink" title="循环法"></a>循环法</h2><p>先把合并单元格进行恢复，取消合并。再对一列单元格进行逐一的检验。如果单元格内含有数据，那就不做处理；如果单元格内没有数据，那就把这个单元格的上一列的数据赋值给它。（举例来说，<em>令B5.Value = B6.Value</em>）但是为了不让这个循环一直进行下去，要给循环设定一个界限，就是常用的<code>Usedrange.rows.count</code>。</p>
+<h2 id="定位法"><a href="#定位法" class="headerlink" title="定位法"></a>定位法</h2><p>定位法相比循环法更为简单，先取消合并（此时会选中原先合并单元格的区域），然后定位空单元格，将这些单元格的值都等于他们的上一行的值就可以了。</p>
+<h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h2 id="循环法-1"><a href="#循环法-1" class="headerlink" title="循环法"></a>循环法</h2><h3 id="取消合并"><a href="#取消合并" class="headerlink" title="取消合并"></a>取消合并</h3><p>利用<code>UnMerge</code>方法取消合并单元格。</p>
+<h3 id="建立循环"><a href="#建立循环" class="headerlink" title="建立循环"></a>建立循环</h3><p>设定循环的界限<code>ActiveSheet.UsedRange.Rows.Count</code>。利用<code>offset()</code>函数，让空值的单元格得到上一行的单元格的值<code>= Range(&quot;A&quot; &amp; i).Offset(-1, 0).Value</code>。</p>
+<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sub 循环法()</span><br><span class="line">    Range(&quot;A:A&quot;).UnMerge</span><br><span class="line">    For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">        If Range(&quot;A&quot; &amp; i).Value = &quot;&quot; Then Range(&quot;A&quot; &amp; i).Value = Range(&quot;A&quot; &amp; i).Offset(-1, 0).Value</span><br><span class="line">    Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+<h2 id="定位法-1"><a href="#定位法-1" class="headerlink" title="定位法"></a>定位法</h2><h3 id="录制宏"><a href="#录制宏" class="headerlink" title="录制宏"></a>录制宏</h3><p>先取消合并（此时会选中原先合并单元格的区域），直接按<strong>F5</strong>，会出现<em>定位</em>窗口。点击左下角的按钮，再选择<em>空值</em>，此时会选中空单元格。之后在上方的<em>数值栏</em>当中输入<code>=a2</code>，按下<strong>Ctrl + Enter</strong>，就会发现单元格的内容都自动填充好了。</p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%AE%9A%E4%BD%8D%E6%B3%95.gif" alt="enter image description here"></p>
+<h3 id="选取录制好的宏代码"><a href="#选取录制好的宏代码" class="headerlink" title="选取录制好的宏代码"></a>选取录制好的宏代码</h3><p>尽管录制下来的宏代码看似很长很复杂，但是其实前面的都是一些没什么用的参数设置，与我们刚刚进行的操作有实际相关联的就是最后三句。将这三句进行复制，建立新的宏，并进行改造。</p>
+<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC-%E5%BD%95%E5%88%B6%E5%AE%8F.png" alt="enter image description here"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Selection.UnMerge</span><br><span class="line">Selection.SpecialCells(xlCellTypeBlanks).Select</span><br><span class="line">Selection.FormulaR1C1 = &quot;=R[-1]C&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="UnMerge"><a href="#UnMerge" class="headerlink" title="UnMerge"></a>UnMerge</h4><p>这是<em>取消合并</em>的操作，在宏代码中显示为<code>UnMerge</code></p>
+<h4 id="SpecialCells-xlCellTypeBlanks"><a href="#SpecialCells-xlCellTypeBlanks" class="headerlink" title="SpecialCells(xlCellTypeBlanks)"></a>SpecialCells(xlCellTypeBlanks)</h4><p>这是定位特殊单元格的语法，在这里我们定位的是<em>空值</em>，所以括号里的内容是<code>Blanks</code>。</p>
+<h4 id="FormulaR1C1-“-R-1-C”"><a href="#FormulaR1C1-“-R-1-C”" class="headerlink" title="FormulaR1C1 = “=R[-1]C”"></a>FormulaR1C1 = “=R[-1]C”</h4><p>这是我们最后在数值栏当中输入的公式，令值等于上一行（<code>R[-1]</code>）单元格（C）的值，大致用法与<code>offset()</code>函数一致。</p>
+<h3 id="改造宏代码"><a href="#改造宏代码" class="headerlink" title="改造宏代码"></a>改造宏代码</h3><p>这一部分就相对简单了，首先我们要把<code>Selection</code>改成<code>Range(&quot;A:A&quot;)</code>，也就是让Excel自己选择A列，不用再让我们人工选定A列。之后可以把A列的值再赋值给A列，这是为了让单元格里显示的是数值而不是<strong>公式</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Range(&quot;A:A&quot;).UnMerge</span><br><span class="line">Range(&quot;A:A&quot;).SpecialCells(xlCellTypeBlanks).FormulaR1C1 = &quot;=R[-1]C&quot;</span><br><span class="line">Range(&quot;A:A&quot;).Value = Range(&quot;A:A&quot;).Value</span><br></pre></td></tr></table></figure>
+<h3 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Sub 定位法()</span><br><span class="line"></span><br><span class="line">    Range(&quot;A:A&quot;).UnMerge</span><br><span class="line">    Range(&quot;A:A&quot;).SpecialCells(xlCellTypeBlanks).FormulaR1C1 = &quot;=R[-1]C&quot;</span><br><span class="line">    Range(&quot;A:A&quot;).Value = Range(&quot;A:A&quot;).Value</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/10/09/不同表头的多表合并/" itemprop="url">
                   不同表头的多表合并
                 </a>
@@ -1101,428 +1489,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/31/一页纸报告DashBoard学习/" itemprop="url">
-                  一页纸报告DashBoard学习
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-31T11:56:23+08:00" content="2016-07-31">
-              2016-07-31
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E9%A1%B5%E7%BA%B8%E6%8A%A5%E5%91%8ADashBoard%E5%AD%A6%E4%B9%A0.jpg" class="full-image"></p>
-<p>这几天学习了刘万祥老师的”DashBoard第一季”，学会了如何制作一个简单的一页纸报告，在这里做个总结。</p>
-<p>先上效果图：<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBADashBoard.png" alt="DashBoard整体效果"></p>
-<h1 id="数据的处理"><a href="#数据的处理" class="headerlink" title="数据的处理"></a>数据的处理</h1><p>我在学习图表课的过程中深切的认识到<strong>对作图数据的先处理</strong>比<strong>对一张图表进行排版</strong>要更加重要。同样的要做一份DashBoard报告，数据表的处理很重要，数据以二维的形式进行展现。合理的数据表格也方便后期使用<code>Index</code>函数进行自动配对指标名称、类别和单位等信息。<br>以下是数据表的格式：</p>
-<table>
-<thead>
-<tr>
-<th>第一列</th>
-<th>第二列</th>
-<th>第三列</th>
-<th>第四列</th>
-<th>第五列</th>
-<th>第六列</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>序列号</td>
-<td>指标类别</td>
-<td>指标名称</td>
-<td>按月份排列的指标数据</td>
-<td>单位</td>
-<td>如有必要：加一加总列</td>
-</tr>
-</tbody>
-</table>
-<h1 id="DashBoard整体排版确定"><a href="#DashBoard整体排版确定" class="headerlink" title="DashBoard整体排版确定"></a>DashBoard整体排版确定</h1><p>可以先用纸和笔进行预先的排版，自己感觉差不多之后再进入到Excel中进行排版操作。最好能凑整数，若是指标个数实在无法凑整，可以尝试将某几个图表放大，占据两个小表格的位置，或者机动的添加一个报表等等，总之要美观，不要缺胳膊少腿的。还有很重要的一点是预先选定并命名<code>标题区</code>，<code>图表区域</code>，<code>打印区域</code>等，方便后期修改。</p>
-<h1 id="图表的处理"><a href="#图表的处理" class="headerlink" title="图表的处理"></a>图表的处理</h1><p>制作DashBoard小表格，因为格式近似，所以先做出一个表格，加工处理到想要的格式，然后进行批量复制，更改数据源，以得到DashBoard。</p>
-<p>这里因为要批量更改数据源，数据源更改后图表的填充颜色又会发生变化，所以我自己就写了一段小小的VBA代码来实现数据源更改的自动化。</p>
-<p>在编写的时候学习到**变量外面是不能有引号<code>&quot;&quot;</code>的，包含在引号内的变量会被系统自动识别为文本，不再是变量，要用连接符把一段段文本和变量连接起来。</p>
-<p>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">Sub 宏1()</span><br><span class="line">&apos;</span><br><span class="line">&apos; 宏1 宏</span><br><span class="line">&apos;</span><br><span class="line"></span><br><span class="line">&apos;构建一个循环</span><br><span class="line">For i = 1 To 25</span><br><span class="line">&apos;选取对应的图表</span><br><span class="line">    ActiveSheet.ChartObjects(i).Activate</span><br><span class="line">    &apos;选择系列2</span><br><span class="line">    ActiveChart.FullSeriesCollection(2).Select</span><br><span class="line">    &apos;更改数据源</span><br><span class="line">    Selection.Formula = &quot;=SERIES(,数据!R10C5:R10C17,数据!R&quot; &amp; (i + 10) &amp; &quot;C22:R&quot; &amp; (i + 10) &amp; &quot;C34,2)&quot;</span><br><span class="line">    &apos;选择系列1</span><br><span class="line">    ActiveChart.FullSeriesCollection(1).Select</span><br><span class="line">    &apos;更改数据源</span><br><span class="line">    Selection.Formula = &quot;=SERIES(数据!R&quot; &amp; (i + 10) &amp; &quot;C4,数据!R10C5:R10C17,数据!R&quot; &amp; (i + 10) &amp; &quot;C5:R&quot; &amp; (i + 10) &amp; &quot;C17,1)&quot;</span><br><span class="line">    &apos;更改折线图的线条颜色</span><br><span class="line">    ActiveChart.FullSeriesCollection(1).Select</span><br><span class="line">    With Selection.Format.Line</span><br><span class="line">        .Visible = msoTrue</span><br><span class="line">        .ForeColor.ObjectThemeColor = msoThemeColorAccent2</span><br><span class="line">        .ForeColor.TintAndShade = 0</span><br><span class="line">        .ForeColor.Brightness = 0</span><br><span class="line">        .Transparency = 0</span><br><span class="line">    End With</span><br><span class="line">    &apos;更改面积图的填充颜色</span><br><span class="line">    ActiveChart.FullSeriesCollection(2).Select</span><br><span class="line">    With Selection.Format.Fill</span><br><span class="line">        .Visible = msoTrue</span><br><span class="line">        .ForeColor.ObjectThemeColor = msoThemeColorBackground1</span><br><span class="line">        .ForeColor.TintAndShade = 0</span><br><span class="line">        .ForeColor.Brightness = -0.5</span><br><span class="line">        .Transparency = 0</span><br><span class="line">        .Solid</span><br><span class="line">    End With</span><br><span class="line">    &apos;修改面积图填充颜色的透明度</span><br><span class="line">    With Selection.Format.Fill</span><br><span class="line">        .Visible = msoTrue</span><br><span class="line">        .ForeColor.ObjectThemeColor = msoThemeColorBackground1</span><br><span class="line">        .ForeColor.TintAndShade = 0</span><br><span class="line">        .ForeColor.Brightness = -0.5</span><br><span class="line">        .Transparency = 0.5</span><br><span class="line">        .Solid</span><br><span class="line">    End With</span><br><span class="line">    &apos;消除面积图的边框线</span><br><span class="line">    ActiveChart.FullSeriesCollection(2).Select</span><br><span class="line">    Selection.Format.Line.Visible = msoFalse</span><br><span class="line">    &apos;消除整体图表的外边框</span><br><span class="line">    ActiveSheet.Shapes(i).Line.Visible = msoFalse</span><br><span class="line">Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%B3%A8%E9%87%8A.PNG" alt="图片版"></p>
-<h2 id="期间犯的错误"><a href="#期间犯的错误" class="headerlink" title="期间犯的错误"></a>期间犯的错误</h2><p>由于首先想到的是利用录制宏的功能得到一段初始代码，然后再对其进行改造，最终达到自己的目的。所以我就对初始宏进行了一次错误的加工。</p>
-<p><strong>初始宏</strong>：<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%88%9D%E5%A7%8B%E5%AE%8F.JPG" alt="original code"></p>
-<p><strong>第一次改造过后的代码</strong>：<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%94%B9%E9%80%A0%E4%BB%A3%E7%A0%81.JPG" alt="Code 1.0"></p>
-<p>显然的，在上面的代码中我把变量和文本混在了一起，导致VBA无法识别我的变量。</p>
-<h1 id="最后的细节处理"><a href="#最后的细节处理" class="headerlink" title="最后的细节处理"></a>最后的细节处理</h1><p>经历过上述的步骤之后，图表已经基本完成，接下来就看自己的喜好可以再改改颜色，改改边框之类的，就大功告成。导出为PDF或者图片格式就可以分享咯！</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/23/ExcelVBA——去除重复数据/" itemprop="url">
-                  ExcelVBA——去除重复数据
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-23T22:31:14+08:00" content="2016-07-23">
-              2016-07-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE.jpg" class="full-image"></p>
-<h1 id="前期工作"><a href="#前期工作" class="headerlink" title="前期工作"></a>前期工作</h1><p>先利用<code>录制宏</code>来获取最基础的<code>去除重复项</code>的语句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActiveSheet.Range(&quot;$A$1:$F$968&quot;).RemoveDuplicates Columns:=Array(1, 2, 3, 4, 5, 6) _, Header:=xlYes</span><br></pre></td></tr></table></figure></p>
-<p>获取到的这个语句块中的对象还是静态的，并不能自动适应任意一个表格，为任意一个表格进行删除重复项，因此我们要对上述的代码块进行改造。</p>
-<h1 id="确定要改造的对象"><a href="#确定要改造的对象" class="headerlink" title="确定要改造的对象"></a>确定要改造的对象</h1><p>先观察这这行代码，发现其中的对象有两个——</p>
-<ol>
-<li>range-<code>Range(&quot;$A$1:$F$968&quot;)</code></li>
-<li>Array-<code>Columns:=Array(1, 2, 3, 4, 5, 6) _</code></li>
-</ol>
-<p>所以我们就想办法改造这两个对象，以达到让宏代码自己适应不同的数据表并且进行重复项删除。</p>
-<p>下面是经过改造后得到的宏代码，<code>&#39;</code>后面的是注释<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Sub 宏1()</span><br><span class="line">&apos;</span><br><span class="line">&apos; 宏1 宏</span><br><span class="line">&apos;</span><br><span class="line"></span><br><span class="line">Dim arr()</span><br><span class="line">&apos;声明i</span><br><span class="line">Dim i As Integer</span><br><span class="line">&apos;声明数列的总量</span><br><span class="line">ReDim arr(0 To ActiveSheet.UsedRange.Columns.Count - 1)</span><br><span class="line">&apos;从第一行到最后一行开始循环，自动检测并建立一个包含所有数据列的数组</span><br><span class="line">For i = 0 To ActiveSheet.UsedRange.Columns.Count - 1</span><br><span class="line">    arr(i) = i + 1</span><br><span class="line">Next i</span><br><span class="line">&apos;删除重复项的语句</span><br><span class="line">&apos;对象是有数据的单元格</span><br><span class="line">&apos;对这些单元格用RemoveDuplicates方法</span><br><span class="line">&apos;后面的对象是列</span><br><span class="line">    Range(ActiveSheet.UsedRange.Address).RemoveDuplicates arr, Header:=xlYes</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
-<h2 id="对Range对象的改造"><a href="#对Range对象的改造" class="headerlink" title="对Range对象的改造"></a>对Range对象的改造</h2><p>首先需要明白的是Range这个对象主要用于确定执行查找重复项的具体范围，即<strong>要进行删除重复项的那个表格是从第几行第几列到第几行第几列</strong>。所以我们可以用<code>Usedrange</code>作为一个对象，在一个表格中所有含有数据的单元格我们都认为是要进行校验的对象。又因为进行方法的对象是一个数据表的具体区域，所以应该用<code>Address</code>对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Range(ActiveSheet.UsedRange.Address)</span><br></pre></td></tr></table></figure></p>
-<h2 id="对Array对象的改造"><a href="#对Array对象的改造" class="headerlink" title="对Array对象的改造"></a>对Array对象的改造</h2><p>这段代码中的<code>Array</code>对象主要是确认这个表格有几列，即有多少个字段。我们要创立一个新的数组，利用一个循环来对这个数组进行定义，让它变成一个动态数组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">For i = 0 To ActiveSheet.UsedRange.Columns.Count - 1</span><br><span class="line">    arr(i) = i + 1</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure></p>
-<p>如果想让<code>i</code>从1开始，写成下面这样行不行呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">For i = 1 To ActiveSheet.UsedRange.Columns.Count</span><br><span class="line">    arr(i) = i</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure></p>
-<p>经过我的实验，，是不行的，大概是因为VBA默认是要从0开始的，反正记住这个规则就好了。</p>
-<h2 id="改造完成的代码"><a href="#改造完成的代码" class="headerlink" title="改造完成的代码"></a>改造完成的代码</h2><p>经过上述的两个步骤完成的代码是这样子的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Dim arr()</span><br><span class="line"></span><br><span class="line">Dim i As Integer</span><br><span class="line"></span><br><span class="line">ReDim arr(0 To ActiveSheet.UsedRange.Columns.Count - 1)</span><br><span class="line"></span><br><span class="line">For i = 0 To ActiveSheet.UsedRange.Columns.Count - 1</span><br><span class="line">    arr(i) = i + 1</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">ActiveSheet.Range(ActiveSheet.UsedRange.Address).RemoveDuplicates Columns:=arr, Header:=xlYes</span><br></pre></td></tr></table></figure></p>
-<p>但是如果真的尝试在VBA中运行这段代码，Excel会提示代码有错误存在。这是为什么呢？</p>
-<p>第一个错误是<code>Range</code>前面有<code>ActiveSheet</code>明显属于重复，后面的括号中已经规定了对象的范围是<code>ActiveSheet</code>中的<code>Usedrange</code>，前面就不用再定义<code>ActiveSheet</code>，删除即可。</p>
-<p>第二个错误是<code>arr</code>前面有<code>Columns:=</code>。<code>arr</code>的定义中包含<code>ActiveSheet.UsedRange.Columns</code>，所以前面的<code>Columns:=</code>也是属于多余的。当然这两个错误的原理是我的猜测，具体为什么我也不甚清楚，我就用我自己猜测的两个原理来辅助记忆这个语法规则。</p>
-<blockquote>
-<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/23/VBA数组/" itemprop="url">
-                  VBA数组
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-23T22:30:59+08:00" content="2016-07-23">
-              2016-07-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%95%B0%E7%BB%84.jpg" class="full-image"></p>
-<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p>把单个的数字组合在一起，分为<code>静态数组</code>和<code>动态数组</code>两种。</p>
-<h2 id="静态数组"><a href="#静态数组" class="headerlink" title="静态数组"></a>静态数组</h2><p>一般在<strong>事先知道数组中有多少个数字</strong>的情况下会选择使用静态数组。</p>
-<h2 id="动态数组"><a href="#动态数组" class="headerlink" title="动态数组"></a>动态数组</h2><p>一般在<strong>事先不知道数组中会有多少个数字</strong>的情况下回选择使用动态数组。</p>
-<h1 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h1><h2 id="静态数组-1"><a href="#静态数组-1" class="headerlink" title="静态数组"></a>静态数组</h2><p>对静态数组的声明方式有两种：</p>
-<ol>
-<li><code>Dim Arr(10) As Integer</code><br>括号中的10代表最大<code>下标</code>是10，即数组中最大的数字编号为10。VBA中的数组默认从0开始编号，所以上面这个数组中的数组编号从0~10，总共有11个数字。</li>
-<li><code>Dim Arr(1 to 10) As Integer</code><br>这种申明方式同时定义了最小编号和最大编号，这个数组中只有10个数字。</li>
-</ol>
-<h2 id="动态数组-1"><a href="#动态数组-1" class="headerlink" title="动态数组"></a>动态数组</h2><p>对动态数组的声明也有两种方式：</p>
-<ol>
-<li><code>Dim Arr()</code>这种方式申明的数组是范写，适用范围更广</li>
-<li><code>Dim Arr(1 to S)</code>其中的<code>S</code>是一个变量</li>
-</ol>
-<h1 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h1><h2 id="静态数组-2"><a href="#静态数组-2" class="headerlink" title="静态数组"></a>静态数组</h2><h3 id="直接赋值"><a href="#直接赋值" class="headerlink" title="直接赋值"></a>直接赋值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Dim arr1() as Interge</span><br><span class="line">arr1(1)=5</span><br><span class="line">arr1(2)=3</span><br><span class="line">arr1(3)=12</span><br></pre></td></tr></table></figure>
-<h3 id="通过循环结构给静态数组赋值"><a href="#通过循环结构给静态数组赋值" class="headerlink" title="通过循环结构给静态数组赋值"></a>通过循环结构给静态数组赋值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Dim arr1(1 To 3) As Integer</span><br><span class="line">Dim i As integer</span><br><span class="line">For i = 1 To 3</span><br><span class="line">	arr1(i) = Range(&quot;A&quot; &amp; i)</span><br><span class="line"></span><br><span class="line">Next i</span><br></pre></td></tr></table></figure>
-<h3 id="通过循环结构给动态数组赋值"><a href="#通过循环结构给动态数组赋值" class="headerlink" title="通过循环结构给动态数组赋值"></a>通过循环结构给动态数组赋值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Dim arr2() As Integer</span><br><span class="line">Dim i As integer</span><br><span class="line">For i = 1 To 3</span><br><span class="line">	ReDim Preserve arr2(1 to i)</span><br><span class="line">	arr1(i) = Range(&quot;A&quot; &amp; i)</span><br><span class="line"></span><br><span class="line">Next i</span><br></pre></td></tr></table></figure>
-<h2 id="动态数组-2"><a href="#动态数组-2" class="headerlink" title="动态数组"></a>动态数组</h2><h3 id="通过函数赋值"><a href="#通过函数赋值" class="headerlink" title="通过函数赋值"></a>通过函数赋值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Dim arr2()</span><br><span class="line"></span><br><span class="line">arr2 = WorksheetFunction.Transpose(Range(&quot;A1:A3&quot;).Value)</span><br></pre></td></tr></table></figure>
-<h3 id="利用Array函数赋值"><a href="#利用Array函数赋值" class="headerlink" title="利用Array函数赋值"></a>利用<code>Array</code>函数赋值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Dim arr2()</span><br><span class="line">arr2 = Array(5,3,12)</span><br></pre></td></tr></table></figure>
-<h1 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h1><h2 id="静态数组-3"><a href="#静态数组-3" class="headerlink" title="静态数组"></a>静态数组</h2><p>对静态数组而言，二维数组的声明要同时对不同纬度上的数据个数进行声明。</p>
-<ol>
-<li><code>Dim Arr(3,4) As Integer</code></li>
-<li><code>Dim Arr(1 To 3,1 To 4) As Integer</code></li>
-</ol>
-<h2 id="动态数组-3"><a href="#动态数组-3" class="headerlink" title="动态数组"></a>动态数组</h2><p>对动态数组来说申明方式还是一样的</p>
-<blockquote>
-<p>这是闻叨在网易云课堂上学习 方骥老师 的VBA课程的动手笔记，以上侵删</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1568,7 +1534,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">33</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1748,7 +1714,7 @@
       }
     });
   </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
   

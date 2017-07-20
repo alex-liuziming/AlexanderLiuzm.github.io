@@ -248,6 +248,409 @@
             
               
                 
+                <a class="post-title-link" href="/2017/07/20/Decision-Tree-Regression/" itemprop="url">
+                  Decision Tree Regression
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-20T15:16:38+08:00" content="2017-07-20">
+              2017-07-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageDecision_Tree_Regression.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part2-5"><a href="#Machine-Learning-A-Z-Part2-5" class="headerlink" title="Machine Learning A-Z Part2 - 5"></a>Machine Learning A-Z Part2 - 5</h1><h2 id="Decision-Tree-Regression"><a href="#Decision-Tree-Regression" class="headerlink" title="Decision Tree Regression"></a>Decision Tree Regression</h2><h3 id="Decision-Tree-Intuition"><a href="#Decision-Tree-Intuition" class="headerlink" title="Decision Tree Intuition"></a>Decision Tree Intuition</h3><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree1.png" alt="two kind"></p>
+<p>有两种决策树模型，一种是<em>Classification</em>另一种是<em>Regression</em>，两种决策树原理不同，这次主要学的是后者。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree.png" alt="simple example"><br>说的简单通俗一些，<em>Decision Tree</em>就是将数据切根据特征值切分成不同的区域，如果一个需要预测的数据掉在了某个区域里，就取一个区域中所有数据的平均值作为模型的预测值。</p>
+<p>虽然讲起来很简单，但是运算的原理还是很高深的，这里先不深入，等我深入学习了statistical learning modle后再来update。</p>
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="建立模型"><a href="#建立模型" class="headerlink" title="建立模型"></a>建立模型</h4><p>现在已经逐渐习惯了python的回归模型建模，都是从<code>sklearn</code>的某个module中导入对应的<code>class</code>然后创建一个<code>regressor</code> instance，最后<code>fit()</code>到训练集上，回归模型就算创建完毕了。</p>
+<p>建立Decision Tree需要用到的是<code>sklearn.tree</code>中的<code>DecisionTreeRegressor</code> class。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeRegressor</span><br><span class="line">regressor = DecisionTreeRegressor(random_state = <span class="number">0</span>)</span><br><span class="line">regressor.fit(X, y)</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree2.png" alt="DecisionTreeRegressor"></p>
+<h4 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h4><p>和之前差不多，绘制Decision Tree模型是先把数据用散点图绘制出来，然后再把预测值画出来加到图上用线段表示作为模型。<em>Decision Tree</em>模型在一维的时候呈现出阶梯的形状。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Visualising the Decision Tree Regression results (for higher resolution and smoother curve)</span></span><br><span class="line">X_grid = np.arange(min(X.values), max(X.values), <span class="number">0.01</span>)</span><br><span class="line">X_grid = X_grid.reshape((len(X_grid), <span class="number">1</span>))</span><br><span class="line">plt.scatter(X, y, color = <span class="string">'red'</span>)</span><br><span class="line">plt.plot(X_grid, regressor.predict(X_grid), color = <span class="string">'blue'</span>)</span><br><span class="line">plt.title(<span class="string">'Truth or Bluff (Decision Tree Regression Model)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Position level'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Salary'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree_Regression_Plot2.png" alt="Right Plot"></p>
+<h4 id="Decision-Tree可视化的问题"><a href="#Decision-Tree可视化的问题" class="headerlink" title="Decision Tree可视化的问题"></a>Decision Tree可视化的问题</h4><p>我们绘制之前的线性模型的时候只要用下列代码就可以了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Visualising the Decision Tree Regression results</span></span><br><span class="line">plt.scatter(X, y, color = <span class="string">'red'</span>)</span><br><span class="line">plt.plot(X, regressor.predict(X), color = <span class="string">'blue'</span>)</span><br><span class="line">plt.title(<span class="string">'Truth or Bluff (Regression Model)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Position level'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Salary'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Decision_Tree_Regression_Plot1.png" alt="Incorrect Plot"></p>
+<p>发现得到的图表中<em>Decision Tree</em>是一条<strong>连续的倾斜的</strong>线。这不符合Decision Tree模型预测值，Decision Tree是在某一个区域内（在这个数据集中，因为特征值只有一个维度，就是在X上取不同的区间）然后取该区域的平均值作为所有点的预测值。但是图上却不是这样，在一个区域内的预测值是不同的。</p>
+<p>这个问题的原因所在就是我们只画了1到10的十个点的预测值，不同的点之间并没有点绘制出来，<code>matplotlib</code>只能用线段将两个点连起来，所以就出现了倾斜的线。这种模型与之前的两种模型都不同，既不是<em>Linear</em>也不是<em>Continuous</em>，是<em>Non-Linear &amp; Non-continous</em>模型。</p>
+<p>对症下药，解决这个问题的方法就是将更多的点绘制出来，所以新建一个数列，把数据间隔变小，有更多的中间值，这样绘制出来才能看到正确的Decision Tree模型。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/20/Support-Vector-Regression/" itemprop="url">
+                  Support Vector Regression
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-20T15:07:32+08:00" content="2017-07-20">
+              2017-07-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageSupport_Vector_Regression.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part2-4"><a href="#Machine-Learning-A-Z-Part2-4" class="headerlink" title="Machine Learning A-Z Part2 - 4"></a>Machine Learning A-Z Part2 - 4</h1><h2 id="Support-Vector-Regression-SVR"><a href="#Support-Vector-Regression-SVR" class="headerlink" title="Support Vector Regression(SVR)"></a>Support Vector Regression(SVR)</h2><h3 id="Support-Vector-Regression-Intuition"><a href="#Support-Vector-Regression-Intuition" class="headerlink" title="Support Vector Regression Intuition"></a>Support Vector Regression Intuition</h3><h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="Data-Preprocessing"><a href="#Data-Preprocessing" class="headerlink" title="Data Preprocessing"></a>Data Preprocessing</h4><p><em>SVR</em>不能像之前的线性回归模型中那样直接把训练集数据放入模型中进行建模。因为<strong>LinearRegressor</strong>会帮助我们进行<strong>Feature Scaling</strong>，但是<strong>SVR</strong>就不行了，所以我们要自己先对数据进行<strong>Feature Scaling</strong>。</p>
+<p>再回忆一下，从<code>sklearn.preprocessing</code> Library中导入<code>StandardScaler</code> class。然后分别创建训练集的特征集标准化对象(<code>sc_X</code>)和预测值标准化对象(<code>sc_y</code>)，分别<code>fit_transform()</code>到各自的数据上，这样<strong>Feature Scaling</strong>就结束了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Feature Scaling</span></span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">sc_X = StandardScaler()</span><br><span class="line">X = sc_X.fit_transform(X)</span><br><span class="line">sc_y = StandardScaler()</span><br><span class="line">y = sc_y.fit_transform(y)</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/SVR_Regression1.png" alt="Preprocessing Warning"></p>
+<blockquote>
+<p>这里会出现很多的Warnings，但是都是提醒数据格式将会被转换成float，并没有什么关系。</p>
+</blockquote>
+<h4 id="Fitting"><a href="#Fitting" class="headerlink" title="Fitting"></a>Fitting</h4><p>建立<em>SVR</em>模型需要用到<code>sklearn.svm</code> Library中的<code>SVR</code> class。设置对应的参数，然后<code>fit()</code>即可。</p>
+<p><em>SVR</em> class的doc：<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/SVR_Regression4.png" alt="svr doc1"><br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/SVR_Regression3.png" alt="svr doc2"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Fitting the SVR Model to the dataset</span></span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVR</span><br><span class="line">regressor = SVR(kernel=<span class="string">'rbf'</span>)</span><br><span class="line">regressor.fit(X, y)</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/SVR_Regression2.png" alt="Fittting"></p>
+<h4 id="Predicting"><a href="#Predicting" class="headerlink" title="Predicting"></a>Predicting</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_pred = sc_y.inverse_transform(regressor.predict(sc_X.transform(np.array([[<span class="number">6.5</span>]]))))</span><br></pre></td></tr></table></figure>
+<p>也许写成这样更清晰</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">y_pred = sc_y.inverse_transform(</span><br><span class="line">            regressor.predict(</span><br><span class="line">                sc_X.transform(</span><br><span class="line">                    np.array([[<span class="number">6.5</span>]])</span><br><span class="line">                )</span><br><span class="line">            )</span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+<p><strong>从里层到外层</strong>依次为：</p>
+<ol>
+<li>将希望预测的数据 6.5 转换成<code>numpy</code>中的一行一列<code>matrix</code>对象（可能是因为<code>transform()</code> method不支持 scala。)</li>
+<li>传入标准化对象中进行<em>Feature Scaling</em></li>
+<li>将标准化后的数据传入模型中进行预测</li>
+<li>将预测的值<strong>反标准化</strong>(<code>inverse_transform()</code>)，还原成正常的预测值，而不是<code>0.3</code>、<code>2.1</code>之类的数字。</li>
+</ol>
+<h4 id="Visualising"><a href="#Visualising" class="headerlink" title="Visualising"></a>Visualising</h4><p>绘图和之前没有什么区别。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Visualising the SVR results</span></span><br><span class="line">plt.scatter(X, y, color = <span class="string">'red'</span>)</span><br><span class="line">plt.plot(X, regressor.predict(X), color = <span class="string">'blue'</span>)</span><br><span class="line">plt.title(<span class="string">'Truth or Bluff (Regression Model)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Position level'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Salary'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/SVR_Regression_Plot.png" alt="Plot1"></p>
+<p>可以看到绘制的图形并不是十分的平滑，为了让模型绘制的更准确，<strong>可以创建新的序列，提高数据的密度，绘制更多的点</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Visualising the SVR results (for higher resolution and smoother curve)</span></span><br><span class="line">X_grid = np.arange(min(X), max(X), <span class="number">0.1</span>)</span><br><span class="line">X_grid = pd.DataFrame(X_grid)</span><br><span class="line">plt.scatter(X, y, color = <span class="string">'red'</span>)</span><br><span class="line">plt.plot(X_grid, regressor.predict(X_grid), color = <span class="string">'blue'</span>)</span><br><span class="line">plt.title(<span class="string">'Truth or Bluff (SVR Model)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Position level'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Salary'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/SVR_Regression_Plot2.png" alt="Plot 2"></p>
+<blockquote>
+<p>关于为什么模型预测的最后一个值会那么小，那是因为最后一个数据点离其他的数据太远了，SVR模型把这个数据点当做了异常值，就给忽略了。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/20/Polynomial-Linear-Regression/" itemprop="url">
+                  Polynomial Linear Regression
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-20T11:14:09+08:00" content="2017-07-20">
+              2017-07-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimagePoly_Linear_Regression-1.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part2-3"><a href="#Machine-Learning-A-Z-Part2-3" class="headerlink" title="Machine Learning A-Z Part2 - 3"></a>Machine Learning A-Z Part2 - 3</h1><h2 id="Polynomial-Linear-Regression"><a href="#Polynomial-Linear-Regression" class="headerlink" title="Polynomial Linear Regression"></a>Polynomial Linear Regression</h2><h3 id="模型概述"><a href="#模型概述" class="headerlink" title="模型概述"></a>模型概述</h3><p><em>Polynomial Linear Regression</em>和<em>Multiple Linear Regression</em>的最主要区别就是，<em>Polynomial Linear Regression</em>在变量<code>x</code>上引入了次方的概念，让模型可以匹配更复杂的数据分布形式。</p>
+<h4 id="Why-is-Polynomial-model-still-called-“Linear”"><a href="#Why-is-Polynomial-model-still-called-“Linear”" class="headerlink" title="Why is Polynomial model still called “Linear”?"></a>Why is Polynomial model still called “Linear”?</h4><p>这是因为在模型构建的过程当中X值我们是已知的，未知的是各个<code>X</code>之前的变量<code>b</code>。所以在未求解出<code>b</code>系数之前，模型还是关于<code>b</code>的线性方程。</p>
+<p>如果将方程改为<br>$$y = b<em>{0} + b</em>{1} × x<em>{1} / b</em>{2} × x_{2}$$<br>那么这个方程就不再是线性回归模型了。</p>
+<h3 id="何时使用Polynomial-Linear-Regression-model"><a href="#何时使用Polynomial-Linear-Regression-model" class="headerlink" title="何时使用Polynomial Linear Regression model?"></a>何时使用<em>Polynomial Linear Regression</em> model?</h3><p>事实上没有什么数据结构是一看就知道是要用线性模型还是用多项式模型，我觉得最方便的工具应该就是<strong>可视化</strong>。可以先<strong>在探索数据的时候绘制散点图，这样可以观察数据的分布</strong>。如果你明显看到他不呈直线形式分布，那么可以考虑多项式。或者第二个方法就是<strong>试错</strong>，可以<strong>先建立线性模型，将模型和数据都可视化</strong>，如果模型预测值在图上显示很不准确，那么可以考虑使用多项式模型。</p>
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="建立模型"><a href="#建立模型" class="headerlink" title="建立模型"></a>建立模型</h4><p>和之前差不多，这里也要引入<code>sklearn.linear_model</code>的<code>LinearRegression</code> class。但是在<code>fit()</code>的时候需要注意不能直接把训练集放入，需要进行适当的转化。</p>
+<h5 id="错误的fit方式"><a href="#错误的fit方式" class="headerlink" title="错误的fit方式"></a>错误的fit方式</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Fitting Linear Regression to the dataset</span></span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line">lin_reg = LinearRegression()</span><br><span class="line">lin_reg.fit(X, y)</span><br></pre></td></tr></table></figure>
+<p>这样只能得到一个简单线性模型或者多重线性模型，因为我们还没有对变量进行任何的转换，<code>LinearRegression()</code>也没有参数设置构建的模型为<em>Polynomial model</em>,想要正确的构建模型我们需要其他的Library来帮忙。</p>
+<h5 id="正确——将变量转为多次方"><a href="#正确——将变量转为多次方" class="headerlink" title="正确——将变量转为多次方"></a>正确——<strong>将变量转为多次方</strong></h5><p>下面的代码才是构建<em>Polynomial model</em>的正确方式。这里我们用到了<code>sklearn.preprocessing</code>中的<code>PolynomialFeatures</code> class。从Library的名字也可以看出，我们是在建模之前先对数据进行处理，将原先的数据集按照我们的要求把变量转变为多次方。</p>
+<p>这里我们先创建一个<code>PolynomialFeatures</code> instance，指定进行转换的次方，然后再<code>fit_transform()</code>到训练集上。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Poly_Linear_Regression-2.jpg" alt="Ploy preprocessing"></p>
+<p>从图上我们可以看到，<code>PolynomialFeatures</code>不是简单的返回一个进行平方（或指定次方）的数据，它还会给数据加上一列常数项，让线性模型知道还需要有一个常数项。</p>
+<p>数据预处理结束后的步骤就和之前是一样的，创建一个<code>LinearRegression</code> instance，然后<code>fit()</code>到处理过的训练集上，模型就算建立完成了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Fitting Linear Regression to the dataset</span></span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> PolynomialFeatures</span><br><span class="line">poly_reg = PolynomialFeatures(degree=<span class="number">2</span>)</span><br><span class="line">X_poly = poly_reg.fit_transform(X)</span><br><span class="line">lin_reg = LinearRegression()</span><br><span class="line">lin_reg.fit(X_poly, y)</span><br></pre></td></tr></table></figure>
+<h4 id="利用模型预测"><a href="#利用模型预测" class="headerlink" title="利用模型预测"></a>利用模型预测</h4><p>和建模一样的，<strong>我们在预测的时候也不能想当然的把测试集直接丢进去，我们需要对测试集进行同样的次方转换处理才行。</strong>这里用之前构建的次方转换对象<code>fit_transform()</code>测试集，然后再进行<code>predict()</code>，这样预测出来的数据才是正确的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Incorrect Predicting</span></span><br><span class="line">lin_reg_2.predict(<span class="number">6.5</span>)</span><br><span class="line"><span class="comment"># Predicting a new result with Polynomial Regression</span></span><br><span class="line">lin_reg_2.predict(poly_reg.fit_transform(<span class="number">6.5</span>))</span><br></pre></td></tr></table></figure>
+<h4 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h4><p>与之前的线性模型不同的就是需要考虑到<strong>次方转换</strong>的问题，其他的改动是因为想要绘制更多的点，让线段能够更加的平滑。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Poly_Linear_Regression_Plot.png" alt="Plot"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Visualising the Polynomial Regression results</span></span><br><span class="line">X_grid = np.arange(min(X.values), max(X.values), <span class="number">0.1</span>)</span><br><span class="line">X_grid = pd.DataFrame(X_grid)</span><br><span class="line">plt.scatter(X, y, color=<span class="string">'red'</span>)</span><br><span class="line">plt.plot(X_grid, lin_reg_2.predict(poly_reg.fit_transform(X_grid)), color=<span class="string">'blue'</span>)</span><br><span class="line">plt.title(<span class="string">'Truth or Bluff &#123;Polynomial Regression&#125;'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Salary'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Position level'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/07/20/Multiple-Linear-Regression/" itemprop="url">
                   Multiple Linear Regression
                 </a>
@@ -1415,394 +1818,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/29/提取汉字，英文或数字/" itemprop="url">
-                  提取汉字，英文或数字
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-29T11:26:00+08:00" content="2016-12-29">
-              2016-12-29
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage3.1%20%E6%8F%90%E5%8F%96%E6%B1%89%E5%AD%97%E6%88%96%E6%95%B0%E5%AD%97.jpg" class="full-image"></p>
-<h1 id="为什么要提取字符"><a href="#为什么要提取字符" class="headerlink" title="为什么要提取字符"></a>为什么要提取字符</h1><p>数据分析中的工作流程分为很多个阶段，其中的有一个阶段就是提取数据，而各种各样的字符串，数字，汉字，英文都是数据的一种。</p>
-<h1 id="提取"><a href="#提取" class="headerlink" title="提取"></a>提取</h1><h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>我们的目标是分别把C列中的<strong>数字</strong>、<strong>汉字</strong>和<strong>英文</strong>，并分别将其存放在每行后面的空单元格中。</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>在一个单元格当中有很长的字符串，一个接一个把字符提取出来，并且进行检验，是否为中文，是否为英文，是否为数字，然后把符合要求的数据提取出来，并存放到空单元格当中。</p>
-<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><h3 id="创立循环"><a href="#创立循环" class="headerlink" title="创立循环"></a>创立循环</h3><p>这个比较简单，已经无数次使用<strong>双层循环</strong>进行遍历操作。外层循环用来遍历每一行的单元格，内层循环用来遍历单个单元格中字符串的每个字符。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    For j = 1 To Len(Range(&quot;C&quot; &amp; i).Value)</span><br><span class="line">    </span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure>
-<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><p>判断这一步要分很多情况讨论，我们要分别讨论字符是否是<strong>数字</strong>、<strong>汉字</strong>或<strong>英文</strong>。</p>
-<h4 id="汉字"><a href="#汉字" class="headerlink" title="汉字"></a>汉字</h4><p>首先想要把单个字符取出进行判断，我们要用到<code>Mid()</code>函数，之后d要判断一个字符是否是中文，我们要用到<code>Asc()</code>函数。中文的<code>Asc()</code>函数值小于0，我们可以利用这一点来进行判断。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">If Asc(s) &lt; 0 Then</span><br><span class="line">    getstr = getstr &amp; s</span><br><span class="line">End If</span><br></pre></td></tr></table></figure>
-<h4 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h4><p>要判断一个字符是否是数字，我们可以使用一个更方便的方法——<code>Like</code>。这个方法是用来判断字符的相似性，如果相似就得到<code>TRUE</code>，相反的，和后面的字符不相似就得到<code>FALSE</code>。我们要判断一个字符是否是数字，可以判断它是否和0~9当中的某个数字相似，可以写成<code>[0-9]</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">If s Like &quot;[0-9]&quot; Then</span><br><span class="line">    getstr = getstr &amp; s</span><br><span class="line">End If</span><br></pre></td></tr></table></figure>
-<p>但是这样写会出现一个问题，因为有的单元格当中含有小数，例如<code>1.50</code>这类的。这样的话我们就无法提取出完整的小数，会出现类似这样的结果。</p>
-<p>所以我们要稍微改造一下代码，要增加一个判断情况，如果一个字符不是</p>
-<h4 id="英文"><a href="#英文" class="headerlink" title="英文"></a>英文</h4><p>英文的判断与数字的判断类似，也可以使用<code>Like</code>方法。有一点不同，数字没有大小写，而英文有，所有后面的集合应该写成<code>[a-z, A-Z]</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">If s Like &quot;[a-z,A-Z]&quot; Then</span><br><span class="line">    getstr = getstr &amp; s</span><br><span class="line">End If</span><br></pre></td></tr></table></figure>
-<h3 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h3><p>当我们判断一个字符符合我们的要求的时候，我们就把它提取出来，并且储存起来。这里我们把符合的字符赋值给一个变量，然后再把这个变量赋值给一个空单元格。最后一步很重要，在完成一个内部循环后要把这个变量<strong>重置</strong>，即让他重新变成空字符，保证下一次循环后得到的结果是正确的。还有值得注意的是这步是嵌套在<strong>小循环之外，大循环之内</strong>的。即<strong>每次完成一行的单元格提取之后就在那一行后面的空单元格当中填入提取出的数据，在开始下一行之前重置</strong>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">getstr = &quot;&quot;</span><br><span class="line">    For j = 1 To Len(Range(&quot;C&quot; &amp; i).Value)</span><br><span class="line">        s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">        If Asc(s) &lt; 0 Then</span><br><span class="line">            getstr = getstr &amp; s</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">    Range(&quot;F&quot; &amp; i).Value = getstr</span><br></pre></td></tr></table></figure>
-<h3 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h3><h4 id="提取汉字"><a href="#提取汉字" class="headerlink" title="提取汉字"></a>提取汉字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Sub 提取汉字()</span><br><span class="line">Dim i, j</span><br><span class="line">Dim getstr</span><br><span class="line">Dim s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    getstr = &quot;&quot;</span><br><span class="line">    For j = 1 To Len(Range(&quot;C&quot; &amp; i).Value)</span><br><span class="line">        s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">        If Asc(s) &lt; 0 Then</span><br><span class="line">            getstr = getstr &amp; s</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">    Range(&quot;F&quot; &amp; i).Value = getstr</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-<h4 id="提取数字"><a href="#提取数字" class="headerlink" title="提取数字"></a>提取数字</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Sub 提取数字()</span><br><span class="line">Dim i, j</span><br><span class="line">Dim getstr</span><br><span class="line">Dim s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    getstr = &quot;&quot;</span><br><span class="line">    For j = 1 To Len(Range(&quot;C&quot; &amp; i).Value)</span><br><span class="line">        s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">        If s Like &quot;[0-9]&quot; Then</span><br><span class="line">            getstr = getstr &amp; s</span><br><span class="line">        ElseIf s Like &quot;[0-9,.]&quot; And Len(getstr) &gt; 0 Then</span><br><span class="line">            Exit For</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">    Range(&quot;G&quot; &amp; i).Value = getstr</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-<h4 id="提取英文"><a href="#提取英文" class="headerlink" title="提取英文"></a>提取英文</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Sub 提取英文()</span><br><span class="line">Dim i, j</span><br><span class="line">Dim getstr</span><br><span class="line">Dim s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">    getstr = &quot;&quot;</span><br><span class="line">    For j = 1 To Len(Range(&quot;C&quot; &amp; i).Value)</span><br><span class="line">        s = Mid(Range(&quot;C&quot; &amp; i).Value, j, 1)</span><br><span class="line">        If s Like &quot;[a-z,A-Z]&quot; Then</span><br><span class="line">            getstr = getstr &amp; s</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">    Range(&quot;H&quot; &amp; i).Value = getstr</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/23/批量查找替换/" itemprop="url">
-                  批量查找替换
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-23T22:58:18+08:00" content="2016-12-23">
-              2016-12-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2.jpg" class="full-image"></p>
-<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>把单元格字符串中不完整的部分改成对应的完整部分<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-1.jpg" alt="转换示意"><br>原始的文档的C列中有很多是不完整的字符串<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%8E%9F%E5%A7%8B.png" alt="原始"><br>我们要通过对应的表格把不完整的字符串补充完整，有的后面加“版”，有的后面加“型”。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%AF%B9%E5%BA%94%E7%9B%AE%E5%BD%95.png" alt="对应目录"><br>最后得到类似这样的表格<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E7%9B%AE%E6%A0%87.png" alt="目标"></p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><h3 id="双层循环法"><a href="#双层循环法" class="headerlink" title="双层循环法"></a>双层循环法</h3><p>很多次的VBA课中都用到了双层循环法，这次当然也会第一个想到双层循环法，一个循环套在“数据”表格里，一个套在“条件”表格里，找到对应的字符串，并将其进行替换。</p>
-<h3 id="替换法"><a href="#替换法" class="headerlink" title="替换法"></a>替换法</h3><p>我们也可以直接利用替换的方法进行操作，直接按”Ctrl+H”，把”标准”替换成”标准型”，但是这样就会出现还有”标准型型”的单元格。之后我们可以在进行一次替换，把”型型”和”版版”替换成”型”和”版”。</p>
-<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><h3 id="双层循环法-1"><a href="#双层循环法-1" class="headerlink" title="双层循环法"></a>双层循环法</h3><h4 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h4><p>因为我们的循环语句当中经常要用到最大行号这个数值，所以我们先把两张工作表的最大行号都进行提取出来赋值给两个简短的变量<code>rw1</code>和<code>rw2</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br></pre></td></tr></table></figure></p>
-<p>之后我们把两个数据表中的数据提取出来，赋值给数组，这样就不用一次一次定位工作表当中的单元格。我们把这些数据分别赋值给两个变量<code>arr1</code>和<code>arr2</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr1 = ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value</span><br><span class="line">arr2 = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br></pre></td></tr></table></figure></p>
-<h4 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h4><p>两张工作表中的数据都是从第<strong>2</strong>行开始的，所以我们建立两个循环都<strong>从2开始，分别到两个表格的最大行号为止</strong>。</p>
-<h4 id="判断语句"><a href="#判断语句" class="headerlink" title="判断语句"></a>判断语句</h4><p>我们要找到两个表格当中的对应量，这里的话可以判断<strong>数据表格</strong>当中的<code>C</code>列字符串中是否包含<strong>条件表格</strong>中的<code>A</code>列中的不完整字符串，然后把它替换成<strong>条件表格</strong>中对应的<code>B</code>列字符串。这里会用到一个函数<code>InStr()</code><br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-2.jpg" alt="Instr函数"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">For i = 2 To rw1</span><br><span class="line">    For j = 2 To rw2</span><br><span class="line">        If InStr(arr1(i, 1), arr2(j, 1)) Then</span><br><span class="line">            arr1(i, 1) = Replace(arr1(i, 1), arr2(j, 1), arr2(j, 2))</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure></p>
-<p>但是这个判断语句有个问题，即使字符串是完整的，也会被判断为包含<strong>条件表格</strong>当中<code>A</code>列的不完整字符串，这样就会出现诸如<em>尊享版版、标准型型</em>这种奇怪的东西。所以我们要再改进一下判断语句，让VBA判断如果<strong>数据表格</strong>中的<code>C</code>列字符串包含<strong>条件表格</strong>中的<code>B</code>列的字符串，即完整的字符串，就不进行替换操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If InStr(arr1(i, 1), arr2(j, 1)) And Not (InStr(arr1(i, 1), arr2(j, 2))) Then</span><br></pre></td></tr></table></figure></p>
-<h4 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h4><p>终于到了最后一步了，只要把对应的字符串进行替换就好了，这里要用到一个函数<code>Replace()</code><br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-3.jpg" alt="Replace函数"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value = arr1</span><br></pre></td></tr></table></figure></p>
-<h4 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Sub 双层循环法()</span><br><span class="line"></span><br><span class="line">Dim rw1, rw2</span><br><span class="line">Dim arr1, arr2</span><br><span class="line">Dim i, j</span><br><span class="line"></span><br><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br><span class="line"></span><br><span class="line">arr1 = ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value</span><br><span class="line">arr2 = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br><span class="line"></span><br><span class="line">For i = 2 To rw1</span><br><span class="line">    For j = 2 To rw2</span><br><span class="line">        If InStr(arr1(i, 1), arr2(j, 1)) And Not (InStr(arr1(i, 1), arr2(j, 2))) Then</span><br><span class="line">            arr1(i, 1) = Replace(arr1(i, 1), arr2(j, 1), arr2(j, 2))</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">ActiveSheet.Range(&quot;C1:C&quot; &amp; rw1).Value = arr1</span><br><span class="line"></span><br><span class="line">MsgBox (&quot;替换完成&quot;)</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-<h3 id="查找替换法"><a href="#查找替换法" class="headerlink" title="查找替换法"></a>查找替换法</h3><h4 id="变量赋值-1"><a href="#变量赋值-1" class="headerlink" title="变量赋值"></a>变量赋值</h4><p>同上，我们可以精简代码，这次我们需要三个变量<code>rw1</code>，<code>rw2</code>和<code>arr</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br><span class="line">arr = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br></pre></td></tr></table></figure></p>
-<h4 id="替换-1"><a href="#替换-1" class="headerlink" title="替换"></a>替换</h4><p>循环语句只有一层，非常简单，就和第一次的替换操作一起说吧。这里我们需要让<em>数据表</em>按照<em>条件表</em>的对应关系来进行替换，没法直接用简单的<em>替换操作</em>+<em>录制宏</em>来实现。这里我们还是要用到<code>Replace</code>，但是是<code>Replace</code>方法，语法有些许不同。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2-4.jpg" alt="Replace方法"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">For i = 2 To rw2</span><br><span class="line">    Range(&quot;C1:C&quot; &amp; rw1).Replace what:=arr(i, 1), Replacement:=arr(i, 2)</span><br><span class="line">Next i</span><br></pre></td></tr></table></figure></p>
-<h4 id="二次替换"><a href="#二次替换" class="headerlink" title="二次替换"></a>二次替换</h4><p>经过一次替换我们会的到很多带有两个”版”和两个”型”的单元格，这里我们再用一次<code>Replace</code>方法进行替换。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;版版&quot;, Replacement:=&quot;版&quot;</span><br><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;型型&quot;, Replacement:=&quot;型&quot;</span><br></pre></td></tr></table></figure></p>
-<h4 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Sub 查找替换法()</span><br><span class="line"></span><br><span class="line">Dim rw1, rw2, arr</span><br><span class="line"></span><br><span class="line">rw1 = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">rw2 = Sheets(&quot;条件&quot;).UsedRange.Rows.Count</span><br><span class="line">arr = Sheets(&quot;条件&quot;).Range(&quot;A1:B&quot; &amp; rw2).Value</span><br><span class="line"></span><br><span class="line">For i = 2 To rw2</span><br><span class="line">    Range(&quot;C1:C&quot; &amp; rw1).Replace what:=arr(i, 1), Replacement:=arr(i, 2)</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;版版&quot;, Replacement:=&quot;版&quot;</span><br><span class="line">Range(&quot;C1:C&quot; &amp; rw1).Replace what:=&quot;型型&quot;, Replacement:=&quot;型&quot;</span><br><span class="line"></span><br><span class="line">MsgBox (&quot;替换完成&quot;)</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/23/批量处理合并单元格/" itemprop="url">
-                  批量处理合并单元格
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-12-23T22:57:59+08:00" content="2016-12-23">
-              2016-12-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC2.jpg" class="full-image"></p>
-<h1 id="为什么要处理合并单元格"><a href="#为什么要处理合并单元格" class="headerlink" title="为什么要处理合并单元格"></a>为什么要处理合并单元格</h1><p>因为在数据处理当中一维的表格处理起来最为方便，可以汇总为二维的表格或者其他自己想要的表格。但矛盾就在这里，<em>合并单元格</em>大大降低了表格的可处理性，无论是筛选，排序还是统计（<code>sumif</code>），都会产生错误，对后续的处理操作带来极大的麻烦。因此在数据处理操作之前要对合并单元格进行处理。</p>
-<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>让合并的单元格都取消合并，并且都填充对应的值。</p>
-<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E6%89%B9%E9%87%8F%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC-%E7%9B%AE%E6%A0%87.jpg" alt="enter image description here"></p>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><h2 id="循环法"><a href="#循环法" class="headerlink" title="循环法"></a>循环法</h2><p>先把合并单元格进行恢复，取消合并。再对一列单元格进行逐一的检验。如果单元格内含有数据，那就不做处理；如果单元格内没有数据，那就把这个单元格的上一列的数据赋值给它。（举例来说，<em>令B5.Value = B6.Value</em>）但是为了不让这个循环一直进行下去，要给循环设定一个界限，就是常用的<code>Usedrange.rows.count</code>。</p>
-<h2 id="定位法"><a href="#定位法" class="headerlink" title="定位法"></a>定位法</h2><p>定位法相比循环法更为简单，先取消合并（此时会选中原先合并单元格的区域），然后定位空单元格，将这些单元格的值都等于他们的上一行的值就可以了。</p>
-<h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h2 id="循环法-1"><a href="#循环法-1" class="headerlink" title="循环法"></a>循环法</h2><h3 id="取消合并"><a href="#取消合并" class="headerlink" title="取消合并"></a>取消合并</h3><p>利用<code>UnMerge</code>方法取消合并单元格。</p>
-<h3 id="建立循环"><a href="#建立循环" class="headerlink" title="建立循环"></a>建立循环</h3><p>设定循环的界限<code>ActiveSheet.UsedRange.Rows.Count</code>。利用<code>offset()</code>函数，让空值的单元格得到上一行的单元格的值<code>= Range(&quot;A&quot; &amp; i).Offset(-1, 0).Value</code>。</p>
-<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Sub 循环法()</span><br><span class="line">    Range(&quot;A:A&quot;).UnMerge</span><br><span class="line">    For i = 2 To ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">        If Range(&quot;A&quot; &amp; i).Value = &quot;&quot; Then Range(&quot;A&quot; &amp; i).Value = Range(&quot;A&quot; &amp; i).Offset(-1, 0).Value</span><br><span class="line">    Next i</span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-<h2 id="定位法-1"><a href="#定位法-1" class="headerlink" title="定位法"></a>定位法</h2><h3 id="录制宏"><a href="#录制宏" class="headerlink" title="录制宏"></a>录制宏</h3><p>先取消合并（此时会选中原先合并单元格的区域），直接按<strong>F5</strong>，会出现<em>定位</em>窗口。点击左下角的按钮，再选择<em>空值</em>，此时会选中空单元格。之后在上方的<em>数值栏</em>当中输入<code>=a2</code>，按下<strong>Ctrl + Enter</strong>，就会发现单元格的内容都自动填充好了。</p>
-<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%AE%9A%E4%BD%8D%E6%B3%95.gif" alt="enter image description here"></p>
-<h3 id="选取录制好的宏代码"><a href="#选取录制好的宏代码" class="headerlink" title="选取录制好的宏代码"></a>选取录制好的宏代码</h3><p>尽管录制下来的宏代码看似很长很复杂，但是其实前面的都是一些没什么用的参数设置，与我们刚刚进行的操作有实际相关联的就是最后三句。将这三句进行复制，建立新的宏，并进行改造。</p>
-<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E5%A4%84%E7%90%86%E5%90%88%E5%B9%B6%E5%8D%95%E5%85%83%E6%A0%BC-%E5%BD%95%E5%88%B6%E5%AE%8F.png" alt="enter image description here"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Selection.UnMerge</span><br><span class="line">Selection.SpecialCells(xlCellTypeBlanks).Select</span><br><span class="line">Selection.FormulaR1C1 = &quot;=R[-1]C&quot;</span><br></pre></td></tr></table></figure>
-<h4 id="UnMerge"><a href="#UnMerge" class="headerlink" title="UnMerge"></a>UnMerge</h4><p>这是<em>取消合并</em>的操作，在宏代码中显示为<code>UnMerge</code></p>
-<h4 id="SpecialCells-xlCellTypeBlanks"><a href="#SpecialCells-xlCellTypeBlanks" class="headerlink" title="SpecialCells(xlCellTypeBlanks)"></a>SpecialCells(xlCellTypeBlanks)</h4><p>这是定位特殊单元格的语法，在这里我们定位的是<em>空值</em>，所以括号里的内容是<code>Blanks</code>。</p>
-<h4 id="FormulaR1C1-“-R-1-C”"><a href="#FormulaR1C1-“-R-1-C”" class="headerlink" title="FormulaR1C1 = “=R[-1]C”"></a>FormulaR1C1 = “=R[-1]C”</h4><p>这是我们最后在数值栏当中输入的公式，令值等于上一行（<code>R[-1]</code>）单元格（C）的值，大致用法与<code>offset()</code>函数一致。</p>
-<h3 id="改造宏代码"><a href="#改造宏代码" class="headerlink" title="改造宏代码"></a>改造宏代码</h3><p>这一部分就相对简单了，首先我们要把<code>Selection</code>改成<code>Range(&quot;A:A&quot;)</code>，也就是让Excel自己选择A列，不用再让我们人工选定A列。之后可以把A列的值再赋值给A列，这是为了让单元格里显示的是数值而不是<strong>公式</strong>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Range(&quot;A:A&quot;).UnMerge</span><br><span class="line">Range(&quot;A:A&quot;).SpecialCells(xlCellTypeBlanks).FormulaR1C1 = &quot;=R[-1]C&quot;</span><br><span class="line">Range(&quot;A:A&quot;).Value = Range(&quot;A:A&quot;).Value</span><br></pre></td></tr></table></figure>
-<h3 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Sub 定位法()</span><br><span class="line"></span><br><span class="line">    Range(&quot;A:A&quot;).UnMerge</span><br><span class="line">    Range(&quot;A:A&quot;).SpecialCells(xlCellTypeBlanks).FormulaR1C1 = &quot;=R[-1]C&quot;</span><br><span class="line">    Range(&quot;A:A&quot;).Value = Range(&quot;A:A&quot;).Value</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1848,7 +1863,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">33</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -2028,7 +2043,7 @@
       }
     });
   </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
   
