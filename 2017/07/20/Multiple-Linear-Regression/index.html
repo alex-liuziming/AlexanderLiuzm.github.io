@@ -1,0 +1,698 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Data Analysis,Data Mining,python,R," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Machine Learning A-Z Part2 - 2Multiple Linear Regression模型概览
+Multiple Linear Regression比起Simple Linear Regression就是增加了几个Independent Variables。虽然讲起来就是这么简单的事情，事实上这个模型变得更难形象化的理解了，如果仅仅是将变量增加到二维，那么我们得到的线性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Multiple Linear Regression">
+<meta property="og:url" content="http://yoursite.com/2017/07/20/Multiple-Linear-Regression/index.html">
+<meta property="og:site_name" content="牧牧闻叨">
+<meta property="og:description" content="Machine Learning A-Z Part2 - 2Multiple Linear Regression模型概览
+Multiple Linear Regression比起Simple Linear Regression就是增加了几个Independent Variables。虽然讲起来就是这么简单的事情，事实上这个模型变得更难形象化的理解了，如果仅仅是将变量增加到二维，那么我们得到的线性">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageMultiple_Linear_Regression.jpg">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression1.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression2.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression_DV-1.jpg">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression_DV-2.jpg">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression3.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression4.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression5.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression6.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression7.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression8.png">
+<meta property="og:updated_time" content="2017-07-20T00:26:07.161Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Multiple Linear Regression">
+<meta name="twitter:description" content="Machine Learning A-Z Part2 - 2Multiple Linear Regression模型概览
+Multiple Linear Regression比起Simple Linear Regression就是增加了几个Independent Variables。虽然讲起来就是这么简单的事情，事实上这个模型变得更难形象化的理解了，如果仅仅是将变量增加到二维，那么我们得到的线性">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageMultiple_Linear_Regression.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/20/Multiple-Linear-Regression/"/>
+
+  <title> Multiple Linear Regression | 牧牧闻叨 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">牧牧闻叨</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">整理心中的知识体系，让自己变得更好</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Multiple Linear Regression
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-20T08:18:55+08:00" content="2017-07-20">
+              2017-07-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageMultiple_Linear_Regression.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part2-2"><a href="#Machine-Learning-A-Z-Part2-2" class="headerlink" title="Machine Learning A-Z Part2 - 2"></a>Machine Learning A-Z Part2 - 2</h1><h2 id="Multiple-Linear-Regression"><a href="#Multiple-Linear-Regression" class="headerlink" title="Multiple Linear Regression"></a>Multiple Linear Regression</h2><h3 id="模型概览"><a href="#模型概览" class="headerlink" title="模型概览"></a>模型概览</h3><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression1.png" alt="Describe Multiple Linear Regression"></p>
+<p><em>Multiple Linear Regression</em>比起<em>Simple Linear Regression</em>就是增加了几个<strong>Independent Variables</strong>。虽然讲起来就是这么简单的事情，事实上这个模型变得更难形象化的理解了，如果仅仅是将变量增加到二维，那么我们得到的线性模型就是三维空间中的一个平面，用这个平面去预测一个个点的位置。但是如果增加到三个Independent Variables，甚至更多，那基本不太可能进行可视化了，我们只能将一个变量的系数抽象的理解为特定变量对预测值的贡献大小。</p>
+<p>要建立多因子线性回归模型，数据要满足如下假设：<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression2.png" alt="Assumptions"></p>
+<p>该模型对数据主要有5个假设：</p>
+<ol>
+<li>预测值和特征值的是线性相关的（从模型的名字也可以看出，不是线性的如何匹配？）</li>
+<li>同方差性<br>同方差性即误差项与独立变量（independent variable）之间相互独立, 并且误差项的分散(方差 Variance)必须等同即；Var(u|x)=σ^2</li>
+<li>多元正态分布</li>
+<li>误差独立</li>
+<li>数据不能存在多重共线性问题</li>
+</ol>
+<p>很多时候我们会兴冲冲的拿着数据和代码就开始构建模型，希望看到一个漂亮的可视化图表。但是我们往往都忘记了检验一个数据集是否符合模型的基本假设是多么重要的事情。有的时候一个数据集可能根本不符合正态分布，但是我们硬要将数据套入一个<em>Multiple Linear Regression</em>，这种情况下无论我们费多大劲去筛选变量，去优化模型，到头来都是白费功夫。</p>
+<p>我最近读了《Bad Data Handbook》，其中有一个学者专门强调了验证数据符合假设的重要性。他提到自己有一次在为电信公司构建客户拨打客服热线的模型，他拿到这个数据的时候不假思索的认为数据肯定符合泊松(<em>Poisson</em>)分布，因为很明显的，客户拨打电话这个情景完全符合泊松分布的三个假设：</p>
+<ol>
+<li>事件随机发生(<em>Events occur at a constant rate</em>)</li>
+<li>每个事件都相互独立(<em>Events are independent of each other</em>)</li>
+<li>事件不会同时发生(<em>Events do not occur simultaneously</em>)</li>
+</ol>
+<p>但是当他建模完成的时候才发现数据的分布根本不符合泊松分布，经过对数据集仔细的研究，他发现<strong>原来数据集中记载了很多在第一次拨打热线后回拨的电话，这些电话就是造成误差的关键所在，因为这些数据并不符合泊松分布的假设，他们和之前的数据是有关联的！</strong>当他筛选了数据，仅仅选取第一次打入的电话作为数据的时候，数据完全符合泊松分布。<strong>从别人的经验我们要看到自己未意识到的危机，也许现在上课的数据都为我们整理好了，但是将来我们需要自己构建模型的时候需要注意检验数据是否符合假设。</strong></p>
+<h3 id="Dummy-Variable"><a href="#Dummy-Variable" class="headerlink" title="Dummy Variable"></a>Dummy Variable</h3><p><strong>永远不要把所有的Dummy Variable都放入你的线性模型，总要省去一个作为常数$b_{0}$的默认项。</strong>对于为什么总是要省去一个哑变量，我之前在学习R数据挖掘的时候一直不是很明白，但是这里老师打了一个形象的比方。就是把一个放入模型中的哑变量看做一盏灯的开关，这个房间里不能黑灯瞎火，总要有一盏灯亮着。当把所有的哑变量全部加入到模型中时：<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression_DV-1.jpg" alt="Dummy Variable instance"><br>这下可能比较容易看出来，常数项$b<em>{0}$没有了对应的灯，那$b</em>{0} =  1$的时候代表的是房间的那盏灯亮呢？<strong>这样说比较通俗简单，用学术的话来说就是加入所有的哑变量后，最后一个哑变量会和常数项产生矛盾，模型会出现多重共线性的问题，因此我们总需要舍弃掉一个哑变量。</strong>正确的情况是这样的：<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression_DV-2.jpg" alt="right condition"></p>
+<h3 id="选择变量"><a href="#选择变量" class="headerlink" title="选择变量"></a>选择变量</h3><p>要进行筛选变量的原因有两个：</p>
+<ol>
+<li>有的变量可能是相关性不强的变量，那么放入模型中的话会导致预测值也变得不那么准确(Trash in = Trash out)</li>
+<li>太多变量会让模型变得复杂难以解释，筛选模型可以让模型变得简单易懂</li>
+</ol>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression3.png" alt="Why We Need to Select Variables"><br>共有5种方法可以筛选要放入模型进行建模的变量：</p>
+<ol>
+<li>All in</li>
+<li>Backward Elimination</li>
+<li>Forward Elimination</li>
+<li>Bidirectional  Elimination</li>
+<li>Score Comparison</li>
+</ol>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression4.png" alt="5 Ways to select variables"></p>
+<h4 id="All-in"><a href="#All-in" class="headerlink" title="All in"></a>All in</h4><p>这是老师自创的名称，并非术语。顾名思义的，这种思路就是把所有的变量都放到模型中去。但是通常很少这样做。<strong>除非我们对实验的变量都非常了解，非常肯定他们对预测值都会有贡献，有影响，有关联，这个时候才会将所有的变量都放入模型中。</strong>通常，我们还是需要筛选一下变量再建模。</p>
+<h4 id="Backward-Elimination"><a href="#Backward-Elimination" class="headerlink" title="Backward Elimination"></a>Backward Elimination</h4><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression5.png" alt="Backward Elimination"></p>
+<p><strong>向后法</strong>，就是从所有变量中逐步的剔除最次的变量（相关性最差），一直到最终的满意情况。主要有5步：</p>
+<ol>
+<li>选择一个自己中意的重要性水平<code>SL</code></li>
+<li>利用所有的变量构建模型</li>
+<li>查看变量的<code>p值</code>，选择拥有最大<code>p值</code>的变量</li>
+<li>如果<code>p值</code>大于<code>SL</code>，那就删去他，否则就结束筛选</li>
+<li>再利用剩余的变量建模，再查看<code>p值</code>…</li>
+</ol>
+<h4 id="Forward-Elimination"><a href="#Forward-Elimination" class="headerlink" title="Forward Elimination"></a>Forward Elimination</h4><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression6.png" alt="Forward Elimination"></p>
+<p><strong>向前法</strong>，和向后法相反，是从所有变量中选择最好的变量放入模型中，一直到没有好的变量为止：</p>
+<ol>
+<li>选择一个自己中意的重要性水平<code>SL</code></li>
+<li>利用所有的变量构建模型</li>
+<li>查看变量的<code>p值</code>，选择拥有最小<code>p值</code>的变量</li>
+<li>如果<code>p值</code>小于<code>SL</code>，那就放入模型，否则就结束筛选</li>
+<li>再利用剩余的变量建模，再查看<code>p值</code>…</li>
+</ol>
+<h4 id="Bidirectional-Elimination"><a href="#Bidirectional-Elimination" class="headerlink" title="Bidirectional  Elimination"></a>Bidirectional  Elimination</h4><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression7.png" alt="Bidirectional  Elimination"></p>
+<p><strong>向前向后法</strong>（这是我之前学R语言数据挖掘的时候那个老师用的叫法，其实我觉得听!挺土的。。。）就是结合了向前法和向后法，先用向前法筛选一遍，再用向后法筛选一遍，直到最后无论怎么筛选模型变量都不再发生变化，就算是结束了。</p>
+<h4 id="Score-Comparison"><a href="#Score-Comparison" class="headerlink" title="Score Comparison"></a>Score Comparison</h4><p><strong>整理出所有可能的变量搭配组合，并检验每种可能的表现如何。</strong>这种方法也不常用，要知道随着变量的数量增加，组合的数量是急速增加的，要用这种“穷举法”实在有些浪费时间。</p>
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="筛选变量"><a href="#筛选变量" class="headerlink" title="筛选变量"></a>筛选变量</h4><p>这里用了<em>向后法</em>来筛选变量，需要用到<code>statsmodels.formula.api</code>。第二行创建常数列<code>Series(np.ones(50).astype(int))</code>是为了在筛选变量的时候让程序知道我们构建的模型还有一个常数项$b_{0}$。之后复制一个训练集数据，用作之后修改放入模型的变量，要知道元数据最好不要做修改。用<code>sm.OLS().fit()</code>method来建立模型，并用模型的<code>summary()</code>method查看各个变量的<code>p值</code>。下图是<code>summary()</code>的返回值。之后照向后法的步骤，去掉最次的变量。然后再开始构建，再筛选，直至结束。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression8.png" alt="summary"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Building the optinal model using backward elimination</span></span><br><span class="line"><span class="keyword">import</span> statsmodels.formula.api <span class="keyword">as</span> sm</span><br><span class="line">constant = Series(np.ones(<span class="number">50</span>).astype(int))</span><br><span class="line">X = pd.concat([constant, X], axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># round 1</span></span><br><span class="line">X_opt = X.copy()</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br><span class="line"><span class="comment"># round 2</span></span><br><span class="line">X_opt = X_opt.drop(<span class="string">'State_California'</span>, axis=<span class="number">1</span>)</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br><span class="line"><span class="comment"># round 3</span></span><br><span class="line">X_opt = X_opt.drop(<span class="string">'State_Florida'</span>, axis=<span class="number">1</span>)</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br><span class="line"><span class="comment"># round 4</span></span><br><span class="line">X_opt = X_opt.drop(<span class="string">'Administration'</span>, axis=<span class="number">1</span>)</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br></pre></td></tr></table></figure>
+<h4 id="建模"><a href="#建模" class="headerlink" title="建模"></a>建模</h4><p>建立模型就相对简单了，和简单线性模型一样的，引入<code>LinearRegression</code>，建立一个模型，同样不需要设置任何的参数，然后<code>fit()</code>到训练集上，一个模型就建立完成了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Fitting Multiple Linear Regression to the Training set</span></span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line">regressor = LinearRegression()</span><br><span class="line">regressor.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># predict the test set results</span></span><br><span class="line">y_pred = regressor.predict(X_test)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Data-Analysis/" rel="tag">#Data Analysis</a>
+          
+            <a href="/tags/Data-Mining/" rel="tag">#Data Mining</a>
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+            <a href="/tags/R/" rel="tag">#R</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/17/Simple-Linear-Regression/" rel="next" title="Simple Linear Regression">
+                <i class="fa fa-chevron-left"></i> Simple Linear Regression
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fish.png"
+               alt="AlexanderLiu" />
+          <p class="site-author-name" itemprop="name">AlexanderLiu</p>
+          <p class="site-description motion-element" itemprop="description">不要效法这个世界，只要心意更新而变化，叫你们查验何为神的善良、纯全、可喜悦的旨意。（罗马书 12:2）</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">33</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Machine-Learning-A-Z-Part2-2"><span class="nav-number">1.</span> <span class="nav-text">Machine Learning A-Z Part2 - 2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Multiple-Linear-Regression"><span class="nav-number">1.1.</span> <span class="nav-text">Multiple Linear Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模型概览"><span class="nav-number">1.1.1.</span> <span class="nav-text">模型概览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dummy-Variable"><span class="nav-number">1.1.2.</span> <span class="nav-text">Dummy Variable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择变量"><span class="nav-number">1.1.3.</span> <span class="nav-text">选择变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#All-in"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">All in</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Backward-Elimination"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">Backward Elimination</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Forward-Elimination"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">Forward Elimination</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bidirectional-Elimination"><span class="nav-number">1.1.3.4.</span> <span class="nav-text">Bidirectional  Elimination</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Score-Comparison"><span class="nav-number">1.1.3.5.</span> <span class="nav-text">Score Comparison</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python"><span class="nav-number">1.1.4.</span> <span class="nav-text">python</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#筛选变量"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">筛选变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建模"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">建模</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AlexanderLiu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+</body>
+</html>

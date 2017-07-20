@@ -248,6 +248,180 @@
             
               
                 
+                <a class="post-title-link" href="/2017/07/20/Multiple-Linear-Regression/" itemprop="url">
+                  Multiple Linear Regression
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-20T08:18:55+08:00" content="2017-07-20">
+              2017-07-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageMultiple_Linear_Regression.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part2-2"><a href="#Machine-Learning-A-Z-Part2-2" class="headerlink" title="Machine Learning A-Z Part2 - 2"></a>Machine Learning A-Z Part2 - 2</h1><h2 id="Multiple-Linear-Regression"><a href="#Multiple-Linear-Regression" class="headerlink" title="Multiple Linear Regression"></a>Multiple Linear Regression</h2><h3 id="模型概览"><a href="#模型概览" class="headerlink" title="模型概览"></a>模型概览</h3><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression1.png" alt="Describe Multiple Linear Regression"></p>
+<p><em>Multiple Linear Regression</em>比起<em>Simple Linear Regression</em>就是增加了几个<strong>Independent Variables</strong>。虽然讲起来就是这么简单的事情，事实上这个模型变得更难形象化的理解了，如果仅仅是将变量增加到二维，那么我们得到的线性模型就是三维空间中的一个平面，用这个平面去预测一个个点的位置。但是如果增加到三个Independent Variables，甚至更多，那基本不太可能进行可视化了，我们只能将一个变量的系数抽象的理解为特定变量对预测值的贡献大小。</p>
+<p>要建立多因子线性回归模型，数据要满足如下假设：<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression2.png" alt="Assumptions"></p>
+<p>该模型对数据主要有5个假设：</p>
+<ol>
+<li>预测值和特征值的是线性相关的（从模型的名字也可以看出，不是线性的如何匹配？）</li>
+<li>同方差性<br>同方差性即误差项与独立变量（independent variable）之间相互独立, 并且误差项的分散(方差 Variance)必须等同即；Var(u|x)=σ^2</li>
+<li>多元正态分布</li>
+<li>误差独立</li>
+<li>数据不能存在多重共线性问题</li>
+</ol>
+<p>很多时候我们会兴冲冲的拿着数据和代码就开始构建模型，希望看到一个漂亮的可视化图表。但是我们往往都忘记了检验一个数据集是否符合模型的基本假设是多么重要的事情。有的时候一个数据集可能根本不符合正态分布，但是我们硬要将数据套入一个<em>Multiple Linear Regression</em>，这种情况下无论我们费多大劲去筛选变量，去优化模型，到头来都是白费功夫。</p>
+<p>我最近读了《Bad Data Handbook》，其中有一个学者专门强调了验证数据符合假设的重要性。他提到自己有一次在为电信公司构建客户拨打客服热线的模型，他拿到这个数据的时候不假思索的认为数据肯定符合泊松(<em>Poisson</em>)分布，因为很明显的，客户拨打电话这个情景完全符合泊松分布的三个假设：</p>
+<ol>
+<li>事件随机发生(<em>Events occur at a constant rate</em>)</li>
+<li>每个事件都相互独立(<em>Events are independent of each other</em>)</li>
+<li>事件不会同时发生(<em>Events do not occur simultaneously</em>)</li>
+</ol>
+<p>但是当他建模完成的时候才发现数据的分布根本不符合泊松分布，经过对数据集仔细的研究，他发现<strong>原来数据集中记载了很多在第一次拨打热线后回拨的电话，这些电话就是造成误差的关键所在，因为这些数据并不符合泊松分布的假设，他们和之前的数据是有关联的！</strong>当他筛选了数据，仅仅选取第一次打入的电话作为数据的时候，数据完全符合泊松分布。<strong>从别人的经验我们要看到自己未意识到的危机，也许现在上课的数据都为我们整理好了，但是将来我们需要自己构建模型的时候需要注意检验数据是否符合假设。</strong></p>
+<h3 id="Dummy-Variable"><a href="#Dummy-Variable" class="headerlink" title="Dummy Variable"></a>Dummy Variable</h3><p><strong>永远不要把所有的Dummy Variable都放入你的线性模型，总要省去一个作为常数$b_{0}$的默认项。</strong>对于为什么总是要省去一个哑变量，我之前在学习R数据挖掘的时候一直不是很明白，但是这里老师打了一个形象的比方。就是把一个放入模型中的哑变量看做一盏灯的开关，这个房间里不能黑灯瞎火，总要有一盏灯亮着。当把所有的哑变量全部加入到模型中时：<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression_DV-1.jpg" alt="Dummy Variable instance"><br>这下可能比较容易看出来，常数项$b<em>{0}$没有了对应的灯，那$b</em>{0} =  1$的时候代表的是房间的那盏灯亮呢？<strong>这样说比较通俗简单，用学术的话来说就是加入所有的哑变量后，最后一个哑变量会和常数项产生矛盾，模型会出现多重共线性的问题，因此我们总需要舍弃掉一个哑变量。</strong>正确的情况是这样的：<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression_DV-2.jpg" alt="right condition"></p>
+<h3 id="选择变量"><a href="#选择变量" class="headerlink" title="选择变量"></a>选择变量</h3><p>要进行筛选变量的原因有两个：</p>
+<ol>
+<li>有的变量可能是相关性不强的变量，那么放入模型中的话会导致预测值也变得不那么准确(Trash in = Trash out)</li>
+<li>太多变量会让模型变得复杂难以解释，筛选模型可以让模型变得简单易懂</li>
+</ol>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression3.png" alt="Why We Need to Select Variables"><br>共有5种方法可以筛选要放入模型进行建模的变量：</p>
+<ol>
+<li>All in</li>
+<li>Backward Elimination</li>
+<li>Forward Elimination</li>
+<li>Bidirectional  Elimination</li>
+<li>Score Comparison</li>
+</ol>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression4.png" alt="5 Ways to select variables"></p>
+<h4 id="All-in"><a href="#All-in" class="headerlink" title="All in"></a>All in</h4><p>这是老师自创的名称，并非术语。顾名思义的，这种思路就是把所有的变量都放到模型中去。但是通常很少这样做。<strong>除非我们对实验的变量都非常了解，非常肯定他们对预测值都会有贡献，有影响，有关联，这个时候才会将所有的变量都放入模型中。</strong>通常，我们还是需要筛选一下变量再建模。</p>
+<h4 id="Backward-Elimination"><a href="#Backward-Elimination" class="headerlink" title="Backward Elimination"></a>Backward Elimination</h4><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression5.png" alt="Backward Elimination"></p>
+<p><strong>向后法</strong>，就是从所有变量中逐步的剔除最次的变量（相关性最差），一直到最终的满意情况。主要有5步：</p>
+<ol>
+<li>选择一个自己中意的重要性水平<code>SL</code></li>
+<li>利用所有的变量构建模型</li>
+<li>查看变量的<code>p值</code>，选择拥有最大<code>p值</code>的变量</li>
+<li>如果<code>p值</code>大于<code>SL</code>，那就删去他，否则就结束筛选</li>
+<li>再利用剩余的变量建模，再查看<code>p值</code>…</li>
+</ol>
+<h4 id="Forward-Elimination"><a href="#Forward-Elimination" class="headerlink" title="Forward Elimination"></a>Forward Elimination</h4><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression6.png" alt="Forward Elimination"></p>
+<p><strong>向前法</strong>，和向后法相反，是从所有变量中选择最好的变量放入模型中，一直到没有好的变量为止：</p>
+<ol>
+<li>选择一个自己中意的重要性水平<code>SL</code></li>
+<li>利用所有的变量构建模型</li>
+<li>查看变量的<code>p值</code>，选择拥有最小<code>p值</code>的变量</li>
+<li>如果<code>p值</code>小于<code>SL</code>，那就放入模型，否则就结束筛选</li>
+<li>再利用剩余的变量建模，再查看<code>p值</code>…</li>
+</ol>
+<h4 id="Bidirectional-Elimination"><a href="#Bidirectional-Elimination" class="headerlink" title="Bidirectional  Elimination"></a>Bidirectional  Elimination</h4><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression7.png" alt="Bidirectional  Elimination"></p>
+<p><strong>向前向后法</strong>（这是我之前学R语言数据挖掘的时候那个老师用的叫法，其实我觉得听!挺土的。。。）就是结合了向前法和向后法，先用向前法筛选一遍，再用向后法筛选一遍，直到最后无论怎么筛选模型变量都不再发生变化，就算是结束了。</p>
+<h4 id="Score-Comparison"><a href="#Score-Comparison" class="headerlink" title="Score Comparison"></a>Score Comparison</h4><p><strong>整理出所有可能的变量搭配组合，并检验每种可能的表现如何。</strong>这种方法也不常用，要知道随着变量的数量增加，组合的数量是急速增加的，要用这种“穷举法”实在有些浪费时间。</p>
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="筛选变量"><a href="#筛选变量" class="headerlink" title="筛选变量"></a>筛选变量</h4><p>这里用了<em>向后法</em>来筛选变量，需要用到<code>statsmodels.formula.api</code>。第二行创建常数列<code>Series(np.ones(50).astype(int))</code>是为了在筛选变量的时候让程序知道我们构建的模型还有一个常数项$b_{0}$。之后复制一个训练集数据，用作之后修改放入模型的变量，要知道元数据最好不要做修改。用<code>sm.OLS().fit()</code>method来建立模型，并用模型的<code>summary()</code>method查看各个变量的<code>p值</code>。下图是<code>summary()</code>的返回值。之后照向后法的步骤，去掉最次的变量。然后再开始构建，再筛选，直至结束。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression8.png" alt="summary"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Building the optinal model using backward elimination</span></span><br><span class="line"><span class="keyword">import</span> statsmodels.formula.api <span class="keyword">as</span> sm</span><br><span class="line">constant = Series(np.ones(<span class="number">50</span>).astype(int))</span><br><span class="line">X = pd.concat([constant, X], axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># round 1</span></span><br><span class="line">X_opt = X.copy()</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br><span class="line"><span class="comment"># round 2</span></span><br><span class="line">X_opt = X_opt.drop(<span class="string">'State_California'</span>, axis=<span class="number">1</span>)</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br><span class="line"><span class="comment"># round 3</span></span><br><span class="line">X_opt = X_opt.drop(<span class="string">'State_Florida'</span>, axis=<span class="number">1</span>)</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br><span class="line"><span class="comment"># round 4</span></span><br><span class="line">X_opt = X_opt.drop(<span class="string">'Administration'</span>, axis=<span class="number">1</span>)</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br></pre></td></tr></table></figure>
+<h4 id="建模"><a href="#建模" class="headerlink" title="建模"></a>建模</h4><p>建立模型就相对简单了，和简单线性模型一样的，引入<code>LinearRegression</code>，建立一个模型，同样不需要设置任何的参数，然后<code>fit()</code>到训练集上，一个模型就建立完成了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Fitting Multiple Linear Regression to the Training set</span></span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line">regressor = LinearRegression()</span><br><span class="line">regressor.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># predict the test set results</span></span><br><span class="line">y_pred = regressor.predict(X_test)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/07/17/Simple-Linear-Regression/" itemprop="url">
                   Simple Linear Regression
                 </a>
@@ -1629,143 +1803,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/10/09/不同表头的多表合并/" itemprop="url">
-                  不同表头的多表合并
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-10-09T22:54:57+08:00" content="2016-10-09">
-              2016-10-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimage%E4%B8%8D%E5%90%8C%E8%A1%A8%E5%A4%B4%E7%9A%84%E5%A4%9A%E8%A1%A8%E5%90%88%E5%B9%B6.jpg" class="full-image"></p>
-<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>这次VBA的目标就是把不同工作表内的不同表头（即列标题有所不同）的表格进行汇总到一张表内。</p>
-<p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E7%9B%AE%E6%A0%87%E6%B1%87%E6%80%BB%E8%A1%A8.png" alt="enter image description here"></p>
-<p>先来看下这张汇总表格有什么地方是值得注意的：</p>
-<ol>
-<li>列标题与数据是一一对应的，来自哪个表的数据就对应行标题来自哪个表格</li>
-<li>列标题汇总了所有的列标题（项目名称），避免了重复</li>
-<li>数据填充在相应的单元格，没有数据的地方就留空</li>
-</ol>
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>因为<strong>列标题</strong>是汇总的，没有重复的，所以就先想到可以利用<code>字典</code>来进行汇总，同时排除了重复项。又因为数据要填充到相应的单元格，即要有对应的行号和列号，就选择用列标题的值和列标题对应的<code>item</code>进行标号，以确保数据能进入正确的单元格。利用一个循环找到操作一张表格的起始行号和结束行号，对第一列进行填充，以达到粘贴的数据与行标题是对应的效果。</p>
-<p>简而言之，分为以下几步：</p>
-<ol>
-<li>遍历工作表，取出不同的标题行名称</li>
-<li>遍历每一列，把每一列的数据复制到合并表</li>
-<li>命名对应的行标题</li>
-</ol>
-<h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h2 id="遍历工作表"><a href="#遍历工作表" class="headerlink" title="遍历工作表"></a>遍历工作表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Set d = CreateObject(&quot;scripting.dictionary&quot;)</span><br><span class="line"></span><br><span class="line">Set newst = Sheets.Add</span><br><span class="line">newst.Name = &quot;合并&quot;</span><br><span class="line">m = 2</span><br><span class="line">For Each sh In Sheets</span><br><span class="line">    If sh.Name &lt;&gt; &quot;合并&quot; Then</span><br><span class="line">        For i = 1 To sh.UsedRange.Columns.Count</span><br><span class="line">            If Not d.exists(sh.Cells(1, i).Value) Then</span><br><span class="line">                d(sh.Cells(1, i).Value) = m</span><br><span class="line">                m = m + 1</span><br><span class="line">            End If</span><br><span class="line">        Next i</span><br><span class="line">    End If</span><br><span class="line">Next sh</span><br><span class="line"></span><br><span class="line">newst.Range(&quot;A2&quot;) = &quot;工作表&quot;</span><br><span class="line">newst.Range(Cells(1, 2), Cells(1, d.Count + 1)) = d.keys</span><br></pre></td></tr></table></figure>
-<p>建立一个字典，对一个文档中的所有工作表进行遍历，对凡是名字不叫<code>合并</code>的表，取出首行的标题名称，检查是否在字典关键字中，若没有就添加到关键字，并指定<code>item</code>。<code>item</code>的命名是有讲究的，因为可以直接用来对应粘贴数据值。由于数据是从第二列开始粘贴的（第一列是显示对应的工作表名称），所以<code>item</code>的命名也从<code>2</code>开始。最后把字典中的关键字（不同的标题名称）赋值给合并表中的首行单元格。</p>
-<h2 id="复制数据"><a href="#复制数据" class="headerlink" title="复制数据"></a>复制数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">For Each sh In Sheets</span><br><span class="line">    If sh.Name &lt;&gt; &quot;合并&quot; Then</span><br><span class="line">        r = newst.UsedRange.Rows.Count + 1</span><br><span class="line">        For i = 1 To sh.UsedRange.Columns.Count</span><br><span class="line">            sh.UsedRange.Columns(i).Offset(1).Copy newst.Cells(r, d(sh.Cells(1, i).Value))</span><br><span class="line">        Next i</span><br><span class="line">        r2 = newst.UsedRange.Rows.Count</span><br><span class="line">        newst.Range(&quot;A&quot; &amp; r &amp; &quot;:A&quot; &amp; r2) = sh.Name</span><br><span class="line">    End If</span><br><span class="line">Next sh</span><br></pre></td></tr></table></figure>
-<p>同样使用循环遍历所有的工作表，只是将中间的字典部分进行了更换。把一张工作表中的数据都粘贴到合并表中，其中粘贴的内容要向下横移一行（offset），因为首行是标题行，不需要粘贴。</p>
-<p>合并表中的标题行是唯一值，所以序列号与单张表中的标题行序列肯定是不匹配的，如何确保特定列的内容能准确无误的粘贴进相应的列当中呢？这就要用到我们之前为关键字指定的<code>item</code>，通过<code>keys</code>查找<code>item</code>的值，我们可以确定对应的列在合并表中是哪一列，以进行定位。</p>
-<p>确定粘贴的行数就相对简单些，因为只要在使用过的行以下进行粘贴就好了。但是要注意的是由于我们是对一个文档中所有的工作表进行遍历循环，所以行数的增加（<code>r = newst.UsedRange.Rows.Count + 1</code>）应当放在遍历列循环的外面，否则每完成一列的粘贴，行数就会往下错，导致数据粘贴成阶梯形状（自己动手试试或者脑补吧 =_=）</p>
-<h2 id="命名行标题"><a href="#命名行标题" class="headerlink" title="命名行标题"></a>命名行标题</h2><p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/r%E4%B8%8Er2%E7%9A%84%E8%A7%A3%E9%87%8A.png" alt="enter image description here"><br> 最后利用<code>r</code>和<code>r2</code>来确定遍历一个工作表的起始行和结束行，将这几行的第一列命名为相应的表名即可。</p>
-<h2 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">Sub combin()</span><br><span class="line">Dim d As Object</span><br><span class="line">Dim newst As Worksheet</span><br><span class="line">Dim sh As Worksheet</span><br><span class="line">Dim m</span><br><span class="line">Dim r, r2</span><br><span class="line">Dim i</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Set d = CreateObject(&quot;scripting.dictionary&quot;)</span><br><span class="line"></span><br><span class="line">Set newst = Sheets.Add</span><br><span class="line">newst.Name = &quot;合并&quot;</span><br><span class="line">m = 2</span><br><span class="line">For Each sh In Sheets</span><br><span class="line">    If sh.Name &lt;&gt; &quot;合并&quot; Then</span><br><span class="line">        For i = 1 To sh.UsedRange.Columns.Count</span><br><span class="line">            If Not d.exists(sh.Cells(1, i).Value) Then</span><br><span class="line">                d(sh.Cells(1, i).Value) = m</span><br><span class="line">                m = m + 1</span><br><span class="line">            End If</span><br><span class="line">        Next i</span><br><span class="line">    End If</span><br><span class="line">Next sh</span><br><span class="line"></span><br><span class="line">newst.Range(&quot;A2&quot;) = &quot;工作表&quot;</span><br><span class="line">newst.Range(Cells(1, 2), Cells(1, d.Count + 1)) = d.keys</span><br><span class="line"></span><br><span class="line">For Each sh In Sheets</span><br><span class="line">    If sh.Name &lt;&gt; &quot;合并&quot; Then</span><br><span class="line">        r = newst.UsedRange.Rows.Count + 1</span><br><span class="line">        For i = 1 To sh.UsedRange.Columns.Count</span><br><span class="line">            sh.UsedRange.Columns(i).Offset(1).Copy newst.Cells(r, d(sh.Cells(1, i).Value))</span><br><span class="line">        Next i</span><br><span class="line">        r2 = newst.UsedRange.Rows.Count</span><br><span class="line">        newst.Range(&quot;A&quot; &amp; r &amp; &quot;:A&quot; &amp; r2) = sh.Name</span><br><span class="line">    End If</span><br><span class="line">Next sh</span><br><span class="line"></span><br><span class="line">Set d = Nothing</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>运用字典的时候可以巧妙的运用<code>keys</code>和<code>item</code>的对应关系进行单元格定位，这样可以减少很多的工作量并且非常有效的达到目的。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1811,7 +1848,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">32</span>
+              <span class="site-state-item-count">33</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
