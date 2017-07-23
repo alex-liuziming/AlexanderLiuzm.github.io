@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="诗," />
+  <meta name="keywords" content="Data Analysis,Data Mining,python,R," />
 
 
 
@@ -84,18 +84,28 @@
 
 
 
-<meta name="description" content="离你越远越知道什么叫黑暗什么叫勇敢">
+<meta name="description" content="Machine Learning A-Z Part2 - 7Evaluating Regression Models Performance两个判断模型好坏的指标R SquareR方是我们比较熟悉的一个统计指标了，它的大小显示了一个模型的优劣程度。他的公式是
+$SS{res} = \sum(y{i} - \hat y_{i})$
+$SS{tot} = \sum(y{i} - \hat y_{av">
 <meta property="og:type" content="article">
-<meta property="og:title" content="黑暗">
-<meta property="og:url" content="http://yoursite.com/2016/07/10/黑暗/index.html">
+<meta property="og:title" content="Evaluating Regression Models Performance">
+<meta property="og:url" content="http://yoursite.com/2017/07/23/Evaluating-Regression-Models-Performance/index.html">
 <meta property="og:site_name" content="牧牧闻叨">
-<meta property="og:description" content="离你越远越知道什么叫黑暗什么叫勇敢">
-<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/shadow-%E9%BB%91%E6%9A%97.jpg">
-<meta property="og:updated_time" content="2016-07-10T15:30:23.176Z">
+<meta property="og:description" content="Machine Learning A-Z Part2 - 7Evaluating Regression Models Performance两个判断模型好坏的指标R SquareR方是我们比较熟悉的一个统计指标了，它的大小显示了一个模型的优劣程度。他的公式是
+$SS{res} = \sum(y{i} - \hat y_{i})$
+$SS{tot} = \sum(y{i} - \hat y_{av">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageEvaluating_Regressor.jpg">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com/R_squared1.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com/Adj_R_squared1.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com/Adj_R_squared2.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com/Regression-Pros-Cons.jpg">
+<meta property="og:updated_time" content="2017-07-23T12:50:43.379Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="黑暗">
-<meta name="twitter:description" content="离你越远越知道什么叫黑暗什么叫勇敢">
-<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/shadow-%E9%BB%91%E6%9A%97.jpg">
+<meta name="twitter:title" content="Evaluating Regression Models Performance">
+<meta name="twitter:description" content="Machine Learning A-Z Part2 - 7Evaluating Regression Models Performance两个判断模型好坏的指标R SquareR方是我们比较熟悉的一个统计指标了，它的大小显示了一个模型的优劣程度。他的公式是
+$SS{res} = \sum(y{i} - \hat y_{i})$
+$SS{tot} = \sum(y{i} - \hat y_{av">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageEvaluating_Regressor.jpg">
 
 
 
@@ -116,9 +126,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/07/10/黑暗/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/23/Evaluating-Regression-Models-Performance/"/>
 
-  <title> 黑暗 | 牧牧闻叨 </title>
+  <title> Evaluating Regression Models Performance | 牧牧闻叨 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -248,7 +258,7 @@
             
             
               
-                黑暗
+                Evaluating Regression Models Performance
               
             
           </h1>
@@ -260,8 +270,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-10T22:59:48+08:00" content="2016-07-10">
-              2016-07-10
+            <time itemprop="dateCreated" datetime="2017-07-23T20:27:38+08:00" content="2017-07-23">
+              2017-07-23
             </time>
           </span>
 
@@ -274,8 +284,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/牧牧/" itemprop="url" rel="index">
-                    <span itemprop="name">牧牧</span>
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
                   </a>
                 </span>
 
@@ -307,8 +317,30 @@
       
 
       
-        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/shadow-%E9%BB%91%E6%9A%97.jpg" class="full-image"></p>
-<p style="text-align: center;text-height: 34px;font-size: 20px">离你越远<br>越知道<br>什么叫黑暗<br>什么叫勇敢</p>
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageEvaluating_Regressor.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part2-7"><a href="#Machine-Learning-A-Z-Part2-7" class="headerlink" title="Machine Learning A-Z Part2 - 7"></a>Machine Learning A-Z Part2 - 7</h1><h2 id="Evaluating-Regression-Models-Performance"><a href="#Evaluating-Regression-Models-Performance" class="headerlink" title="Evaluating Regression Models Performance"></a>Evaluating Regression Models Performance</h2><h3 id="两个判断模型好坏的指标"><a href="#两个判断模型好坏的指标" class="headerlink" title="两个判断模型好坏的指标"></a>两个判断模型好坏的指标</h3><h3 id="R-Square"><a href="#R-Square" class="headerlink" title="R Square"></a>R Square</h3><p><strong>R方</strong>是我们比较熟悉的一个统计指标了，它的大小显示了一个模型的优劣程度。他的公式是</p>
+<p>$SS<em>{res} = \sum(y</em>{i} - \hat y_{i})$</p>
+<p>$SS<em>{tot} = \sum(y</em>{i} - \hat y_{avg})$</p>
+<p>$R^{2} = 1 - \frac{SS<em>{res}}{SS</em>{tot}}$</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com/R_squared1.png" alt="R Square"></p>
+<p>用平均值来作为预测值是每个人都可以想得到的，没有什么技术含量，作为比较的基准。我们建立的模型的残差作为比较值，放入$R^{2}$中进行计算，模型效果越好，残差越小，$R^{2}$越大；相反的，模型越差，残差越大，$R^{2}$越小。</p>
+<p><strong>所以，模型越好，$R^{2}$越大，模型越差，$R^{2}$越小。</strong></p>
+<h3 id="Adjusted-R-Square"><a href="#Adjusted-R-Square" class="headerlink" title="Adjusted R Square"></a>Adjusted R Square</h3><p><img src="http://ojr2ayzzn.bkt.clouddn.com/Adj_R_squared1.png" alt="Problem with R Square"><br>但是R方有一个致命的缺点——随着变量个数的增加，R方只会上升，不会下降。之前学习R语言的时候老师也提到过，之前在建立模型只看R方判断的前提下，很多高校的教授为了超高的R方，就在模型中加入各种变量，把模型公式弄得很长很复杂，但是其中加入的变量有些根本和预测值没有什么关系，仅仅是放进来增加R方用的。</p>
+<p>$$Adj \ R^{2} = 1 - (1 - R^{2})\frac{n - 1}{n -p - 1}$$</p>
+<blockquote>
+<p><strong>n</strong> is the sample size<br><strong>p</strong> is the total number of explanatory variables in the model (not including the constant term)</p>
+</blockquote>
+<p>为了避免这种情况，人们发明了<strong>调整R方</strong>，从本质上来说，它和R方最大的不同就是<strong>调整R方中加入了惩罚系数——即$\frac{n - 1}{n -p - 1}$</strong>。当加入的变量相关性并不是那么显著的时候，惩罚系数的削减效用会占主要作用，此时调整R方会减小。因此也就避免了盲目加入过多变量的现象，给了人们更直观的判断依据。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com/Adj_R_squared2.png" alt="Adj R Square"></p>
+<h3 id="不要掉入相关系数的陷阱"><a href="#不要掉入相关系数的陷阱" class="headerlink" title="不要掉入相关系数的陷阱"></a>不要掉入相关系数的陷阱</h3><p>有的人认为一个变量的重要与否主要要看他的相关系数是否很大，大的话就很有用，就很好。其实不是这样的，因为相关系数的大小只是单位变动的体现。<strong>也就是说，相关系数和单位有很大的关系，当度量衡变小的时候，相关系数就相应的放大，度量衡变大的时候，先关系数就相应的缩小。</strong></p>
+<p>举例来说，我们观察气温和商场营业额的模型，如果商场营业额用万元来算，那么相关系数就会很小，可能每摄氏度的变化给营业额造成的影响才1或者0.1，但是<strong>那可是1万元啊！</strong>相对的，如果用元来衡量的话，那相关系数就会变成10000，看起来很大吧？可是表达的意思却没什么不同，还是一个意思。<strong>一个是1万元，一个是10000元。</strong></p>
+<h3 id="回归模型各有什么优劣？"><a href="#回归模型各有什么优劣？" class="headerlink" title="回归模型各有什么优劣？"></a>回归模型各有什么优劣？</h3><p>下面这张图可以总结性的概括过去学习的回归模型的优势和劣势：</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com/Regression-Pros-Cons.jpg" alt="pros-cons"></p>
+<h3 id="如何选择该使用哪个模型？"><a href="#如何选择该使用哪个模型？" class="headerlink" title="如何选择该使用哪个模型？"></a>如何选择该使用哪个模型？</h3><blockquote>
+<p>First, you need to figure out whether your problem is linear or non linear. You will learn how to do that in Part 10 - Model Selection. Then:</p>
+<p>If your problem is linear, you should go for Simple Linear Regression if you only have one feature, and Multiple Linear Regression if you have several features.</p>
+<p>If your problem is non linear, you should go for Polynomial Regression, SVR, Decision Tree or Random Forest. Then which one should you choose among these four ? That you will learn in Part 10 - Model Selection. </p>
+</blockquote>
 
       
     </div>
@@ -330,7 +362,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/诗/" rel="tag">#诗</a>
+            <a href="/tags/Data-Analysis/" rel="tag">#Data Analysis</a>
+          
+            <a href="/tags/Data-Mining/" rel="tag">#Data Mining</a>
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+            <a href="/tags/R/" rel="tag">#R</a>
           
         </div>
       
@@ -339,16 +377,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/10/离别/" rel="next" title="离别">
-                <i class="fa fa-chevron-left"></i> 离别
+              <a href="/2017/07/23/Random-Forest-Regression/" rel="next" title="Random Forest Regression">
+                <i class="fa fa-chevron-left"></i> Random Forest Regression
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/07/12/ExcelVBA编写第一个程序/" rel="prev" title="ExcelVBA编写第一个程序">
-                ExcelVBA编写第一个程序 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/23/Logistic-Regression/" rel="prev" title="Logistic Regression">
+                Logistic Regression <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -463,7 +501,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Machine-Learning-A-Z-Part2-7"><span class="nav-number">1.</span> <span class="nav-text">Machine Learning A-Z Part2 - 7</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Evaluating-Regression-Models-Performance"><span class="nav-number">1.1.</span> <span class="nav-text">Evaluating Regression Models Performance</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#两个判断模型好坏的指标"><span class="nav-number">1.1.1.</span> <span class="nav-text">两个判断模型好坏的指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R-Square"><span class="nav-number">1.1.2.</span> <span class="nav-text">R Square</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Adjusted-R-Square"><span class="nav-number">1.1.3.</span> <span class="nav-text">Adjusted R Square</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不要掉入相关系数的陷阱"><span class="nav-number">1.1.4.</span> <span class="nav-text">不要掉入相关系数的陷阱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回归模型各有什么优劣？"><span class="nav-number">1.1.5.</span> <span class="nav-text">回归模型各有什么优劣？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何选择该使用哪个模型？"><span class="nav-number">1.1.6.</span> <span class="nav-text">如何选择该使用哪个模型？</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>

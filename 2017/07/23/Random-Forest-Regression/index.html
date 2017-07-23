@@ -84,28 +84,32 @@
 
 
 
-<meta name="description" content="Machine Learning A-Z Part2 - 1Simple Linear Regression数据概览这次的数据是有关入职时间和工资的
-PythonPreprocessing和之前一样，我们需要先导入数据集，将其分成特征值和目标值两个部分，然后再使用train_test_split()将数据分成测试集和训练集。
-Fitting Simple Linear Regression to">
+<meta name="description" content="Machine Learning A-Z Part2 - 6Random Forest RegressionEnsemble LearningEnsemble Learning理念是把很多种算法结合在一起，或是把同一种算法在不同的数据上重复很多次，让机器学习的计算效果更好。
+事实上我们要使用的随机森林算法对象也是sklearn.ensemble Library 中的对象。
+原理
+随机森林算法经过">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Simple Linear Regression">
-<meta property="og:url" content="http://yoursite.com/2017/07/17/Simple-Linear-Regression/index.html">
+<meta property="og:title" content="Random Forest Regression">
+<meta property="og:url" content="http://yoursite.com/2017/07/23/Random-Forest-Regression/index.html">
 <meta property="og:site_name" content="牧牧闻叨">
-<meta property="og:description" content="Machine Learning A-Z Part2 - 1Simple Linear Regression数据概览这次的数据是有关入职时间和工资的
-PythonPreprocessing和之前一样，我们需要先导入数据集，将其分成特征值和目标值两个部分，然后再使用train_test_split()将数据分成测试集和训练集。
-Fitting Simple Linear Regression to">
-<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageSimple_Linear_Regression.jpg">
-<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Simple_Linear_Regression2.png">
-<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Simple_Linear_Regression1.png">
-<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Simple_Linear_Regression3.png">
-<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Simple_Linear_Regression4.png">
-<meta property="og:updated_time" content="2017-07-17T02:36:15.841Z">
+<meta property="og:description" content="Machine Learning A-Z Part2 - 6Random Forest RegressionEnsemble LearningEnsemble Learning理念是把很多种算法结合在一起，或是把同一种算法在不同的数据上重复很多次，让机器学习的计算效果更好。
+事实上我们要使用的随机森林算法对象也是sklearn.ensemble Library 中的对象。
+原理
+随机森林算法经过">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageRandom_forest.jpg">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com/Random_Forest1.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com/Random_Forest4.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com/Random_Forest2.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com/Random_Forest3.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com/Random_Forestplot.png">
+<meta property="og:updated_time" content="2017-07-23T12:33:39.961Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Simple Linear Regression">
-<meta name="twitter:description" content="Machine Learning A-Z Part2 - 1Simple Linear Regression数据概览这次的数据是有关入职时间和工资的
-PythonPreprocessing和之前一样，我们需要先导入数据集，将其分成特征值和目标值两个部分，然后再使用train_test_split()将数据分成测试集和训练集。
-Fitting Simple Linear Regression to">
-<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageSimple_Linear_Regression.jpg">
+<meta name="twitter:title" content="Random Forest Regression">
+<meta name="twitter:description" content="Machine Learning A-Z Part2 - 6Random Forest RegressionEnsemble LearningEnsemble Learning理念是把很多种算法结合在一起，或是把同一种算法在不同的数据上重复很多次，让机器学习的计算效果更好。
+事实上我们要使用的随机森林算法对象也是sklearn.ensemble Library 中的对象。
+原理
+随机森林算法经过">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageRandom_forest.jpg">
 
 
 
@@ -126,9 +130,9 @@ Fitting Simple Linear Regression to">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/17/Simple-Linear-Regression/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/23/Random-Forest-Regression/"/>
 
-  <title> Simple Linear Regression | 牧牧闻叨 </title>
+  <title> Random Forest Regression | 牧牧闻叨 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -258,7 +262,7 @@ Fitting Simple Linear Regression to">
             
             
               
-                Simple Linear Regression
+                Random Forest Regression
               
             
           </h1>
@@ -270,8 +274,8 @@ Fitting Simple Linear Regression to">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-07-17T10:30:05+08:00" content="2017-07-17">
-              2017-07-17
+            <time itemprop="dateCreated" datetime="2017-07-23T20:17:33+08:00" content="2017-07-23">
+              2017-07-23
             </time>
           </span>
 
@@ -317,19 +321,33 @@ Fitting Simple Linear Regression to">
       
 
       
-        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageSimple_Linear_Regression.jpg" class="full-image"></p>
-<h1 id="Machine-Learning-A-Z-Part2-1"><a href="#Machine-Learning-A-Z-Part2-1" class="headerlink" title="Machine Learning A-Z Part2 - 1"></a>Machine Learning A-Z Part2 - 1</h1><h2 id="Simple-Linear-Regression"><a href="#Simple-Linear-Regression" class="headerlink" title="Simple Linear Regression"></a>Simple Linear Regression</h2><h3 id="数据概览"><a href="#数据概览" class="headerlink" title="数据概览"></a>数据概览</h3><p>这次的数据是有关入职时间和工资的<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Simple_Linear_Regression2.png" alt="Dataset Structure"></p>
-<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><h4 id="Preprocessing"><a href="#Preprocessing" class="headerlink" title="Preprocessing"></a>Preprocessing</h4><p>和之前一样，我们需要先导入数据集，将其分成特征值和目标值两个部分，然后再使用<code>train_test_split()</code>将数据分成测试集和训练集。</p>
-<h4 id="Fitting-Simple-Linear-Regression-to-the-Training-set"><a href="#Fitting-Simple-Linear-Regression-to-the-Training-set" class="headerlink" title="Fitting Simple Linear Regression to the Training set"></a>Fitting Simple Linear Regression to the Training set</h4><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Simple_Linear_Regression1.png" alt="Simple Linear Regression Model"><br>使用简单线性模型需要用到<code>sklearn.linear_model</code>模块中的<code>LinearRegression</code>类。首先要创建一个<code>LinearRegression()</code>对象，不需要填入任何参数，因为默认<code>LinearRegression()</code>对象就是简单线性模型。然后用<code>fit()</code> Method使用训练集数据训练模型，需要传入的参数分别为<strong>训练集的特征值和训练集的目标值</strong>。这样就算完成了模型的创建。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line">regressor = LinearRegression()</span><br><span class="line">regressor.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
-<h4 id="Predicting-the-test-set-results"><a href="#Predicting-the-test-set-results" class="headerlink" title="Predicting the test set results"></a>Predicting the test set results</h4><p><code>fit()</code> Method 是用来训练模型的，而想要利用模型进行预测就要用到 <code>predict()</code> Method。<strong>只需要传入需要预测的X值</strong>，模型就会返回预测出的y值。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_pred = regressor.predict(X_test)</span><br></pre></td></tr></table></figure>
-<h4 id="Visualization"><a href="#Visualization" class="headerlink" title="Visualization"></a>Visualization</h4><p>为了能更清晰更明白的看懂我们建立的简单线性模型和查看预测的值是否准确，我们使用<code>matplotlib.pyplot</code>来绘制散点图并在其上加上简单线性模型的线。</p>
-<p><code>plt.scatter()</code>是绘制散点图的函数，<code>plt.plot()</code>用来加上线性模型的线。其他函数是丰富图表细节的，可以为图表加上标题、X轴名称、Y轴名称。最后用<code>plt.show()</code>来画出图表。从画出来的图表可以看出，对于这个数据集，简单线性模型的预测效果还是不错的。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Visualising the Training set results</span></span><br><span class="line">plt.scatter(X_train, y_train, color=<span class="string">'red'</span>)</span><br><span class="line">plt.plot(X_train, regressor.predict(X_train), color=<span class="string">'blue'</span>)</span><br><span class="line">plt.title(<span class="string">'Salary vs Experience &#123;Training set&#125;'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Year or Experience'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Salary'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Simple_Linear_Regression3.png" alt="Train set plot"><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Visualising the Test set results</span><br><span class="line">plt.scatter(X_test, y_test, color=&apos;red&apos;)</span><br><span class="line">plt.plot(X_train, regressor.predict(X_train), color=&apos;blue&apos;)</span><br><span class="line">plt.title(&apos;Salary vs Experience &#123;Test set&#125;&apos;)</span><br><span class="line">plt.xlabel(&apos;Year or Experience&apos;)</span><br><span class="line">plt.ylabel(&apos;Salary&apos;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
-<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Simple_Linear_Regression4.png" alt="test set plot"></p>
-<h3 id="R"><a href="#R" class="headerlink" title="R"></a>R</h3><p>I’ll learn R part later…</p>
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageRandom_forest.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part2-6"><a href="#Machine-Learning-A-Z-Part2-6" class="headerlink" title="Machine Learning A-Z Part2 - 6"></a>Machine Learning A-Z Part2 - 6</h1><h2 id="Random-Forest-Regression"><a href="#Random-Forest-Regression" class="headerlink" title="Random Forest Regression"></a>Random Forest Regression</h2><h3 id="Ensemble-Learning"><a href="#Ensemble-Learning" class="headerlink" title="Ensemble Learning"></a>Ensemble Learning</h3><p><em>Ensemble Learning</em>理念是把很多种算法结合在一起，或是把同一种算法在不同的数据上重复很多次，让机器学习的计算效果更好。</p>
+<p>事实上我们要使用的随机森林算法对象也是<code>sklearn.ensemble</code> Library 中的对象。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p><img src="http://ojr2ayzzn.bkt.clouddn.com/Random_Forest1.png" alt="Random Forest Intuition"></p>
+<p>随机森林算法经过运算会得到很多的决策树，而不是一个。当然了，用来计算生成一颗决策树的数据也并非全体数据，那样的话得到的每颗决策树都是一样的，随机森林也就没什么意义了。<em>森林</em>指的是产生很多颗决策树，<em>随机</em>指的就是每次选取一部分数据用来运算，产生很多颗不同的‘树’。</p>
+<p>当数据落在某个区域的时候就会返回多个决策树的预测的综合值，而不是单单一个决策树。<strong>这会让模型的预测更稳健更可靠，不再那么容易受到离群值的影响。</strong></p>
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="建模"><a href="#建模" class="headerlink" title="建模"></a>建模</h4><p>和之前一样，还是三步走：</p>
+<ol>
+<li>从<code>sklearn.ensemble</code>中导入<code>RandomForestRegressor</code> Class</li>
+<li>建立<code>RandomForestRegressor</code>实例</li>
+<li><code>fit()</code>到训练集上</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestRegressor</span><br><span class="line">regressor = RandomForestRegressor(n_estimators=<span class="number">300</span>, random_state=<span class="number">0</span>)</span><br><span class="line">regressor.fit(X, y)</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com/Random_Forest4.png" alt="fit"></p>
+<p><strong>以下是Random Forest Class 的 Doc</strong></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com/Random_Forest2.png" alt="Random Forest doc1"></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com/Random_Forest3.png" alt="Random Forest doc2"></p>
+<p>其中<code>n_estimators=</code>是用来调整建立多少颗决策树的参数，<code>random_state=</code>指的则是如何随机选取数据。</p>
+<h4 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h4><p>由于随机森林算法不需要对数据进行<code>feature scaling</code>，所以直接使用<code>predict()</code>进行预测就好了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_pred = regressor.predict(<span class="number">6.5</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h4><p>保持先前的代码不动就可以画出随机森林的图像。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com/Random_Forestplot.png" alt="Random Forest Plot"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">X_grid = np.arange(min(X), max(X), <span class="number">0.01</span>)</span><br><span class="line">X_grid = X_grid.reshape((len(X_grid), <span class="number">1</span>))</span><br><span class="line">plt.scatter(X, y, color = <span class="string">'red'</span>)</span><br><span class="line">plt.plot(X_grid, regressor.predict(X_grid), color = <span class="string">'blue'</span>)</span><br><span class="line">plt.title(<span class="string">'Truth or Bluff (Random Forest Regression Model)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Position level'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Salary'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h4 id="建立更多的决策树，随机森林模型就会变得更平滑吗？"><a href="#建立更多的决策树，随机森林模型就会变得更平滑吗？" class="headerlink" title="建立更多的决策树，随机森林模型就会变得更平滑吗？"></a>建立更多的决策树，随机森林模型就会变得更平滑吗？</h4><p>这个问题是我们比较关心的，因为在我们的直觉中，越平滑好像就预测的越准，毕竟每个X轴上的值对应的预测值都是不一样的，更合情合理嘛。</p>
+<p>但是对于有这种想法的人来说，随机森林恐怕要让他们失望了，因为随着随机森林建立的决策树数目的增加，模型的图像并不会变得“那么”平滑，它的图像看起来更像是比一颗决策树的图像多了那么几个“台阶”（对于一维特征值来说）。</p>
+<p>这是因为随着决策树的增多，难免会选取到差不多的数据，数据的分类的边缘——也就是决策树的台阶，很多都会重合了。</p>
+<p>虽然图像看起来并不那么平滑，但是随机森林在使用当中预测的值还是很准的。</p>
 
       
     </div>
@@ -366,16 +384,16 @@ Fitting Simple Linear Regression to">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/16/Machine-Learning-Preprocessing/" rel="next" title="Machine Learning - Preprocessing">
-                <i class="fa fa-chevron-left"></i> Machine Learning - Preprocessing
+              <a href="/2017/07/20/Decision-Tree-Regression/" rel="next" title="Decision Tree Regression">
+                <i class="fa fa-chevron-left"></i> Decision Tree Regression
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/07/20/Multiple-Linear-Regression/" rel="prev" title="Multiple Linear Regression">
-                Multiple Linear Regression <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/23/Evaluating-Regression-Models-Performance/" rel="prev" title="Evaluating Regression Models Performance">
+                Evaluating Regression Models Performance <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -490,7 +508,7 @@ Fitting Simple Linear Regression to">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Machine-Learning-A-Z-Part2-1"><span class="nav-number">1.</span> <span class="nav-text">Machine Learning A-Z Part2 - 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Simple-Linear-Regression"><span class="nav-number">1.1.</span> <span class="nav-text">Simple Linear Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据概览"><span class="nav-number">1.1.1.</span> <span class="nav-text">数据概览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python"><span class="nav-number">1.1.2.</span> <span class="nav-text">Python</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Preprocessing"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">Preprocessing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fitting-Simple-Linear-Regression-to-the-Training-set"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">Fitting Simple Linear Regression to the Training set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Predicting-the-test-set-results"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">Predicting the test set results</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Visualization"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">Visualization</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R"><span class="nav-number">1.1.3.</span> <span class="nav-text">R</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Machine-Learning-A-Z-Part2-6"><span class="nav-number">1.</span> <span class="nav-text">Machine Learning A-Z Part2 - 6</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Random-Forest-Regression"><span class="nav-number">1.1.</span> <span class="nav-text">Random Forest Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ensemble-Learning"><span class="nav-number">1.1.1.</span> <span class="nav-text">Ensemble Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原理"><span class="nav-number">1.1.2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python"><span class="nav-number">1.1.3.</span> <span class="nav-text">python</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#建模"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">建模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#预测"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">预测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可视化"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">可视化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立更多的决策树，随机森林模型就会变得更平滑吗？"><span class="nav-number">1.1.3.4.</span> <span class="nav-text">建立更多的决策树，随机森林模型就会变得更平滑吗？</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>

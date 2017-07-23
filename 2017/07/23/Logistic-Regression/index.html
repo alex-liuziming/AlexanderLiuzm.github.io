@@ -1,0 +1,660 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Data Analysis,Data Mining,python,R," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Machine Learning A-Z Part3 - 1Logistic RegressionLogistic Regression Intuition有时候我们要预测的值并不是连续变量，可能是分类变量，比如一个顾客是会 买 还是 不买 某个商品。这种情况下我们使用线性回归就不太合适，不能很好的对情况进行预测，因为线性回归产生的预测值也是连续值，最大的问题就是，线性回归模型会产生超过1和小于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Logistic Regression">
+<meta property="og:url" content="http://yoursite.com/2017/07/23/Logistic-Regression/index.html">
+<meta property="og:site_name" content="牧牧闻叨">
+<meta property="og:description" content="Machine Learning A-Z Part3 - 1Logistic RegressionLogistic Regression Intuition有时候我们要预测的值并不是连续变量，可能是分类变量，比如一个顾客是会 买 还是 不买 某个商品。这种情况下我们使用线性回归就不太合适，不能很好的对情况进行预测，因为线性回归产生的预测值也是连续值，最大的问题就是，线性回归模型会产生超过1和小于">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageLogistic_Regression.jpg">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression1.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression2.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression3.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression_dataset.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression4.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/cm.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression_plot_test.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression_plot_train.png">
+<meta property="og:updated_time" content="2017-07-23T12:35:17.685Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Logistic Regression">
+<meta name="twitter:description" content="Machine Learning A-Z Part3 - 1Logistic RegressionLogistic Regression Intuition有时候我们要预测的值并不是连续变量，可能是分类变量，比如一个顾客是会 买 还是 不买 某个商品。这种情况下我们使用线性回归就不太合适，不能很好的对情况进行预测，因为线性回归产生的预测值也是连续值，最大的问题就是，线性回归模型会产生超过1和小于">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageLogistic_Regression.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/23/Logistic-Regression/"/>
+
+  <title> Logistic Regression | 牧牧闻叨 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">牧牧闻叨</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">整理心中的知识体系，让自己变得更好</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Logistic Regression
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-23T20:34:13+08:00" content="2017-07-23">
+              2017-07-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageLogistic_Regression.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part3-1"><a href="#Machine-Learning-A-Z-Part3-1" class="headerlink" title="Machine Learning A-Z Part3 - 1"></a>Machine Learning A-Z Part3 - 1</h1><h2 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h2><h3 id="Logistic-Regression-Intuition"><a href="#Logistic-Regression-Intuition" class="headerlink" title="Logistic Regression Intuition"></a>Logistic Regression Intuition</h3><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression1.png" alt="problem with linear regressor"><br><strong>有时候我们要预测的值并不是连续变量，可能是分类变量，比如一个顾客是会 买 还是 不买 某个商品。</strong>这种情况下我们使用线性回归就不太合适，不能很好的对情况进行预测，因为线性回归产生的预测值也是连续值，最大的问题就是，<strong>线性回归模型会产生超过1和小于0的预测值</strong>，这些预测值无法作为概率来理解，这让线性回归模型不适合预测分类变量这种情景。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression2.png" alt="Logistic1"></p>
+<p>为了让特征值能使用连续变量，而预测值却限定在 0-1 之间，逻辑回归就出现了。逻辑回归也是预测连续变量，但是他的特点是能把预测值限定在0-1之间。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression3.png" alt="Logistic2"></p>
+<p>这种模型预测的是分类变量的概率，<strong>通常还要有一个决策标准，即判定概率多上以上就判定为1，其余的判定为另一种分类变量</strong>。</p>
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="Data-Preprocessing"><a href="#Data-Preprocessing" class="headerlink" title="Data Preprocessing"></a>Data Preprocessing</h4><p>这次处理的数据大致结构如下：<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression_dataset.png" alt="dataset"></p>
+<p>由于逻辑回归是使用连续变量来预测分类变量的，所以我们只需要选取元数据中的连续变量作为特征值即可。</p>
+<p>在切割完数据之后，我们还需要对数据进行<em>Feature Scaling</em>处理，因为我们希望模型不要受到不同度量衡的影响，处理过的数据让数据更加准确。这里只需要对特征值进行标准化处理就可以了，预测值因为已经是分类变量，所以是不需要进行<em>Feature Scaling</em>的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Importing the libraries</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># Importing the dataset</span></span><br><span class="line">dataset = pd.read_csv(<span class="string">'Social_Network_Ads.csv'</span>)</span><br><span class="line">X = dataset.iloc[:, <span class="number">2</span>:<span class="number">4</span>].values</span><br><span class="line">y = dataset.iloc[:, <span class="number">4</span>].values</span><br><span class="line"></span><br><span class="line"><span class="comment"># Splitting the dataset into the Training set and Test set</span></span><br><span class="line"><span class="keyword">from</span> sklearn.cross_validation <span class="keyword">import</span> train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = <span class="number">0.25</span>, random_state = <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Feature Scaling</span></span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">sc_X = StandardScaler()</span><br><span class="line">X_train = sc_X.fit_transform(X_train)</span><br><span class="line">X_test = sc_X.transform(X_test)</span><br></pre></td></tr></table></figure>
+<h4 id="Fit-the-model"><a href="#Fit-the-model" class="headerlink" title="Fit the model"></a>Fit the model</h4><p>还是往常一样的三步走：</p>
+<ol>
+<li>从<code>sklearn.linear_model</code> import <code>LogisticRegression</code></li>
+<li>建立一个<code>LogisticRegression</code>实例</li>
+<li>将该对象实例<code>fit()</code>到训练集上</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line">classifier = LogisticRegression(random_state = <span class="number">0</span>)</span><br><span class="line">classifier.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression4.png" alt="fit Logistic"></p>
+<h4 id="Predict"><a href="#Predict" class="headerlink" title="Predict"></a>Predict</h4><p>利用模型进行预测也没有什么好多说的，没有什么不同，还是用模型的<code>predict()</code>方法即可，但是要注意<strong>我们在预处理的时候就把测试集的特征值先进行了标准化，如果我们预测的不是测试集，那么也需要先对数据进行标准化处理。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_pred = classifier.predict(X_test)</span><br></pre></td></tr></table></figure>
+<h4 id="Making-the-confusion-matrix"><a href="#Making-the-confusion-matrix" class="headerlink" title="Making the confusion matrix"></a>Making the confusion matrix</h4><p>混淆矩阵是很清晰的展示分类模型的好坏的一个工具，它的原理就是建立一个矩阵，将数据真实的分类值和预测的分类值进行比较，有<code>(1, 1)</code> - 实际为真，预测为真; <code>(1, 0)</code> - 实际为真，预测为假 <strong>I类错误</strong>; <code>(0, 1)</code> - 实际为假，预测为真 <strong>II类错误</strong>; <code>(0, 0)</code> - 实际为假，预测为假 四种。</p>
+<p>在python中，我们使用<code>sklearn.metrics</code>中的<code>confusion_matrix</code>对象来创建混淆矩阵。需要输入的系数有：<code>y_true=</code>代表真正值的数据集(array)；<code>y_pred=</code>预测值的集合。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix</span><br><span class="line">cm = confusion_matrix(y_true=y_test, y_pred=y_pred)</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/cm.png" alt="confusion_matrix"></p>
+<h4 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h4><p>这次的可视化比较复杂，但也因为特征值是二维数据，所以和之前的一维数据相比，绘制的图形也更为直观，更为有趣。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># import color map class</span></span><br><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> ListedColormap</span><br><span class="line"><span class="comment"># copy X_test and y_test array, simplify reuse process</span></span><br><span class="line">X_set, y_set = X_test, y_test</span><br><span class="line"><span class="comment"># Create array used for total panel and axis</span></span><br><span class="line"><span class="comment"># make range a little wider than data range of dataset</span></span><br><span class="line"><span class="comment"># avoid data fall into edge of plot, make plot looks clear</span></span><br><span class="line">X1, X2 = np.meshgrid(np.arange(start=X_set[:, <span class="number">0</span>].min() <span class="number">-1</span>, stop=X_set[:, <span class="number">0</span>].max() + <span class="number">1</span>, step=<span class="number">0.01</span>),</span><br><span class="line">                     np.arange(start=X_set[:, <span class="number">1</span>].min() <span class="number">-1</span>, stop=X_set[:, <span class="number">1</span>].max() + <span class="number">1</span>, step=<span class="number">0.01</span>))</span><br><span class="line"><span class="comment"># draw a panel pixel by pixel</span></span><br><span class="line">plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),</span><br><span class="line">             alpha=<span class="number">0.75</span>, cmap=ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>)))</span><br><span class="line"><span class="comment"># limit plot's axis</span></span><br><span class="line">plt.xlim(X1.min(), X1.max())</span><br><span class="line">plt.ylim(X2.min(), X2.max())</span><br><span class="line"><span class="comment"># making scatter plot</span></span><br><span class="line"><span class="comment"># use y as index to loop all data and fill in different colors</span></span><br><span class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> enumerate(np.unique(y_set)):</span><br><span class="line">    plt.scatter(X_set[y_set == j, <span class="number">0</span>], X_set[y_set == j, <span class="number">1</span>],</span><br><span class="line">                c = ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>))(i), label = j)</span><br><span class="line"><span class="comment"># make some additional decoration</span></span><br><span class="line">plt.title(<span class="string">'Logistic Regression (Test Set)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Age'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Estimated Salary'</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression_plot_test.png" alt="plot test"></p>
+<p>同样的方法也可以绘制训练集的图</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Logistic_Regression_plot_train.png" alt="plot train"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Data-Analysis/" rel="tag">#Data Analysis</a>
+          
+            <a href="/tags/Data-Mining/" rel="tag">#Data Mining</a>
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+            <a href="/tags/R/" rel="tag">#R</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/23/Evaluating-Regression-Models-Performance/" rel="next" title="Evaluating Regression Models Performance">
+                <i class="fa fa-chevron-left"></i> Evaluating Regression Models Performance
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://7xvrvp.com1.z0.glb.clouddn.com/AlexanderLiu.jpg"
+               alt="AlexanderLiu" />
+          <p class="site-author-name" itemprop="name">AlexanderLiu</p>
+          <p class="site-description motion-element" itemprop="description">不要效法这个世界，只要心意更新而变化，叫你们查验何为神的善良、纯全、可喜悦的旨意。（罗马书 12:2）</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Machine-Learning-A-Z-Part3-1"><span class="nav-number">1.</span> <span class="nav-text">Machine Learning A-Z Part3 - 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Logistic-Regression"><span class="nav-number">1.1.</span> <span class="nav-text">Logistic Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Logistic-Regression-Intuition"><span class="nav-number">1.1.1.</span> <span class="nav-text">Logistic Regression Intuition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python"><span class="nav-number">1.1.2.</span> <span class="nav-text">python</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Data-Preprocessing"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">Data Preprocessing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fit-the-model"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">Fit the model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Predict"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">Predict</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Making-the-confusion-matrix"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">Making the confusion matrix</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可视化"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">可视化</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AlexanderLiu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+  
+
+  
+
+</body>
+</html>
