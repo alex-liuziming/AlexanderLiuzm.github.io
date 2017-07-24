@@ -248,6 +248,122 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/12/一对多数据转一维/" itemprop="url">
+                  一对多数据转一维
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-12T21:39:41+08:00" content="2016-09-12">
+              2016-09-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_image%E4%B8%80%E5%AF%B9%E5%A4%9A%E8%BD%AC%E4%B8%80%E7%BB%B4.jpg" class="full-image"></p>
+<p>与之前的二维表转换成一维表相似，这次将一对多的数据转换成一位表格也是遍历数据然后添加在新的工作表中。</p>
+<p>首先，我们要有一个概念，一对多数据表到底长什么样？<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-1.jpg" alt="enter image description here"><br>接着我们讲一下思路，这一次与二维表的区别主要在于在<code>号码</code>和<code>城市</code>后面的<code>套餐</code>不是仅仅只有一个，而是一个号码对应着多个<code>套餐</code>，有的号码对应的<code>套餐</code>没有那么多，它后面的单元格就有空缺。所以我们选择遍历所有的<code>套餐</code>单元格，对单元格的内容进行判断，如果是空单元格，那么该号码没有<code>套餐2</code>或者<code>套餐3</code>，就不用管它，如果该单元格有数据，那就选择在新的工作表中加入一行，并在<code>套餐</code>写入该套餐对应的<code>号码</code>和<code>城市</code>，组成一维数据表。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-2.jpg" alt="enter image description here"><br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-3.jpg" alt="enter image description here"><br>先贴上这次的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Sub 一对多转一维()</span><br><span class="line"></span><br><span class="line">arr = ActiveSheet.UsedRange</span><br><span class="line">rw = UBound(arr, 1)</span><br><span class="line">col = UBound(arr, 2)</span><br><span class="line"></span><br><span class="line">ReDim brr(1 To rw * (col - 2), 1 To 3)</span><br><span class="line">n = 2</span><br><span class="line">For i = 2 To rw</span><br><span class="line">    For j = 3 To col</span><br><span class="line">        If Cells(i, j) &lt;&gt; &quot;&quot; Then</span><br><span class="line">            brr(n, 1) = arr(i, 1)</span><br><span class="line">            brr(n, 2) = arr(i, 2)</span><br><span class="line">            brr(n, 3) = arr(i, j)</span><br><span class="line">            n = n + 1</span><br><span class="line">        End If</span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">brr(1, 1) = &quot;号码&quot;</span><br><span class="line">brr(1, 2) = &quot;城市&quot;</span><br><span class="line">brr(1, 3) = &quot;套餐&quot;</span><br><span class="line"></span><br><span class="line">Sheets.Add.Name = &quot;转换结果&quot;</span><br><span class="line">Sheets(&quot;转换结果&quot;).Range(Cells(1, 1), Cells(n - 1, 3)) = brr</span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<p>讲一讲其中和上一次二维表转换相比不同的地方，其中主要加入了一次判断和<code>UBound</code>。<br><code>UBound</code>指的是选取数组的<code>上标</code>，数组中最小值是数组的<code>下标</code>，<code>上标</code>则恰好相反。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%B8%80%E5%AF%B9%E5%A4%9A%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2-4.jpg" alt="enter image description here"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/12/二维表转一维表/" itemprop="url">
                   二维表转一维表
                 </a>
@@ -1611,125 +1727,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/10/黑暗/" itemprop="url">
-                  黑暗
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-10T22:59:48+08:00" content="2016-07-10">
-              2016-07-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/牧牧/" itemprop="url" rel="index">
-                    <span itemprop="name">牧牧</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/shadow-%E9%BB%91%E6%9A%97.jpg" class="full-image"></p>
-<p style="text-align: center;text-height: 34px;font-size: 20px">离你越远<br>越知道<br>什么叫黑暗<br>什么叫勇敢</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1770,7 +1772,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">41</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

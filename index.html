@@ -248,6 +248,123 @@
             
               
                 
+                <a class="post-title-link" href="/2017/07/24/SVM/" itemprop="url">
+                  SVM
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-24T19:11:19+08:00" content="2017-07-24">
+              2017-07-24
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageSVM.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part3-3"><a href="#Machine-Learning-A-Z-Part3-3" class="headerlink" title="Machine Learning A-Z Part3 - 3"></a>Machine Learning A-Z Part3 - 3</h1><h2 id="SVM"><a href="#SVM" class="headerlink" title="SVM"></a>SVM</h2><h3 id="SVM-Intuition"><a href="#SVM-Intuition" class="headerlink" title="SVM Intuition"></a>SVM Intuition</h3><p>Support Vector Machine(SVM)是很火的机器学习算法。先来看下这种模型是解决什么样的问题的。<strong>简单来说这种模型就是要找到划分分类数据的最佳边界，这样之后要预测的特征值落到哪边，就划分为对应的分类变量。</strong></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/SVM_1.png" alt="SVM1"></p>
+<p>最主要的原理就是找到两组分类变量中距离最近的数据，然后根据最大边界值(max margin)来求得最合适的划分边界。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/SVM_3.png" alt="SVM3"></p>
+<p>SVM模型中一些其他的词汇：</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/SVM_2.png" alt="SVM2"></p>
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="fitting-the-model"><a href="#fitting-the-model" class="headerlink" title="fitting the model"></a>fitting the model</h4><p>老式三步走：</p>
+<ol>
+<li>从<code>sklearn.svm</code>中导入<code>SVC</code>对象</li>
+<li>建立<code>SVC</code>实例</li>
+<li><code>fit()</code>到训练集上</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Fitting svm to the Training set</span></span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line">classifier = SVC(kernel=<span class="string">'linear'</span>, random_state=<span class="number">0</span>)</span><br><span class="line">classifier.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/SVM_fit.png" alt="fit"></p>
+<blockquote>
+<p>参数<code>kernel=</code>是选择SVM的模型算法，这次我们选择的是最简单的线性<code>linear</code>。他还有很多别的算法——<code>‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’</code>。这个参数可以说是最重要的参数，因为它会决定模型分类边界是线性的还是非线性的。</p>
+</blockquote>
+<h4 id="see-the-results"><a href="#see-the-results" class="headerlink" title="see the results"></a>see the results</h4><h5 id="Confusion-Matrix"><a href="#Confusion-Matrix" class="headerlink" title="Confusion Matrix"></a>Confusion Matrix</h5><p>得到混淆矩阵的代码和之前一样，就不再重复了，这里我们仅仅看得到的混淆矩阵。共预测错误10个，也可以说是很好的模型了。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/SVM_cm.png" alt="CM"></p>
+<h5 id="Plotting"><a href="#Plotting" class="headerlink" title="Plotting"></a>Plotting</h5><p>绘图的代码也不再重复，我们直接可以看绘制的模型图形。这个图形有些眼熟，它和我们之前看过的逻辑回归的图形很像，这是因为我们在参数中设置<code>kernel=&#39;linear&#39;</code>，所以我们得到的模型的边界是线性的。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/svm_plot.png" alt="plot_train"></p>
+<p>下面是预测集绘制的图。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/svm_plot_test.png" alt="plot_test"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/07/24/K-NN/" itemprop="url">
                   K-NN
                 </a>
@@ -1497,210 +1614,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/16/Machine-Learning-Preprocessing/" itemprop="url">
-                  Machine Learning - Preprocessing
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-07-16T22:11:17+08:00" content="2017-07-16">
-              2017-07-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageMachine_Learning.jpg" class="full-image"></p>
-<h1 id="Machine-Learning-A-Z-Part1"><a href="#Machine-Learning-A-Z-Part1" class="headerlink" title="Machine Learning A-Z Part1"></a>Machine Learning A-Z Part1</h1><h2 id="Data-Preprocessing"><a href="#Data-Preprocessing" class="headerlink" title="Data Preprocessing"></a>Data Preprocessing</h2><h3 id="Importing-the-Libraries"><a href="#Importing-the-Libraries" class="headerlink" title="Importing the Libraries"></a>Importing the Libraries</h3><h4 id="python"><a href="#python" class="headerlink" title="python"></a>python</h4><p>在Python中需要每次执行<code>import</code>命令，在<em>spyder</em>中可以选中对应的行按下<code>Ctrl + Enter</code>来执行对应的代码。这里主要用到三个Libraries，和python for data analysis中一样。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
-<h4 id="R"><a href="#R" class="headerlink" title="R"></a>R</h4><p>在R中不需要执行代码，只需在RStudio的Package中勾选特定的package就可以了。<br><img src="http://ojr2ayzzn.bkt.clouddn.com/R import package.png" alt="Alt text"></p>
-<h3 id="Set-Working-Directory-and-Importing-the-Dataset"><a href="#Set-Working-Directory-and-Importing-the-Dataset" class="headerlink" title="Set Working Directory and Importing the Dataset"></a>Set Working Directory and Importing the Dataset</h3><h4 id="python-1"><a href="#python-1" class="headerlink" title="python"></a>python</h4><p>在spyder中可以在右上角的<em>File explorer</em>选项卡中选择对应的文件夹并设置为Working Directory。<br><img src="http://ojr2ayzzn.bkt.clouddn.com/py set work dir.png" alt="Alt text"></p>
-<p>我们最常见的数据文件格式就是<em>csv</em>了，在python中最常用的csv导入函数就是pandas中的<code>read_csv()</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataset = pd.read_csv(<span class="string">'Data.csv'</span>)</span><br></pre></td></tr></table></figure>
-<p>在数据导入的过程中，我们往往要把独立变量(Independence Variables)和非独立变量(Dependence Variables)即我们需要预测的值分开来。这时候需要做一个slice，要用到<code>iloc[]</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Indep_df = dataset.iloc[:, :<span class="number">-1</span>].values</span><br><span class="line">Dep_df = dataset.iloc[:, <span class="number">3</span>].values</span><br></pre></td></tr></table></figure>
-<h4 id="R-1"><a href="#R-1" class="headerlink" title="R"></a>R</h4><p>在RStudio中，可以在<em>Files</em>中设置工作路径。<br><img src="http://ojr2ayzzn.bkt.clouddn.com/R set work dir.png" alt="Alt text"></p>
-<p>在R中使用<code>read.csv()</code>可以导入<em>csv</em>文件。<br><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataset = read.csv(<span class="string">'Data.csv'</span>)</span><br></pre></td></tr></table></figure></p>
-<p>还有一个不同的是，在R中我们不需要对导入的数据进行切割处理，不用分出独立变量表和非独立变量表。</p>
-<h3 id="Missing-Data"><a href="#Missing-Data" class="headerlink" title="Missing Data"></a>Missing Data</h3><h4 id="python-2"><a href="#python-2" class="headerlink" title="python"></a>python</h4><p>盲目的丢掉一行缺失数据是不合适的，通常在可行的情况下我们会选择填补缺失值，在Python中我们可以使用sklearn package 中的<code>Imputer</code>来填补缺失值。</p>
-<blockquote>
-<p>对于我们不熟悉的package或object，可以在<strong>导入之后</strong>，将光标移到object上按下<code>Ctrl + I</code>(inspect)来查看doc。</p>
-</blockquote>
-<p>填补缺失值的步骤：</p>
-<ol>
-<li>导入<code>Imputer</code></li>
-<li>设置<code>Imputer</code>参数（指定对应的缺失值类型，填补的方法，沿着哪个轴进行计算填补）</li>
-<li>将设置好的<code>Imputer</code>obj <code>fit</code>给需要处理的列</li>
-<li>将需要处理的列进行数据替换(<code>transform</code>)</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> Imputer</span><br><span class="line">imputer = Imputer(missing_values=<span class="string">'NaN'</span>, strategy=<span class="string">'mean'</span>, axis=<span class="number">0</span>)</span><br><span class="line">imputer = imputer.fit(Indep_df[:, <span class="number">1</span>:<span class="number">3</span>])</span><br><span class="line">Indep_df[:, <span class="number">1</span>:<span class="number">3</span>] = imputer.transform(Indep_df[:, <span class="number">1</span>:<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
-<p>我不知道为什么老师没有考虑使用pandas中的<code>fillna()</code>函数，事实上我觉得这个函数远比<code>Imputer</code>使用来的方便，只需要一个函数就够了。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Indep_df[:, <span class="number">1</span>:<span class="number">3</span>] = Indep_df[:, <span class="number">1</span>:<span class="number">3</span>].fillna(method=<span class="string">'mean'</span>)</span><br></pre></td></tr></table></figure>
-<h4 id="R-2"><a href="#R-2" class="headerlink" title="R"></a>R</h4><p>在R中处理缺失值需要自己利用<code>ifelse()</code>来构造一个函数，判断单元格是否是NA值，并指定返回一个值。</p>
-<p>构造的函数结构和思路：</p>
-<ul>
-<li><code>ifelse()</code>：<ul>
-<li><code>is.na()</code>：判断一个值是否是缺失值</li>
-<li><em>If TRUE</em> <code>ave()</code>：计算一个平均值<ul>
-<li><code>FUN</code> 指定计算的函数<ul>
-<li><code>function(x)</code>自己指定<code>mean()</code>为函数，并设定<code>na.rm=TRUE</code>来计算**除去NA值以后的平均值。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><em>if FALSE</em> <code>dataset$Age</code>：返回原值</li>
-</ul>
-</li>
-</ul>
-<p>以下是<code>ave()</code>的doc<br><img src="http://ojr2ayzzn.bkt.clouddn.com/ave doc.png" alt="Alt text"></p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dataset$Age = ifelse(is.na(dataset$Age),</span><br><span class="line">                     ave(dataset$Age, FUN = <span class="keyword">function</span>(x) mean(x, na.rm = <span class="literal">TRUE</span>)),</span><br><span class="line">                     dataset$Age)</span><br><span class="line">dataset$Salary = ifelse(is.na(dataset$Salary),</span><br><span class="line">                        ave(dataset$Salary, FUN = <span class="keyword">function</span>(x) mean(x, na.rm = <span class="literal">TRUE</span>)),</span><br><span class="line">                        dataset$Age)</span><br></pre></td></tr></table></figure>
-<p>可以看到，同样处理两列数据的缺失值，R的代码要多很多，而且因为在R语言中最好不要使用循环（内存占用的问题？），代码的循环使用率很低。</p>
-<h3 id="Categorical-Data"><a href="#Categorical-Data" class="headerlink" title="Categorical Data"></a>Categorical Data</h3><h4 id="python-3"><a href="#python-3" class="headerlink" title="python"></a>python</h4><p>在课程中老师使用了<code>sklearn</code>package来对分类变量进行处理，最终<strong>处理成为哑变量</strong>。</p>
-<p>老师的步骤：</p>
-<ol>
-<li>import <code>LabelEncoder</code>和<code>OneHotEncoder</code></li>
-<li>利用<code>LabelEncoder</code>将分类变量转换为数字</li>
-</ol>
-<ul>
-<li>创建一个<code>LabelEncoder</code> obj</li>
-<li>利用<code>fit_transform()</code>方法将其应用到要处理的列上</li>
-</ul>
-<ol>
-<li>利用<code>OneHotEncoder</code>将已转换为数字的分类变量转变为哑变量</li>
-</ol>
-<ul>
-<li>创建一个<code>OneHotEncoder</code> obj</li>
-<li>利用<code>fit_transform()</code>方法将其应用到已转化为分类数字型的列上（<strong>只有在转化为数字型分类变量后才可以用 OneHotEncoder 进行处理！</strong>）</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> LabelEncoder, OneHotEncoder</span><br><span class="line"></span><br><span class="line"><span class="comment"># change categorical string data into categorical num data</span></span><br><span class="line">labelencoder_X = LabelEncoder()</span><br><span class="line">X[:, <span class="number">0</span>] = labelencoder_X.fit_transform(X[:, <span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># change categorical num data into dummy variables</span></span><br><span class="line">onehotencoder = OneHotEncoder(categorical_features=[<span class="number">0</span>])</span><br><span class="line">X = onehotencoder.fit_transform(X).toarray()</span><br></pre></td></tr></table></figure>
-<p>我对<code>sklearn</code>包还不熟悉，对<code>fit_transform</code>方法也不熟悉，下面是<code>fit_transform</code>方法的文档：<br><img src="http://ojr2ayzzn.bkt.clouddn.com/fit_trans doc.png" alt="Alt text"></p>
-<p>事实上<code>pandas</code>库中的<code>get_dummies()</code>函数能更方便的将一列分类变量转化为哑变量。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dummies = pd.get_dummies(Indep_df.iloc[<span class="number">0</span>])</span><br><span class="line">dataset = dataset.join(dummies)</span><br></pre></td></tr></table></figure></p>
-<h4 id="R-3"><a href="#R-3" class="headerlink" title="R"></a>R</h4><p>R中的分类变量无需做成哑变量（我也不知道为什么，老师在课程中并没有将R中的分类变量转换为哑变量，而仅仅是转换成了数字变量。）</p>
-<p>R中只要使用<code>factor()</code>函数就可以了，有三个变量：</p>
-<ol>
-<li><strong>X:</strong> 传入需要进行转换的column</li>
-<li><strong>levels:</strong> 传入需要转变的变量组成的向量<code>c()</code></li>
-<li><strong>labels:</strong>  传入对应的转换成的数字组成的向量<code>c()</code></li>
-</ol>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataset$Country &lt;- factor(dataset$Country,</span><br><span class="line">                          levels = c(<span class="string">'France'</span>, <span class="string">'Spain'</span>, <span class="string">'Germany'</span>),</span><br><span class="line">                          labels = c(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br></pre></td></tr></table></figure>
-<p>下面是<code>factor()</code>的doc<br><img src="http://ojr2ayzzn.bkt.clouddn.com/factor%20doc1.png" alt="enter image description here"><br><img src="http://ojr2ayzzn.bkt.clouddn.com/factor%20doc2.png" alt="enter image description here"></p>
-<h3 id="Splitting-the-Dataset-into-the-Training-set-and-Test-set"><a href="#Splitting-the-Dataset-into-the-Training-set-and-Test-set" class="headerlink" title="Splitting the Dataset into the Training set and Test set"></a>Splitting the Dataset into the Training set and Test set</h3><h4 id="python-4"><a href="#python-4" class="headerlink" title="python"></a>python</h4><p>在<code>sklearn.cross_validation</code>package中有一个专门用来分割训练集和测试集的函数<code>train_test_split</code>。</p>
-<p>在函数中<strong>将独立变量和非独立变量表格(array)分别传入，再设定测试集的比例(test_size)，再设定随机模式(random_state)</strong>就可以了。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.cross_validation <span class="keyword">import</span> train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-<p>下面是<code>train_test_split</code>的doc：<br><img src="http://ojr2ayzzn.bkt.clouddn.com/train_test_split%20doc1.png" alt="enter image description here"><br><img src="http://ojr2ayzzn.bkt.clouddn.com/train_test_split%20doc.png" alt="enter image description here"></p>
-<h4 id="R-4"><a href="#R-4" class="headerlink" title="R"></a>R</h4><p>在R中选取训练集和测试集的思路有些不同，我们并非先将<em>独立变量</em>和<em>非独立变量</em>区分开来，而是先设定一个<strong>随机种子</strong>，然后获得一个<strong>由bool值组成的向量<code>split</code></strong>，最后根据这个向量（也可以理解为决定将数据分配到测试集还是训练集的名单）利用<code>subset()</code>函数将原先的数据集切分成训练集和测试集。</p>
-<p>注：<strong>这里要使用到名叫<code>CaTool</code>的R包</strong></p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set.seed(<span class="number">123</span>)</span><br><span class="line">split = sample.split(dataset$Purchased, SplitRatio = <span class="number">0.8</span>)</span><br><span class="line">training_set = subset(dataset, split = <span class="literal">TRUE</span>)</span><br><span class="line">test_set = subset(dataset, split == <span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="Feature-Scaling"><a href="#Feature-Scaling" class="headerlink" title="Feature Scaling"></a>Feature Scaling</h3><h4 id="python-5"><a href="#python-5" class="headerlink" title="python"></a>python</h4><p>在python中仍然是<code>sklearn.preprocessing</code>package能帮助我们完成Feature Scaling的工作，其实就是对数据进行<em>学生标准化或者极差标准化</em>，以保证数据的变化维度是一样的，<strong>不会有的数据极差很大导致其他变量的作用因为度量衡的原因而被影响</strong>。</p>
-<p><img src="http://ojr2ayzzn.bkt.clouddn.com/Feature%20Scaling.png" alt="enter image description here"></p>
-<p>对于<code>dataframe</code>对象，要将<code>StanderScaler()</code>方法<code>fit_transform()</code>到其上。而对于<code>Series</code>或者<code>array</code>对象，需要使用<code>transform()</code>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">sc_X = StandardScaler()</span><br><span class="line">X_train = sc_X.fit_transform(X_train)</span><br><span class="line">X_test = sc_X.transform(X_test)</span><br></pre></td></tr></table></figure>
-<p>对于<strong>分类变量究竟是否需要进行标准化</strong>这个问题，网上有很多人有不同的见解，有的人说需要，有的人说不需要。课程中导师也给出了自己的意见——<strong>视你需要的模型精确度而定</strong>，事实上将分类变量的值范围标准化到与其他变量一样也对模型有一定影响。</p>
-<h4 id="R-5"><a href="#R-5" class="headerlink" title="R"></a>R</h4><p>在R中进行标准化只需要用到一个函数<code>scale()</code>就够了。但是需要先搞清楚的是——<strong>如果我们武断地把这个函数应用在<code>data.frame</code>的所有列上，那么可能会出错，因为我们之前处理的分类变量类型是<code>factor</code>类，只有数字型的数据才能进行标准化，所以我们要利用切片器取出我们需要进行处理的列来进行标准化。</strong></p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">training_set[, <span class="number">2</span>:<span class="number">3</span>] = scale(training_set[, <span class="number">2</span>:<span class="number">3</span>])</span><br><span class="line">test_set[, <span class="number">2</span>:<span class="number">3</span>] = scale(test_set[, <span class="number">2</span>:<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1741,7 +1659,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">40</span>
+              <span class="site-state-item-count">41</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
