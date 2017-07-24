@@ -248,6 +248,124 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/12/二维表转一维表/" itemprop="url">
+                  二维表转一维表
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-12T21:39:27+08:00" content="2016-09-12">
+              2016-09-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_image%E4%BA%8C%E7%BB%B4%E8%BD%AC%E4%B8%80%E7%BB%B4.jpg" class="full-image"></p>
+<p>今天主要学习了如何通过VBA将二维表转换成为一维表。先不急着讲学到了什么方法和代码，我觉得关于二维表和一维表的定义就可以先来讲一讲。<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%BA%8C%E7%BB%B4%E8%A1%A8%E8%BD%AC%E6%8D%A2%E4%B8%BA%E4%B8%80%E7%BB%B4-1.jpg" alt="enter image description here"><br>可以看出二维表与一维表有很大的不同，二维表中每个数据都对应着两个字段名称，而一维表中值对应自己这一行的数据。简单说，看二维表总要纵看一次横看一次，而一维表只用横着看一次就行。</p>
+<p>在《三张表格走天下》中我读到过小蚊子老师这样的总结，做数据分析需要三张表，一张是<code>参数表</code>，一张是<code>录入表</code>，最后一张是<code>透视表</code>。其中包括最多的原始数据的<code>录入表</code>就要采用一维表格的形式。为什么呢？因为一维表格更加的简单，更加适合采用筛选、排序等方法对数据进行提取和加工。</p>
+<p>一维数据表在数据分析的工作中有重要的作用，但是普通人似乎更习惯二维表，因为生活中见得最多的还是二维表。如何进行转换呢？我们的思路是：<br><img src="http://7xvrvp.com1.z0.glb.clouddn.com/ExcelVBA%E4%BA%8C%E7%BB%B4%E8%A1%A8%E8%BD%AC%E6%8D%A2%E4%B8%BA%E4%B8%80%E7%BB%B4-2.jpg" alt="enter image description here"><br>其中<code>字段一</code>和<code>字段二</code>都是标题名称，所以<code>字段一</code>我们固定列，按行递增来取用并赋值给一维表，对于<code>字段二</code>我们选择固定行，按列递增来提取并赋值。中间的数据<code>字段三</code>则选择利用双层循环的遍历方式来进行提取和赋值。</p>
+<p>我们使用以下代码来实现我们的思路：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">Sub 二维表转一维表()</span><br><span class="line"></span><br><span class="line">Dim arr</span><br><span class="line">Dim rw</span><br><span class="line">Dim col</span><br><span class="line">Dim brr</span><br><span class="line">Dim n</span><br><span class="line">Dim i</span><br><span class="line">Dim j</span><br><span class="line"></span><br><span class="line">arr = ActiveSheet.UsedRange</span><br><span class="line">rw = ActiveSheet.UsedRange.Rows.Count</span><br><span class="line">col = ActiveSheet.UsedRange.Columns.Count</span><br><span class="line"></span><br><span class="line">&apos;转换过程</span><br><span class="line">ReDim brr(1 To rw * col, 1 To 3)</span><br><span class="line">n = 2</span><br><span class="line">For i = 2 To rw</span><br><span class="line">    For j = 2 To col</span><br><span class="line">        brr(n, 1) = arr(i, 1)</span><br><span class="line">        brr(n, 2) = arr(1, j)</span><br><span class="line">        brr(n, 3) = arr(i, j)</span><br><span class="line">        n = n + 1</span><br><span class="line">    Next j</span><br><span class="line">Next i</span><br><span class="line"></span><br><span class="line">&apos;补齐字段名</span><br><span class="line">brr(1, 1) = &quot;地区&quot;</span><br><span class="line">brr(1, 2) = &quot;操作系统&quot;</span><br><span class="line">brr(1, 3) = &quot;使用人数&quot;</span><br><span class="line"></span><br><span class="line">&apos;新建表格储存转换结果</span><br><span class="line">Sheets.Add.Name = &quot;转换结果&quot;</span><br><span class="line">Sheets(&quot;转换结果&quot;).Range(Cells(1, 1), Cells(n - 1, 3)) = brr</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">End Sub</span><br></pre></td></tr></table></figure></p>
+<p>可能有人不明白为什么不直接创建一个新表提取赋值给新表的单元格，却要选择先赋值个一个中间数列<code>brr</code>。我想，这个原因大概是因为对单元格直接进行操作比较慢，并且写出的代码也会相对更加繁琐，所以先创建一个新的数列，最后一次性赋值，这样程序的速度会更快。（在处理的表格数据量和数量越来越大的时候这种优势就会越来越明显）</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/09/12/数据类型的转换/" itemprop="url">
                   数据类型的转换
                 </a>
@@ -1607,119 +1725,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/10/离别/" itemprop="url">
-                  离别
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-10T22:59:30+08:00" content="2016-07-10">
-              2016-07-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/牧牧/" itemprop="url" rel="index">
-                    <span itemprop="name">牧牧</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/rain-%E7%A6%BB%E5%88%AB.jpg" class="full-image"></p>
-<p style="text-align: center;text-height: 34px;font-size: 20px">别时<br>身影婆娑<br>泪已成双<br>醒时<br>你不在<br>心慌<br>念时<br>为你写诗<br>却落笔成伤</p>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1765,7 +1770,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-count">40</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

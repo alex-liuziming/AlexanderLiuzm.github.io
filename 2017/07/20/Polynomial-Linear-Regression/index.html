@@ -95,7 +95,7 @@ Why is Polyn">
 <meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimagePoly_Linear_Regression-1.jpg">
 <meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Poly_Linear_Regression-2.jpg">
 <meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Regression/Poly_Linear_Regression_Plot.png">
-<meta property="og:updated_time" content="2017-07-23T12:50:48.122Z">
+<meta property="og:updated_time" content="2017-07-23T12:56:11.887Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Polynomial Linear Regression">
 <meta name="twitter:description" content="Machine Learning A-Z Part2 - 3Polynomial Linear Regression模型概述Polynomial Linear Regression和Multiple Linear Regression的最主要区别就是，Polynomial Linear Regression在变量x上引入了次方的概念，让模型可以匹配更复杂的数据分布形式。
@@ -316,7 +316,7 @@ Why is Polyn">
 <h1 id="Machine-Learning-A-Z-Part2-3"><a href="#Machine-Learning-A-Z-Part2-3" class="headerlink" title="Machine Learning A-Z Part2 - 3"></a>Machine Learning A-Z Part2 - 3</h1><h2 id="Polynomial-Linear-Regression"><a href="#Polynomial-Linear-Regression" class="headerlink" title="Polynomial Linear Regression"></a>Polynomial Linear Regression</h2><h3 id="模型概述"><a href="#模型概述" class="headerlink" title="模型概述"></a>模型概述</h3><p><em>Polynomial Linear Regression</em>和<em>Multiple Linear Regression</em>的最主要区别就是，<em>Polynomial Linear Regression</em>在变量<code>x</code>上引入了次方的概念，让模型可以匹配更复杂的数据分布形式。</p>
 <h4 id="Why-is-Polynomial-model-still-called-“Linear”"><a href="#Why-is-Polynomial-model-still-called-“Linear”" class="headerlink" title="Why is Polynomial model still called “Linear”?"></a>Why is Polynomial model still called “Linear”?</h4><p>这是因为在模型构建的过程当中X值我们是已知的，未知的是各个<code>X</code>之前的变量<code>b</code>。所以在未求解出<code>b</code>系数之前，模型还是关于<code>b</code>的线性方程。</p>
 <p>如果将方程改为</p>
-<p>$y = b<em>{0} + b</em>{1} x<em>{1} / b</em>{2} x_{2}$</p>
+<p>$y = b<em>{0} + b</em>{1}x<em>{1} / b</em>{2}x_{2}$</p>
 <p>那么这个方程就不再是线性回归模型了。</p>
 <h3 id="何时使用Polynomial-Linear-Regression-model"><a href="#何时使用Polynomial-Linear-Regression-model" class="headerlink" title="何时使用Polynomial Linear Regression model?"></a>何时使用<em>Polynomial Linear Regression</em> model?</h3><p>事实上没有什么数据结构是一看就知道是要用线性模型还是用多项式模型，我觉得最方便的工具应该就是<strong>可视化</strong>。可以先<strong>在探索数据的时候绘制散点图，这样可以观察数据的分布</strong>。如果你明显看到他不呈直线形式分布，那么可以考虑多项式。或者第二个方法就是<strong>试错</strong>，可以<strong>先建立线性模型，将模型和数据都可视化</strong>，如果模型预测值在图上显示很不准确，那么可以考虑使用多项式模型。</p>
 <h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="建立模型"><a href="#建立模型" class="headerlink" title="建立模型"></a>建立模型</h4><p>和之前差不多，这里也要引入<code>sklearn.linear_model</code>的<code>LinearRegression</code> class。但是在<code>fit()</code>的时候需要注意不能直接把训练集放入，需要进行适当的转化。</p>
@@ -446,7 +446,7 @@ Why is Polyn">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-count">40</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
