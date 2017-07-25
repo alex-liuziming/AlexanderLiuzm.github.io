@@ -248,6 +248,147 @@
             
               
                 
+                <a class="post-title-link" href="/2017/07/25/Kernel-SVM/" itemprop="url">
+                  Kernel SVM
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-25T18:49:51+08:00" content="2017-07-25">
+              2017-07-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨-Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨-Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageKernel_SVM.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part3-4"><a href="#Machine-Learning-A-Z-Part3-4" class="headerlink" title="Machine Learning A-Z Part3 - 4"></a>Machine Learning A-Z Part3 - 4</h1><h2 id="Kernel-SVM"><a href="#Kernel-SVM" class="headerlink" title="Kernel SVM"></a>Kernel SVM</h2><h3 id="Kernel-SVM-Intuition"><a href="#Kernel-SVM-Intuition" class="headerlink" title="Kernel SVM Intuition"></a>Kernel SVM Intuition</h3><h4 id="The-Problem-we-met"><a href="#The-Problem-we-met" class="headerlink" title="The Problem we met"></a>The Problem we met</h4><p>之前我们看到的数据集都是分布的很好的，可以用线性边缘将两个分类变量数据组分割开来的，但是如果我们遇到的数据并不是这样分布的，而是呈现边缘非线性分布的，那我们该怎么样才能有效的分隔开两个不同的分类数据呢？</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM1.png" alt="how to classify"></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM2.png" alt="linear vs non-linear"></p>
+<h4 id="方法1-Mapping-to-higher-Dimension"><a href="#方法1-Mapping-to-higher-Dimension" class="headerlink" title="方法1 - Mapping to higher Dimension"></a>方法1 - Mapping to higher Dimension</h4><p>这种方法的核心思想就是<strong>通过对原有数据实行函数运算转换，让原有的数据映射到新的更高维度的空间中，让转换后的数据在新的空间维度中呈现分离的，可以用线性边缘切分开的分布，再映射回原来的维度，以此达到分类的目的。</strong></p>
+<p>下面我们来看一下图示：</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM3.png" alt="mapping to higher Dimension"></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM4.png" alt="2D to 3D"></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM5.png" alt="3D to 2D"></p>
+<p>虽然这个想法让我们眼前一亮，感觉这样的做法好像的确可行。但是这种方法其实是有潜在问题的。<strong>且不说我们是否每次都能找到合适的函数让数据在高阶的维度中呈现分离的分布状态，更重要的是，即使找到了我们也会面临巨大的计算量，我们不仅仅要将庞大的数据集中的所有数据都进行转换运算，分类完成后我们还要将那些数据反转换，又映射回原先的维度。</strong></p>
+<h4 id="方法2-the-Kernel-Trick"><a href="#方法2-the-Kernel-Trick" class="headerlink" title="方法2 - the Kernel Trick"></a>方法2 - the Kernel Trick</h4><p>为了不必再整个数据集上提高数据的维度，减少不必要的计算量，人们找到了另外一种算法，就是<code>kernel trick</code>。这种方法是利用特殊函数（这里用<code>RBF</code>来作为例子）来对数据进行分类，主要看数据进行运算后的值是大于0还是等于0（因为指数函数不会小于0）。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM6.png" alt="RBF"></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM7.png" alt="classify boundary"></p>
+<p>因为这个函数是中心凸起的，有明显的边界——即图像中看起来像小山丘一样的东西的底部。所以我们先选定一个分类中心点(<code>landmark</code>)，然后通过调整函数的$\delta$来改变函数的边界。<strong>当$\delta$变大时，边界就放宽，当$\delta$变小是，边界就收窄。</strong></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM8.png" alt="wider boundary"></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM9.png" alt="lower delta"></p>
+<p>这个函数并非只能单个使用，我们还可以把好几个函数加在一起，选择不同的$\delta$和<code>landmark</code>一起组合形成更为复杂的边界。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM10.png" alt="more complex boundary"></p>
+<h4 id="More-kernel-function"><a href="#More-kernel-function" class="headerlink" title="More kernel function"></a>More kernel function</h4><p>除了<code>RBF</code>之外还有别的函数可以得到非线性的函数边界</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM11.png" alt="more function"></p>
+<p>如果希望更直观的查看不同<code>kernel funciton</code>的三维图像，那可以访问<a href="mlkernels.readthedocs.io/en/latest/kernelfunctions.html">这个网站</a>。</p>
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="fit-the-model"><a href="#fit-the-model" class="headerlink" title="fit the model"></a>fit the model</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line">classifier = SVC(kernel=<span class="string">'rbf'</span>, random_state=<span class="number">0</span>)</span><br><span class="line">classifier.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
+<p>可以看到这里和之前的代码唯一的不同就是设置了<code>kernel=&#39;rbf&#39;</code>，即让模型使用<code>RBF</code>算法得到非线性的分类边界。</p>
+<h4 id="see-the-result"><a href="#see-the-result" class="headerlink" title="see the result"></a>see the result</h4><h5 id="Confusion-Matrix"><a href="#Confusion-Matrix" class="headerlink" title="Confusion Matrix"></a>Confusion Matrix</h5><p>建模完毕后我们看到该模型的混淆矩阵，模型的表现也是非常的好，只预测错了7个。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM_cm.png" alt="cm"></p>
+<h5 id="Plotting"><a href="#Plotting" class="headerlink" title="Plotting"></a>Plotting</h5><p>再来看下模型的可视化结果，这下我们可以明显感受到设置参数<code>kernel=&#39;linear&#39;</code>和设置参数<code>kernel=&#39;rbf&#39;</code>的区别了。<code>RBF</code>得到的模型边缘是曲线的，更精细化的分割开了两个类别。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM_plot_train.png" alt="plot_train"></p>
+<p>以下是测试集的图形：</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM_plot_test.png" alt="plot_test"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/07/24/日常饮食和爱/" itemprop="url">
                   日常饮食和爱
                 </a>
@@ -381,6 +522,25 @@
           </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨-Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨-Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -506,8 +666,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
+                  <a href="/categories/闻叨-Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨-Machine Learning</span>
                   </a>
                 </span>
 
@@ -656,8 +816,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
+                  <a href="/categories/闻叨-Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨-Machine Learning</span>
                   </a>
                 </span>
 
@@ -797,8 +957,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
+                  <a href="/categories/闻叨-Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨-Machine Learning</span>
                   </a>
                 </span>
 
@@ -933,8 +1093,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
+                  <a href="/categories/闻叨-Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨-Machine Learning</span>
                   </a>
                 </span>
 
@@ -1072,8 +1232,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
+                  <a href="/categories/闻叨-Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨-Machine Learning</span>
                   </a>
                 </span>
 
@@ -1202,8 +1362,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
+                  <a href="/categories/闻叨-Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨-Machine Learning</span>
                   </a>
                 </span>
 
@@ -1345,8 +1505,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
+                  <a href="/categories/闻叨-Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨-Machine Learning</span>
                   </a>
                 </span>
 
@@ -1428,180 +1588,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/07/20/Multiple-Linear-Regression/" itemprop="url">
-                  Multiple Linear Regression
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-07-20T08:18:55+08:00" content="2017-07-20">
-              2017-07-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/闻叨/" itemprop="url" rel="index">
-                    <span itemprop="name">闻叨</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageMultiple_Linear_Regression.jpg" class="full-image"></p>
-<h1 id="Machine-Learning-A-Z-Part2-2"><a href="#Machine-Learning-A-Z-Part2-2" class="headerlink" title="Machine Learning A-Z Part2 - 2"></a>Machine Learning A-Z Part2 - 2</h1><h2 id="Multiple-Linear-Regression"><a href="#Multiple-Linear-Regression" class="headerlink" title="Multiple Linear Regression"></a>Multiple Linear Regression</h2><h3 id="模型概览"><a href="#模型概览" class="headerlink" title="模型概览"></a>模型概览</h3><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression1.png" alt="Describe Multiple Linear Regression"></p>
-<p><em>Multiple Linear Regression</em>比起<em>Simple Linear Regression</em>就是增加了几个<strong>Independent Variables</strong>。虽然讲起来就是这么简单的事情，事实上这个模型变得更难形象化的理解了，如果仅仅是将变量增加到二维，那么我们得到的线性模型就是三维空间中的一个平面，用这个平面去预测一个个点的位置。但是如果增加到三个Independent Variables，甚至更多，那基本不太可能进行可视化了，我们只能将一个变量的系数抽象的理解为特定变量对预测值的贡献大小。</p>
-<p>要建立多因子线性回归模型，数据要满足如下假设：<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression2.png" alt="Assumptions"></p>
-<p>该模型对数据主要有5个假设：</p>
-<ol>
-<li>预测值和特征值的是线性相关的（从模型的名字也可以看出，不是线性的如何匹配？）</li>
-<li>同方差性<br>同方差性即误差项与独立变量（independent variable）之间相互独立, 并且误差项的分散(方差 Variance)必须等同即；Var(u|x)=σ^2</li>
-<li>多元正态分布</li>
-<li>误差独立</li>
-<li>数据不能存在多重共线性问题</li>
-</ol>
-<p>很多时候我们会兴冲冲的拿着数据和代码就开始构建模型，希望看到一个漂亮的可视化图表。但是我们往往都忘记了检验一个数据集是否符合模型的基本假设是多么重要的事情。有的时候一个数据集可能根本不符合正态分布，但是我们硬要将数据套入一个<em>Multiple Linear Regression</em>，这种情况下无论我们费多大劲去筛选变量，去优化模型，到头来都是白费功夫。</p>
-<p>我最近读了《Bad Data Handbook》，其中有一个学者专门强调了验证数据符合假设的重要性。他提到自己有一次在为电信公司构建客户拨打客服热线的模型，他拿到这个数据的时候不假思索的认为数据肯定符合泊松(<em>Poisson</em>)分布，因为很明显的，客户拨打电话这个情景完全符合泊松分布的三个假设：</p>
-<ol>
-<li>事件随机发生(<em>Events occur at a constant rate</em>)</li>
-<li>每个事件都相互独立(<em>Events are independent of each other</em>)</li>
-<li>事件不会同时发生(<em>Events do not occur simultaneously</em>)</li>
-</ol>
-<p>但是当他建模完成的时候才发现数据的分布根本不符合泊松分布，经过对数据集仔细的研究，他发现<strong>原来数据集中记载了很多在第一次拨打热线后回拨的电话，这些电话就是造成误差的关键所在，因为这些数据并不符合泊松分布的假设，他们和之前的数据是有关联的！</strong>当他筛选了数据，仅仅选取第一次打入的电话作为数据的时候，数据完全符合泊松分布。<strong>从别人的经验我们要看到自己未意识到的危机，也许现在上课的数据都为我们整理好了，但是将来我们需要自己构建模型的时候需要注意检验数据是否符合假设。</strong></p>
-<h3 id="Dummy-Variable"><a href="#Dummy-Variable" class="headerlink" title="Dummy Variable"></a>Dummy Variable</h3><p><strong>永远不要把所有的Dummy Variable都放入你的线性模型，总要省去一个作为常数$b_{0}$的默认项。</strong>对于为什么总是要省去一个哑变量，我之前在学习R数据挖掘的时候一直不是很明白，但是这里老师打了一个形象的比方。就是把一个放入模型中的哑变量看做一盏灯的开关，这个房间里不能黑灯瞎火，总要有一盏灯亮着。当把所有的哑变量全部加入到模型中时：<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression_DV-1.jpg" alt="Dummy Variable instance"><br>这下可能比较容易看出来，常数项$b<em>{0}$没有了对应的灯，那$b</em>{0} =  1$的时候代表的是房间的那盏灯亮呢？<strong>这样说比较通俗简单，用学术的话来说就是加入所有的哑变量后，最后一个哑变量会和常数项产生矛盾，模型会出现多重共线性的问题，因此我们总需要舍弃掉一个哑变量。</strong>正确的情况是这样的：<br><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression_DV-2.jpg" alt="right condition"></p>
-<h3 id="选择变量"><a href="#选择变量" class="headerlink" title="选择变量"></a>选择变量</h3><p>要进行筛选变量的原因有两个：</p>
-<ol>
-<li>有的变量可能是相关性不强的变量，那么放入模型中的话会导致预测值也变得不那么准确(Trash in = Trash out)</li>
-<li>太多变量会让模型变得复杂难以解释，筛选模型可以让模型变得简单易懂</li>
-</ol>
-<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression3.png" alt="Why We Need to Select Variables"><br>共有5种方法可以筛选要放入模型进行建模的变量：</p>
-<ol>
-<li>All in</li>
-<li>Backward Elimination</li>
-<li>Forward Elimination</li>
-<li>Bidirectional  Elimination</li>
-<li>Score Comparison</li>
-</ol>
-<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression4.png" alt="5 Ways to select variables"></p>
-<h4 id="All-in"><a href="#All-in" class="headerlink" title="All in"></a>All in</h4><p>这是老师自创的名称，并非术语。顾名思义的，这种思路就是把所有的变量都放到模型中去。但是通常很少这样做。<strong>除非我们对实验的变量都非常了解，非常肯定他们对预测值都会有贡献，有影响，有关联，这个时候才会将所有的变量都放入模型中。</strong>通常，我们还是需要筛选一下变量再建模。</p>
-<h4 id="Backward-Elimination"><a href="#Backward-Elimination" class="headerlink" title="Backward Elimination"></a>Backward Elimination</h4><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression5.png" alt="Backward Elimination"></p>
-<p><strong>向后法</strong>，就是从所有变量中逐步的剔除最次的变量（相关性最差），一直到最终的满意情况。主要有5步：</p>
-<ol>
-<li>选择一个自己中意的重要性水平<code>SL</code></li>
-<li>利用所有的变量构建模型</li>
-<li>查看变量的<code>p值</code>，选择拥有最大<code>p值</code>的变量</li>
-<li>如果<code>p值</code>大于<code>SL</code>，那就删去他，否则就结束筛选</li>
-<li>再利用剩余的变量建模，再查看<code>p值</code>…</li>
-</ol>
-<h4 id="Forward-Elimination"><a href="#Forward-Elimination" class="headerlink" title="Forward Elimination"></a>Forward Elimination</h4><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression6.png" alt="Forward Elimination"></p>
-<p><strong>向前法</strong>，和向后法相反，是从所有变量中选择最好的变量放入模型中，一直到没有好的变量为止：</p>
-<ol>
-<li>选择一个自己中意的重要性水平<code>SL</code></li>
-<li>利用所有的变量构建模型</li>
-<li>查看变量的<code>p值</code>，选择拥有最小<code>p值</code>的变量</li>
-<li>如果<code>p值</code>小于<code>SL</code>，那就放入模型，否则就结束筛选</li>
-<li>再利用剩余的变量建模，再查看<code>p值</code>…</li>
-</ol>
-<h4 id="Bidirectional-Elimination"><a href="#Bidirectional-Elimination" class="headerlink" title="Bidirectional  Elimination"></a>Bidirectional  Elimination</h4><p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression7.png" alt="Bidirectional  Elimination"></p>
-<p><strong>向前向后法</strong>（这是我之前学R语言数据挖掘的时候那个老师用的叫法，其实我觉得听!挺土的。。。）就是结合了向前法和向后法，先用向前法筛选一遍，再用向后法筛选一遍，直到最后无论怎么筛选模型变量都不再发生变化，就算是结束了。</p>
-<h4 id="Score-Comparison"><a href="#Score-Comparison" class="headerlink" title="Score Comparison"></a>Score Comparison</h4><p><strong>整理出所有可能的变量搭配组合，并检验每种可能的表现如何。</strong>这种方法也不常用，要知道随着变量的数量增加，组合的数量是急速增加的，要用这种“穷举法”实在有些浪费时间。</p>
-<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="筛选变量"><a href="#筛选变量" class="headerlink" title="筛选变量"></a>筛选变量</h4><p>这里用了<em>向后法</em>来筛选变量，需要用到<code>statsmodels.formula.api</code>。第二行创建常数列<code>Series(np.ones(50).astype(int))</code>是为了在筛选变量的时候让程序知道我们构建的模型还有一个常数项$b_{0}$。之后复制一个训练集数据，用作之后修改放入模型的变量，要知道元数据最好不要做修改。用<code>sm.OLS().fit()</code>method来建立模型，并用模型的<code>summary()</code>method查看各个变量的<code>p值</code>。下图是<code>summary()</code>的返回值。之后照向后法的步骤，去掉最次的变量。然后再开始构建，再筛选，直至结束。</p>
-<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Regression/Multiple_Linear_Regression8.png" alt="summary"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Building the optinal model using backward elimination</span></span><br><span class="line"><span class="keyword">import</span> statsmodels.formula.api <span class="keyword">as</span> sm</span><br><span class="line">constant = Series(np.ones(<span class="number">50</span>).astype(int))</span><br><span class="line">X = pd.concat([constant, X], axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># round 1</span></span><br><span class="line">X_opt = X.copy()</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br><span class="line"><span class="comment"># round 2</span></span><br><span class="line">X_opt = X_opt.drop(<span class="string">'State_California'</span>, axis=<span class="number">1</span>)</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br><span class="line"><span class="comment"># round 3</span></span><br><span class="line">X_opt = X_opt.drop(<span class="string">'State_Florida'</span>, axis=<span class="number">1</span>)</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br><span class="line"><span class="comment"># round 4</span></span><br><span class="line">X_opt = X_opt.drop(<span class="string">'Administration'</span>, axis=<span class="number">1</span>)</span><br><span class="line">regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()</span><br><span class="line">regressor_OLS.summary()</span><br></pre></td></tr></table></figure>
-<h4 id="建模"><a href="#建模" class="headerlink" title="建模"></a>建模</h4><p>建立模型就相对简单了，和简单线性模型一样的，引入<code>LinearRegression</code>，建立一个模型，同样不需要设置任何的参数，然后<code>fit()</code>到训练集上，一个模型就建立完成了。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Fitting Multiple Linear Regression to the Training set</span></span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line">regressor = LinearRegression()</span><br><span class="line">regressor.fit(X_train, y_train)</span><br><span class="line"></span><br><span class="line"><span class="comment"># predict the test set results</span></span><br><span class="line">y_pred = regressor.predict(X_test)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1647,7 +1633,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">43</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1655,7 +1641,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

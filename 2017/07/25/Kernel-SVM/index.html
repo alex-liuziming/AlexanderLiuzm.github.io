@@ -1,0 +1,675 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Data Analysis,Data Mining,python,R," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Machine Learning A-Z Part3 - 4Kernel SVMKernel SVM IntuitionThe Problem we met之前我们看到的数据集都是分布的很好的，可以用线性边缘将两个分类变量数据组分割开来的，但是如果我们遇到的数据并不是这样分布的，而是呈现边缘非线性分布的，那我们该怎么样才能有效的分隔开两个不同的分类数据呢？
+
+
+方法1 - Mapping to">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kernel SVM">
+<meta property="og:url" content="http://yoursite.com/2017/07/25/Kernel-SVM/index.html">
+<meta property="og:site_name" content="牧牧闻叨">
+<meta property="og:description" content="Machine Learning A-Z Part3 - 4Kernel SVMKernel SVM IntuitionThe Problem we met之前我们看到的数据集都是分布的很好的，可以用线性边缘将两个分类变量数据组分割开来的，但是如果我们遇到的数据并不是这样分布的，而是呈现边缘非线性分布的，那我们该怎么样才能有效的分隔开两个不同的分类数据呢？
+
+
+方法1 - Mapping to">
+<meta property="og:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageKernel_SVM.jpg">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM1.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM2.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM3.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM4.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM5.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM6.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM7.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM8.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM9.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM10.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM11.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM_cm.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM_plot_train.png">
+<meta property="og:image" content="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM_plot_test.png">
+<meta property="og:updated_time" content="2017-07-25T10:56:17.402Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kernel SVM">
+<meta name="twitter:description" content="Machine Learning A-Z Part3 - 4Kernel SVMKernel SVM IntuitionThe Problem we met之前我们看到的数据集都是分布的很好的，可以用线性边缘将两个分类变量数据组分割开来的，但是如果我们遇到的数据并不是这样分布的，而是呈现边缘非线性分布的，那我们该怎么样才能有效的分隔开两个不同的分类数据呢？
+
+
+方法1 - Mapping to">
+<meta name="twitter:image" content="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageKernel_SVM.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/25/Kernel-SVM/"/>
+
+  <title> Kernel SVM | 牧牧闻叨 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">牧牧闻叨</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">整理心中的知识体系，让自己变得更好</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Kernel SVM
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-07-25T18:49:51+08:00" content="2017-07-25">
+              2017-07-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/闻叨-Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">闻叨-Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://7xvrvp.com1.z0.glb.clouddn.com/blog_headimageKernel_SVM.jpg" class="full-image"></p>
+<h1 id="Machine-Learning-A-Z-Part3-4"><a href="#Machine-Learning-A-Z-Part3-4" class="headerlink" title="Machine Learning A-Z Part3 - 4"></a>Machine Learning A-Z Part3 - 4</h1><h2 id="Kernel-SVM"><a href="#Kernel-SVM" class="headerlink" title="Kernel SVM"></a>Kernel SVM</h2><h3 id="Kernel-SVM-Intuition"><a href="#Kernel-SVM-Intuition" class="headerlink" title="Kernel SVM Intuition"></a>Kernel SVM Intuition</h3><h4 id="The-Problem-we-met"><a href="#The-Problem-we-met" class="headerlink" title="The Problem we met"></a>The Problem we met</h4><p>之前我们看到的数据集都是分布的很好的，可以用线性边缘将两个分类变量数据组分割开来的，但是如果我们遇到的数据并不是这样分布的，而是呈现边缘非线性分布的，那我们该怎么样才能有效的分隔开两个不同的分类数据呢？</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM1.png" alt="how to classify"></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM2.png" alt="linear vs non-linear"></p>
+<h4 id="方法1-Mapping-to-higher-Dimension"><a href="#方法1-Mapping-to-higher-Dimension" class="headerlink" title="方法1 - Mapping to higher Dimension"></a>方法1 - Mapping to higher Dimension</h4><p>这种方法的核心思想就是<strong>通过对原有数据实行函数运算转换，让原有的数据映射到新的更高维度的空间中，让转换后的数据在新的空间维度中呈现分离的，可以用线性边缘切分开的分布，再映射回原来的维度，以此达到分类的目的。</strong></p>
+<p>下面我们来看一下图示：</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM3.png" alt="mapping to higher Dimension"></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM4.png" alt="2D to 3D"></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM5.png" alt="3D to 2D"></p>
+<p>虽然这个想法让我们眼前一亮，感觉这样的做法好像的确可行。但是这种方法其实是有潜在问题的。<strong>且不说我们是否每次都能找到合适的函数让数据在高阶的维度中呈现分离的分布状态，更重要的是，即使找到了我们也会面临巨大的计算量，我们不仅仅要将庞大的数据集中的所有数据都进行转换运算，分类完成后我们还要将那些数据反转换，又映射回原先的维度。</strong></p>
+<h4 id="方法2-the-Kernel-Trick"><a href="#方法2-the-Kernel-Trick" class="headerlink" title="方法2 - the Kernel Trick"></a>方法2 - the Kernel Trick</h4><p>为了不必再整个数据集上提高数据的维度，减少不必要的计算量，人们找到了另外一种算法，就是<code>kernel trick</code>。这种方法是利用特殊函数（这里用<code>RBF</code>来作为例子）来对数据进行分类，主要看数据进行运算后的值是大于0还是等于0（因为指数函数不会小于0）。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM6.png" alt="RBF"></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM7.png" alt="classify boundary"></p>
+<p>因为这个函数是中心凸起的，有明显的边界——即图像中看起来像小山丘一样的东西的底部。所以我们先选定一个分类中心点(<code>landmark</code>)，然后通过调整函数的$\delta$来改变函数的边界。<strong>当$\delta$变大时，边界就放宽，当$\delta$变小是，边界就收窄。</strong></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM8.png" alt="wider boundary"></p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM9.png" alt="lower delta"></p>
+<p>这个函数并非只能单个使用，我们还可以把好几个函数加在一起，选择不同的$\delta$和<code>landmark</code>一起组合形成更为复杂的边界。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM10.png" alt="more complex boundary"></p>
+<h4 id="More-kernel-function"><a href="#More-kernel-function" class="headerlink" title="More kernel function"></a>More kernel function</h4><p>除了<code>RBF</code>之外还有别的函数可以得到非线性的函数边界</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM11.png" alt="more function"></p>
+<p>如果希望更直观的查看不同<code>kernel funciton</code>的三维图像，那可以访问<a href="mlkernels.readthedocs.io/en/latest/kernelfunctions.html">这个网站</a>。</p>
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><h4 id="fit-the-model"><a href="#fit-the-model" class="headerlink" title="fit the model"></a>fit the model</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line">classifier = SVC(kernel=<span class="string">'rbf'</span>, random_state=<span class="number">0</span>)</span><br><span class="line">classifier.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
+<p>可以看到这里和之前的代码唯一的不同就是设置了<code>kernel=&#39;rbf&#39;</code>，即让模型使用<code>RBF</code>算法得到非线性的分类边界。</p>
+<h4 id="see-the-result"><a href="#see-the-result" class="headerlink" title="see the result"></a>see the result</h4><h5 id="Confusion-Matrix"><a href="#Confusion-Matrix" class="headerlink" title="Confusion Matrix"></a>Confusion Matrix</h5><p>建模完毕后我们看到该模型的混淆矩阵，模型的表现也是非常的好，只预测错了7个。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM_cm.png" alt="cm"></p>
+<h5 id="Plotting"><a href="#Plotting" class="headerlink" title="Plotting"></a>Plotting</h5><p>再来看下模型的可视化结果，这下我们可以明显感受到设置参数<code>kernel=&#39;linear&#39;</code>和设置参数<code>kernel=&#39;rbf&#39;</code>的区别了。<code>RBF</code>得到的模型边缘是曲线的，更精细化的分割开了两个类别。</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM_plot_train.png" alt="plot_train"></p>
+<p>以下是测试集的图形：</p>
+<p><img src="http://ojr2ayzzn.bkt.clouddn.com//Classification/Kernel_SVM_plot_test.png" alt="plot_test"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Data-Analysis/" rel="tag">#Data Analysis</a>
+          
+            <a href="/tags/Data-Mining/" rel="tag">#Data Mining</a>
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+            <a href="/tags/R/" rel="tag">#R</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/24/日常饮食和爱/" rel="next" title="日常饮食和爱">
+                <i class="fa fa-chevron-left"></i> 日常饮食和爱
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://7xvrvp.com1.z0.glb.clouddn.com/AlexanderLiu.jpg"
+               alt="AlexanderLiu" />
+          <p class="site-author-name" itemprop="name">AlexanderLiu</p>
+          <p class="site-description motion-element" itemprop="description">不要效法这个世界，只要心意更新而变化，叫你们查验何为神的善良、纯全、可喜悦的旨意。（罗马书 12:2）</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">43</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Machine-Learning-A-Z-Part3-4"><span class="nav-number">1.</span> <span class="nav-text">Machine Learning A-Z Part3 - 4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kernel-SVM"><span class="nav-number">1.1.</span> <span class="nav-text">Kernel SVM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kernel-SVM-Intuition"><span class="nav-number">1.1.1.</span> <span class="nav-text">Kernel SVM Intuition</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#The-Problem-we-met"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">The Problem we met</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法1-Mapping-to-higher-Dimension"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">方法1 - Mapping to higher Dimension</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法2-the-Kernel-Trick"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">方法2 - the Kernel Trick</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#More-kernel-function"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">More kernel function</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python"><span class="nav-number">1.1.2.</span> <span class="nav-text">python</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fit-the-model"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">fit the model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#see-the-result"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">see the result</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Confusion-Matrix"><span class="nav-number">1.1.2.2.1.</span> <span class="nav-text">Confusion Matrix</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Plotting"><span class="nav-number">1.1.2.2.2.</span> <span class="nav-text">Plotting</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">AlexanderLiu</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+  
+
+  
+
+</body>
+</html>
